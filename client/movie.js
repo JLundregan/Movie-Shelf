@@ -1,6 +1,6 @@
 const main = document.querySelector('main');
 
-
+console.log(window.location.search);
 //Bascially, when the page loads, request the specific movie that you have clicked on
 //"search" is the ID of the movie that was clicked
 const tmdbID = window.location.search.match(/tmdbID=(.*)/)[1]);
