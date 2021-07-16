@@ -3,7 +3,7 @@ const main = document.querySelector('main');
 console.log(window.location.search);
 //Bascially, when the page loads, request the specific movie that you have clicked on
 //"search" is the ID of the movie that was clicked
-const tmdbID = window.location.search.match(/tmdbID=(.*)/)[1]);
+const tmdbID = window.location.search.match(/tmdbID=(.*)/)[1];
 
 //This is where I would put the deployed site's URL (1:18:40 in the video)
 const BASE_URL = "https://movie-shelf.vercel.app/";
@@ -43,7 +43,7 @@ function showMovie(movie) {
   }, {
     title: "Director",
     property: "director"
-  }{
+  }, {
     title: "TMDB User Score",
     property: "userScore"
   }];
