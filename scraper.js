@@ -85,6 +85,9 @@ function getMovie(tmdbID){
       const poster = "https://www.themoviedb.org" + $('.poster_wrapper img.poster').attr('src').replace("_filter(blur)", "");
       const summary = $(".overview p").text();
 
+      const $userScore = $('div.user_score_chart');
+      const userScore = Math.floor($userScore.attr('data-percent'));
+
       const crew = [];
       $(".people li.profile a").each(function(i, element) {
         const crewMember = $(element).text();
@@ -100,7 +103,8 @@ function getMovie(tmdbID){
         runTime,
         poster,
         summary,
-        director
+        director,
+        userScore
       };
       // console.log(body);
       // return {body}
