@@ -6,10 +6,10 @@ console.log(window.location.search);
 const tmdbID = window.location.search.match(/tmdbID=(.*)/)[1]);
 
 //This is where I would put the deployed site's URL (1:18:40 in the video)
-const BASE_URL = "https://movie-shelf.vercel.app";
+const BASE_URL = "https://movie-shelf.vercel.app/";
 
 function getMovie(tmdbID){
-  return fetch(`${BASE_URL}/movie/${tmdbID}`)
+  return fetch(`${BASE_URL}movie/${tmdbID}`)
     .then(res => res.json());
 }
 
@@ -50,8 +50,9 @@ function showMovie(movie) {
 
   const descriptionHTML = properties.reduce((html, property) => {
     html += `
-    <dt class="col-sm-3">${property.title}</dt>
-    <dd class="col-sm-9">${movie[property.property]}</dd>`;
+      <dt class="col-sm-3">${property.title}</dt>
+      <dd class="col-sm-9">${movie[property.property]}</dd>`;
+    return html;
   }, '');
 
   section.outerHTML = `
@@ -66,7 +67,7 @@ function showMovie(movie) {
         </dl>
       </div>
     </section>
-  `
+  `;
 }
 
 getMovie(tmdbID)

@@ -35,7 +35,7 @@ function showResults(results) {
     img.src = movie.image;
     const a = document.createElement('a');
     a.textContent = movie.title;
-    a.href = "/movie.html?tmdbID=" + movie.tmdbID;
+    a.href = "./movie.html?tmdbID=" + movie.tmdbID;
     li.appendChild(a);
     resultsList.appendChild(li);
   })
