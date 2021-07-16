@@ -31,11 +31,13 @@ function searchMovies(searchTerm) {
         const $image = $element.find('.image .poster img');
         const $title = $element.find('.details .title div a');
 
-        //const imdbID = $title.attr('href').match(/title\/(.*)\//)[1];
+        //pulled from the part of the title anchor tag that has "/movie/tmdbID"
+        const tmdbID = $title.attr('href').match(/movie\/(.*)/)[1];
 
         const movie = {
           image: "https://www.themoviedb.org" + $image.attr('src'),
-          title: $title.text()
+          title: $title.text(),
+          tmdbID
         };
         movies.push(movie);
       });
