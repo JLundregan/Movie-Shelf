@@ -4,7 +4,8 @@
   "description": "A page to document all of the movies in my library, whether digital or physical",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "electron ."
   },
   "author": "JLundregan",
   "license": "ISC",
@@ -14,5 +15,8 @@
     "express": "^4.17.1",
     "node-fetch": "^2.6.1",
     "nodemon": "^2.0.12"
+  },
+  "devDependencies": {
+    "electron": "^13.1.7"
   }
 }
