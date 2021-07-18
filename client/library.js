@@ -1,3 +1,15 @@
+var Datastore = require('nedb'), db = new Datastore({ filename: './client/Files/data.db', autoload: true });
+
+let data = [];
+db.find({}, function (err, docs) {
+  console.log(docs);
+  for(var i = 0; i < docs.length; i++){
+    console.log("Here is " + docs[i].title);
+    makeHTML(docs[i]);
+  }
+});
+
+
 /*
 *****************************************************************************
 The functions
@@ -6,27 +18,28 @@ The functions
 
 //This gets called on the movie objects to create their respective HTML elements
 //and insert each movie div into the CSS grid
-function makeHTML(movieObject, movieArray) {
+function makeHTML(movieObject) {
+  console.log('We are in the makeHTML functoin');
   var movie = document.createElement("div");
   document.getElementById('movie-grid').append(movie);
 
   //This is the current movie object, as it wouldn't let me pass movieObjectList[i] into addModal
-  let currentMovieObject = movieArray.find(mov => mov.title === movieObject.title);
+  //let currentMovieObject = movieArray.find(mov => mov.tmdbID === movieObject.tmdbID);
 
   //populates the grid with all of the movies in the movieList array
   let currentId = movieObject.title.replace(/ /g, "-");
   movie.id = currentId;
   movie.classList.add("movie-entry");
   movie.classList.add("grid-item");
-  //movie.innerHTML = "<h3>" + movieList[i] + "</h3>"; //Consider showing the title upon hover
+  movie.innerHTML = "<h3>" + movieObject.title + "</h3>"; //Consider showing the title upon hover
 
-  let imageURL = "images/" + movieObject.thumbnail;
-  document.getElementById(currentId).style.backgroundImage= "url('" + imageURL + "')";
+  // let imageURL = "images/" + movieObject.thumbnail;
+  // document.getElementById(currentId).style.backgroundImage= "url('" + imageURL + "')";
   //document.getElementById(currentId).style.backgroundSize = "230px 330px";
 
   //adds the ability to generate a modal with movie information
   movie.addEventListener('click', function(){
-    addModal(currentId, currentMovieObject);
+    addModal(currentId, movieObject);
   });
 }
 
@@ -42,20 +55,20 @@ function addModal(movId, movieObject){
    //Needs potential optimization, cause right now it looks kind of weird
    //This populates the modal with each movie's respective information.
    currentMovieModal.innerHTML = "<div id='close'><span class='material-icons'>close</span></div><h1>" + movieObject.title +
-   "</h1><div class='description'><p>" + movieObject.description +
+   "</h1><div class='description'><p>" + movieObject.summary +
    "</p></div><p>Runtime: " + movieObject.runTime + " minutes</p><p>Director: " + movieObject.director +
-   "</p><p>Released: " +  movieObject.releaseYear + "</p><p>Metascore: " + movieObject.metacritic + "</p>";
+   "</p><p>Released: " +  movieObject.year + "</p><p>Metascore: " + movieObject.userScore + "</p>";
 
    document.getElementById('modal-container').prepend(currentMovieModal);
 
    //this will basically be a pseudo element used to make the modal background the thumbnail
    //image of the respective movie
-   let modalBackground = document.createElement('div');
-   modalBackground.classList.add('modal-background');
-   modalBackground.id = 'modal-background';
-   let imageURL = "images/" + movieObject.thumbnail;
-   currentMovieModal.prepend(modalBackground);
-   document.getElementById('modal-background').style.backgroundImage= "url('" + imageURL + "')";
+   // let modalBackground = document.createElement('div');
+   // modalBackground.classList.add('modal-background');
+   // modalBackground.id = 'modal-background';
+   // let imageURL = "images/" + movieObject.thumbnail;
+   // currentMovieModal.prepend(modalBackground);
+   // document.getElementById('modal-background').style.backgroundImage= "url('" + imageURL + "')";
 
 
 

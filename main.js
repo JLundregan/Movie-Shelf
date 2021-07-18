@@ -1,4 +1,5 @@
 const { app, BrowserWindow } = require('electron');
+//var Datastore = require('nedb'), db = new Datastore({ filename: './Files/data.db', autoload: true });
 
 app.whenReady().then(() => {
   createWindow();
@@ -25,5 +26,5 @@ function createWindow () {
   });
 
   win.loadFile('client/index.html');
-  //win.webContents.openDevTools();
+  win.webContents.openDevTools();
 }
