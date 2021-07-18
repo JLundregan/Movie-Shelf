@@ -1,4 +1,5 @@
 const main = document.querySelector('main');
+var Datastore = require('nedb'), db = new Datastore({ filename: './client/Files/data.db', autoload: true });
 
 console.log(window.location.search);
 //Bascially, when the page loads, request the specific movie that you have clicked on
@@ -15,6 +16,14 @@ function getMovie(tmdbID){
 
 function showMovie(movie) {
   const section = document.createElement('section');
+
+  const libButton = document.createElement('button');
+  libButton.id = 'libButton';
+  libButton.classList.add('btn');
+  libButton.classList.add('btn-primary');
+  libButton.innerHTML = 'Add to Library';
+  //  <button class="btn btn-primary" id="libraryButton">Add to Library</button>
+  main.appendChild(libButton);
   main.appendChild(section);
 
 
@@ -68,6 +77,18 @@ function showMovie(movie) {
       </div>
     </section>
   `;
+
+  libButton.addEventListener('click', function(){
+    addToLibrary(movie)
+  });
+
+}
+
+
+function addToLibrary(movie){
+  console.log(db.filename);
+  db.insert(movie);
+  console.log(`ran addToLibrary function on ${movie.title}`);
 }
 
 getMovie(tmdbID)
