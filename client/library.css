@@ -1,0 +1,113 @@
+body {
+  align-items: center;
+  background-color: #282525;
+  justify-content: center;
+  font-family: 'Verdana';
+  min-height: 100vh;
+  margin: 0;
+}
+
+
+.black-background{
+  background-color: black;
+  height: 100vh;
+  position: fixed;
+  width:100%;
+  z-index: 0;
+  opacity: 0.7;
+}
+
+.noscroll {
+  overflow: hidden;
+}
+
+.show-modal {
+  /* background-color: rgba(0,0,0, 0.85); */
+  overflow: hidden;
+  padding-right: 17px; /*This is just the hardcoded scrollbar width from chrome*/
+}
+
+.modal {
+  background-color: #5a5c5a;
+  border-radius: 5px;
+  box-shadow: 0 4px 20px 5px black;
+  color: white;
+  height: 550px;
+  overflow-y: auto;
+  padding: 30px 30px 0 30px;
+  pointer-events: auto;
+  position: fixed;
+  text-align: center;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s ease;
+  width: 470px;
+  z-index: 1;
+}
+
+.modal h1 {
+  font-size: 40px;
+}
+
+.modal p {
+  font-size: 18px;
+  padding: 0px;
+}
+
+.description {
+  font-size: 20px;
+  padding-bottom: 15px;
+  text-align: left;
+}
+
+.modal-background{
+  background-size: cover;
+  background-repeat: no-repeat;
+  bottom: 0px;
+  height: 100%;
+  left: 0px;
+  opacity: 0.3;
+  position: fixed;
+  top: 0px;
+  width: 100%;
+  z-index:-1;
+}
+
+.hidden-image {
+  display: none;
+}
+
+/* The close button */
+#close {
+  cursor: pointer;
+  height: 24px;
+  pointer-events: auto;
+  position: fixed;
+  width: 28px;
+}
+
+#movie-grid {
+  display: grid;
+  grid-column-gap: 30px;
+  grid-template-columns: 230px 230px 230px 230px 230px;
+  grid-row-gap: 40px;
+  justify-content: center;
+  padding: 50px 0;
+  width: 100%;
+}
+
+.movie-entry {
+  color: white;
+  cursor: pointer;
+  display: inline-block;
+  font-size: 20px;
+  height: 330px;
+  text-align: center;
+}
+
+.movie-entry:hover {
+  background-color: white;
+  box-shadow: 0 4px 20px 5px white;
+  color: black;
+}
