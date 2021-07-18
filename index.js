@@ -7,7 +7,7 @@ app.use(cors());
 
 app.get('/', (req, res) => {
   res.json({
-    message: 'Scraping is Fun!'
+    message: 'Scraping is sooo Fun!'
   })
 })
 
@@ -21,9 +21,9 @@ app.get('/search/:title', (req, res) => {
   });
 });
 
-app.get('/movie/:imdbID', (req, res) => {
+app.get('/movie/:tmdbID', (req, res) => {
   scraper
-  .getMovie(req.params.imdbID)
+  .getMovie(req.params.tmdbID)
   .then(movie => {
     res.json(movie);
   });
