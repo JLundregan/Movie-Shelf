@@ -1,0 +1,127 @@
+/*
+*****************************************************************************
+The functions
+*****************************************************************************
+*/
+
+//This gets called on the movie objects to create their respective HTML elements
+//and insert each movie div into the CSS grid
+function makeHTML(movieObject, movieArray) {
+  var movie = document.createElement("div");
+  document.getElementById('movie-grid').append(movie);
+
+  //This is the current movie object, as it wouldn't let me pass movieObjectList[i] into addModal
+  let currentMovieObject = movieArray.find(mov => mov.title === movieObject.title);
+
+  //populates the grid with all of the movies in the movieList array
+  let currentId = movieObject.title.replace(/ /g, "-");
+  movie.id = currentId;
+  movie.classList.add("movie-entry");
+  movie.classList.add("grid-item");
+  //movie.innerHTML = "<h3>" + movieList[i] + "</h3>"; //Consider showing the title upon hover
+
+  let imageURL = "images/" + movieObject.thumbnail;
+  document.getElementById(currentId).style.backgroundImage= "url('" + imageURL + "')";
+  //document.getElementById(currentId).style.backgroundSize = "230px 330px";
+
+  //adds the ability to generate a modal with movie information
+  movie.addEventListener('click', function(){
+    addModal(currentId, currentMovieObject);
+  });
+}
+
+//Creates the modal for each movie on click, also changing background styling to accomodate
+function addModal(movId, movieObject){
+   document.body.classList.add('noscroll');
+   document.getElementById('modal-container').classList.add('show-modal');
+
+   let currentMovieModal = document.createElement('div');
+   currentMovieModal.classList.add('modal');
+   currentMovieModal.id = movId + "-modal";
+
+   //Needs potential optimization, cause right now it looks kind of weird
+   //This populates the modal with each movie's respective information.
+   currentMovieModal.innerHTML = "<div id='close'><span class='material-icons'>close</span></div><h1>" + movieObject.title +
+   "</h1><div class='description'><p>" + movieObject.description +
+   "</p></div><p>Runtime: " + movieObject.runTime + " minutes</p><p>Director: " + movieObject.director +
+   "</p><p>Released: " +  movieObject.releaseYear + "</p><p>Metascore: " + movieObject.metacritic + "</p>";
+
+   document.getElementById('modal-container').prepend(currentMovieModal);
+
+   //this will basically be a pseudo element used to make the modal background the thumbnail
+   //image of the respective movie
+   let modalBackground = document.createElement('div');
+   modalBackground.classList.add('modal-background');
+   modalBackground.id = 'modal-background';
+   let imageURL = "images/" + movieObject.thumbnail;
+   currentMovieModal.prepend(modalBackground);
+   document.getElementById('modal-background').style.backgroundImage= "url('" + imageURL + "')";
+
+
+
+   //This is to create a background with a color equal to the dominant color of the Thumbnail
+   //Since Color Thief requires an img element, this creates an invisible (because of the 'hidden-image' class)
+   //img element from which to extract the dominant color. This color is then used for the modal's
+   //'background-color'
+   // const colorThief = new ColorThief();
+   // let hiddenImage = new Image();
+   // hiddenImage.classList.add('hidden-image');
+   // hiddenImage.src = imageURL;
+   // //hiddenImage.crossOrigin = "anonymous";//Can't be local, has to be on a server. that's the problem here
+   // let dominantColor = ""
+   // hiddenImage.addEventListener('load', function() {
+   //    dominantColor = colorThief.getColor(hiddenImage);
+   //  });
+   // //let dominantColor = colorThief.getColor(hiddenImage);
+   // document.getElementById('modal-background').style.backgroundColor = dominantColor;
+
+
+
+   //This adds a background element before the modal to reduce the opacity of the rest of the page
+   let blackBackground = document.createElement('div');
+   blackBackground.id = 'black-background';
+   blackBackground.classList.add('black-background');
+   document.getElementById('modal-container').prepend(blackBackground);
+
+   //adds functionality to the close button
+   document.getElementById('close').addEventListener('click', function(){
+     removeModal(movId);
+   });
+
+   //adds the ability to click outside the modal to close it, rather than just the close button
+   document.getElementById('black-background').addEventListener('click', function(){
+     removeModal(movId);
+   });
+ }
+
+//Self-explanatory, but just basically undoes all of the changes that addModal added
+function removeModal(movId){
+   let buttonParent = document.getElementById('close').parentNode; //This is the div with class 'modal'
+   let modalContainer = document.getElementById('modal-container')
+   document.body.classList.remove('noscroll');
+   modalContainer.classList.remove('show-modal');
+   modalContainer.removeChild(document.getElementById('black-background'))
+   buttonParent.parentNode.removeChild(document.getElementById(movId + "-modal"));
+ }
+
+//This sort function is ascending alphabetical, except it discounts 'A', 'An', and 'The'
+function alphabetize(input1, input2){
+  let inputArray1 = input1.title.split(' ');
+  let relevantChar1 = inputArray1[0];
+  let inputArray2 = input2.title.split(' ');
+  let relevantChar2 = inputArray2[0];
+  if(inputArray1[0] == 'The' || inputArray1[0] == 'A' || inputArray1[0] == 'An'){
+    relevantChar1 = inputArray1[1];
+  }
+  if(inputArray2[0] == 'The' || inputArray2[0] == 'A' || inputArray2[0] == 'An'){
+    relevantChar2 = inputArray2[1];
+  }
+
+  if(relevantChar1 > relevantChar2) {
+    return 1;
+  }
+  if(relevantChar1 < relevantChar2) {
+    return -1;
+  }
+  return 0;
+}
