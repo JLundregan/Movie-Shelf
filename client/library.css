@@ -27,6 +27,10 @@ body {
   padding-right: 17px; /*This is just the hardcoded scrollbar width from chrome*/
 }
 
+#modal-background{
+  
+}
+
 .movie-modal {
   background-color: #5a5c5a;
   border-radius: 5px;
