@@ -1,6 +1,8 @@
 const form = document.querySelector('form');
 const searchInput = document.querySelector('input');
 const resultsList = document.querySelector("#results");
+//const movieGetter = require('./movie')
+var Datastore = require('nedb'), db = new Datastore({ filename: './client/Files/data.db', autoload: true });
 
 //This is where I would put the deployed site's URL (1:18:40 in the video)
 const BASE_URL = "https://movie-shelf.vercel.app/";
@@ -40,13 +42,21 @@ function showResults(results) {
     li.appendChild(a);
     libButton.innerHTML = "<span class='material-icons'>add</span>"
     libButton.id = "libButton";
+
+    //this adds the functionality to the plus button that will show up on each of the search results
+    libButton.addEventListener('click', function(){
+        getMovie(movie.tmdbID).then(function(mov) {
+          console.log(mov);
+          db.insert(mov);
+        });
+    });
+
     li.appendChild(libButton);
     resultsList.appendChild(li);
   })
 }
 
-// function addToLibrary(movie){
-//   console.log(db.filename);
-//   db.insert(movie);
-//   console.log(`ran addToLibrary function on ${movie.title}`);
-// }
+function getMovie(tmdbID){
+  return fetch(`${BASE_URL}movie/${tmdbID}`)
+    .then(res => res.json());
+}
