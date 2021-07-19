@@ -80,5 +80,9 @@ function addToLibrary(movie){
   console.log(`ran addToLibrary function on ${movie.title}`);
 }
 
+// module.exports = {
+//   getMovie
+// };
+
 getMovie(tmdbID)
   .then(showMovie);
