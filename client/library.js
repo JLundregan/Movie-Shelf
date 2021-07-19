@@ -58,10 +58,10 @@ function addModal(movId, movObj){
 
    //***Needs potential optimization, cause right now it looks kind of weird***
    //This populates the modal with each movie's respective information.
-   currentMovieModal.innerHTML = "<div id='close'><span class='material-icons'>close</span></div><h1>" + movObj.title +
-   "</h1><div class='description'><p>" + movObj.summary +
+   currentMovieModal.innerHTML = "<div id='close'><span class='material-icons'>close</span></div><div id='modal-info'><h1>" +
+   movObj.title + "</h1><div class='description'><p>" + movObj.summary +
    "</p></div><p>Runtime: " + movObj.runTime + "</p><p>Director: " + movObj.director +
-   "</p><p>Released: " +  movObj.year + "</p><p>TMDB user Score: " + movObj.userScore + "</p>";
+   "</p><p>Released: " +  movObj.year + "</p><p>TMDB user Score: " + movObj.userScore + "</p></div>";
    document.getElementById('modal-container').prepend(currentMovieModal);
 
      //This is to create a background with a color equal to the dominant color of the Thumbnail
