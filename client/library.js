@@ -31,11 +31,15 @@ function makeHTML(movieObject) {
   movie.id = currentId;
   movie.classList.add("movie-entry");
   movie.classList.add("grid-item");
-  movie.innerHTML = "<h3>" + movieObject.title + "</h3>"; //Consider showing the title upon hover
+  //movie.innerHTML = "<h3>" + movieObject.title + "</h3>"; //Consider showing the title upon hover
 
+  //This is to make the movie thumbnail the background of the html element
   // let imageURL = "images/" + movieObject.thumbnail;
   // document.getElementById(currentId).style.backgroundImage= "url('" + imageURL + "')";
   //document.getElementById(currentId).style.backgroundSize = "230px 330px";
+  let imageURL = movieObject.poster;
+  document.getElementById(currentId).style.backgroundImage = "url('" + imageURL + "')";
+  document.getElementById(currentId).style.backgroundSize = "230px 330px";
 
   //adds the ability to generate a modal with movie information
   movie.addEventListener('click', function(){
@@ -52,43 +56,36 @@ function addModal(movId, movObj){
    currentMovieModal.classList.add('movie-modal');
    currentMovieModal.id = movId + "-modal";
 
-   //Needs potential optimization, cause right now it looks kind of weird
+   //***Needs potential optimization, cause right now it looks kind of weird***
    //This populates the modal with each movie's respective information.
    currentMovieModal.innerHTML = "<div id='close'><span class='material-icons'>close</span></div><h1>" + movObj.title +
    "</h1><div class='description'><p>" + movObj.summary +
-   "</p></div><p>Runtime: " + movObj.runTime + " minutes</p><p>Director: " + movObj.director +
+   "</p></div><p>Runtime: " + movObj.runTime + "</p><p>Director: " + movObj.director +
    "</p><p>Released: " +  movObj.year + "</p><p>TMDB user Score: " + movObj.userScore + "</p>";
-
    document.getElementById('modal-container').prepend(currentMovieModal);
 
-   //this will basically be a pseudo element used to make the modal background the thumbnail
-   //image of the respective movie
-   // let modalBackground = document.createElement('div');
-   // modalBackground.classList.add('modal-background');
-   // modalBackground.id = 'modal-background';
-   // let imageURL = "images/" + movieObject.thumbnail;
-   // currentMovieModal.prepend(modalBackground);
-   // document.getElementById('modal-background').style.backgroundImage= "url('" + imageURL + "')";
-
-
-
-   //This is to create a background with a color equal to the dominant color of the Thumbnail
+     //This is to create a background with a color equal to the dominant color of the Thumbnail
    //Since Color Thief requires an img element, this creates an invisible (because of the 'hidden-image' class)
    //img element from which to extract the dominant color. This color is then used for the modal's
    //'background-color'
-   // const colorThief = new ColorThief();
-   // let hiddenImage = new Image();
-   // hiddenImage.classList.add('hidden-image');
-   // hiddenImage.src = imageURL;
-   // //hiddenImage.crossOrigin = "anonymous";//Can't be local, has to be on a server. that's the problem here
-   // let dominantColor = ""
-   // hiddenImage.addEventListener('load', function() {
-   //    dominantColor = colorThief.getColor(hiddenImage);
-   //  });
-   // //let dominantColor = colorThief.getColor(hiddenImage);
-   // document.getElementById('modal-background').style.backgroundColor = dominantColor;
+   let modalBackground = "";
+   const colorThief = new ColorThief();
+   let hiddenImage = new Image();
+   hiddenImage.classList.add('hidden-image');
+   hiddenImage.src = movObj.poster;
+   let dominantColor = "";
+   hiddenImage.addEventListener('load', function() {
+      dominantColor = colorThief.getColor(hiddenImage);
+      //console.log("dominantColor is: " + 'rgb(' + dominantColor + ')');
+      modalBackground = document.createElement('div');
 
-
+      //this will basically be a pseudo element used to make the modal background the thumbnail
+      //image of the respective movie
+      modalBackground.classList.add('modal-background');
+      modalBackground.id = 'modal-background';
+      modalBackground.style.backgroundColor = "rgb(" + dominantColor + ")";
+      currentMovieModal.prepend(modalBackground);
+    });
 
    //This adds a background element before the modal to reduce the opacity of the rest of the page
    let blackBackground = document.createElement('div');
