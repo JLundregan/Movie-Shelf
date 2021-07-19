@@ -44,20 +44,20 @@ function makeHTML(movieObject) {
 }
 
 //Creates the modal for each movie on click, also changing background styling to accomodate
-function addModal(movId, movieObject){
+function addModal(movId, movObj){
    document.body.classList.add('noscroll');
    document.getElementById('modal-container').classList.add('show-modal');
 
    let currentMovieModal = document.createElement('div');
-   currentMovieModal.classList.add('modal');
+   currentMovieModal.classList.add('movie-modal');
    currentMovieModal.id = movId + "-modal";
 
    //Needs potential optimization, cause right now it looks kind of weird
    //This populates the modal with each movie's respective information.
-   currentMovieModal.innerHTML = "<div id='close'><span class='material-icons'>close</span></div><h1>" + movieObject.title +
-   "</h1><div class='description'><p>" + movieObject.summary +
-   "</p></div><p>Runtime: " + movieObject.runTime + " minutes</p><p>Director: " + movieObject.director +
-   "</p><p>Released: " +  movieObject.year + "</p><p>Metascore: " + movieObject.userScore + "</p>";
+   currentMovieModal.innerHTML = "<div id='close'><span class='material-icons'>close</span></div><h1>" + movObj.title +
+   "</h1><div class='description'><p>" + movObj.summary +
+   "</p></div><p>Runtime: " + movObj.runTime + " minutes</p><p>Director: " + movObj.director +
+   "</p><p>Released: " +  movObj.year + "</p><p>TMDB user Score: " + movObj.userScore + "</p>";
 
    document.getElementById('modal-container').prepend(currentMovieModal);
 
@@ -109,7 +109,7 @@ function addModal(movId, movieObject){
 
 //Self-explanatory, but just basically undoes all of the changes that addModal added
 function removeModal(movId){
-   let buttonParent = document.getElementById('close').parentNode; //This is the div with class 'modal'
+   let buttonParent = document.getElementById('close').parentNode; //This is the div with class 'movie-modal'
    let modalContainer = document.getElementById('modal-container')
    document.body.classList.remove('noscroll');
    modalContainer.classList.remove('show-modal');

@@ -27,7 +27,7 @@ body {
   padding-right: 17px; /*This is just the hardcoded scrollbar width from chrome*/
 }
 
-.modal {
+.movie-modal {
   background-color: #5a5c5a;
   border-radius: 5px;
   box-shadow: 0 4px 20px 5px black;
@@ -46,11 +46,11 @@ body {
   z-index: 1;
 }
 
-.modal h1 {
+.movie-modal h1 {
   font-size: 40px;
 }
 
-.modal p {
+.movie-modal p {
   font-size: 18px;
   padding: 0px;
 }
