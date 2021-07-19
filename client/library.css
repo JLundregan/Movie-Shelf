@@ -28,7 +28,7 @@ body {
 }
 
 #modal-background{
-  
+
 }
 
 .movie-modal {
@@ -69,6 +69,7 @@ body {
   background-size: cover;
   background-repeat: no-repeat;
   bottom: 0px;
+  filter: blur(8px);
   height: 100%;
   left: 0px;
   opacity: 0.3;

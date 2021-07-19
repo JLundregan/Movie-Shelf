@@ -69,21 +69,22 @@ function addModal(movId, movObj){
    //img element from which to extract the dominant color. This color is then used for the modal's
    //'background-color'
    let modalBackground = "";
+   let dominantColor = "";
    const colorThief = new ColorThief();
    let hiddenImage = new Image();
    hiddenImage.classList.add('hidden-image');
    hiddenImage.src = movObj.poster;
-   let dominantColor = "";
    hiddenImage.addEventListener('load', function() {
       dominantColor = colorThief.getColor(hiddenImage);
-      //console.log("dominantColor is: " + 'rgb(' + dominantColor + ')');
       modalBackground = document.createElement('div');
 
-      //this will basically be a pseudo element used to make the modal background the thumbnail
-      //image of the respective movie
+      //this will basically be a pseudo element used to make the modal background the
+      //blurred thumbnail image of the respective movie, where the underlying color is
+      //the image's dominant color
       modalBackground.classList.add('modal-background');
       modalBackground.id = 'modal-background';
       modalBackground.style.backgroundColor = "rgb(" + dominantColor + ")";
+      modalBackground.style.backgroundImage = "url('" + movObj.poster + "')";
       currentMovieModal.prepend(modalBackground);
     });
 
