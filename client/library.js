@@ -3,6 +3,7 @@ var Datastore = require('nedb'), db = new Datastore({ filename: './client/Files/
 let data = [];
 db.find({}, function (err, docs) {
   console.log(docs);
+  docs.sort(alphabetize);
   for(var i = 0; i < docs.length; i++){
     console.log("Here is " + docs[i].title);
     makeHTML(docs[i]);

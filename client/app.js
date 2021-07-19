@@ -23,9 +23,6 @@ function getSearchResults(searchTerm){
   //dont forget to delete the slash after BASE_URL
   return fetch(`${BASE_URL}search/${searchTerm}`)
     .then(res => res.json())
-    // .then(results => {
-    //   console.log(results);
-    // })
 }
 
 
@@ -34,6 +31,8 @@ function showResults(results) {
     const li = document.createElement('li');
     const img = document.createElement('img');
     const libButton = document.createElement('button');
+    const popup = document.createElement('div');
+
     li.appendChild(img);
     img.src = movie.image;
     const a = document.createElement('a');
@@ -43,15 +42,19 @@ function showResults(results) {
     libButton.innerHTML = "<span class='material-icons'>add</span>"
     libButton.id = "libButton";
 
+    popup.classList.add('popup');
+    popup.innerHTML = "<span class='popuptext' id='" + movie.tmdbID+ "-myPopup'>Added to Your Library!</span>";
+    li.appendChild(libButton);
+    li.appendChild(popup);
     //this adds the functionality to the plus button that will show up on each of the search results
     libButton.addEventListener('click', function(){
         getMovie(movie.tmdbID).then(function(mov) {
-          console.log(mov);
+          //console.log(mov);
           db.insert(mov);
+          showPopup(mov.tmdbID);
         });
     });
 
-    li.appendChild(libButton);
     resultsList.appendChild(li);
   })
 }
@@ -59,4 +62,12 @@ function showResults(results) {
 function getMovie(tmdbID){
   return fetch(`${BASE_URL}movie/${tmdbID}`)
     .then(res => res.json());
+}
+
+function showPopup(tmdbID){
+  var popup = document.getElementById(tmdbID + "-myPopup");
+  popup.classList.toggle("show");
+  setTimeout(function () {
+    popup.classList.toggle("show");
+  }, 2500);
 }
