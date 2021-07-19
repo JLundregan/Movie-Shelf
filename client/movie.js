@@ -26,17 +26,6 @@ function showMovie(movie) {
   main.appendChild(libButton);
   main.appendChild(section);
 
-
-  // tmdbID,
-  // title,
-  // year,
-  // rating,
-  // runTime,
-  // poster,
-  // summary,
-  // director,
-  // userScore
-
   const properties = [{
     title: "Rating",
     property: 'rating'
