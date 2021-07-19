@@ -23,7 +23,12 @@ function showMovie(movie) {
   libButton.classList.add('btn-primary');
   libButton.innerHTML = 'Add to Library';
   //  <button class="btn btn-primary" id="libraryButton">Add to Library</button>
+  const popup = document.createElement('div');
+
+  popup.classList.add('popup');
+  popup.innerHTML = "<span class='popuptext' id='" + movie.tmdbID+ "-myPopup'>Added to Your Library!</span>";
   main.appendChild(libButton);
+  main.appendChild(popup);
   main.appendChild(section);
 
   const properties = [{
@@ -68,7 +73,8 @@ function showMovie(movie) {
   `;
 
   libButton.addEventListener('click', function(){
-    addToLibrary(movie)
+    addToLibrary(movie);
+    showPopup(movie.tmdbID);
   });
 
 }
@@ -83,6 +89,14 @@ function addToLibrary(movie){
 // module.exports = {
 //   getMovie
 // };
+
+function showPopup(tmdbID){
+  var popup = document.getElementById(tmdbID + "-myPopup");
+  popup.classList.toggle("show");
+  setTimeout(function () {
+    popup.classList.toggle("show");
+  }, 2500);
+}
 
 getMovie(tmdbID)
   .then(showMovie);
