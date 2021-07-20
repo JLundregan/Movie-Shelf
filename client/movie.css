@@ -1,3 +1,26 @@
+.custom-btn{
+  /* position: relative;
+  right: -600px; */
+  background-color: #fff;
+  border: medium solid #fff;
+  border-radius: 0.5rem;
+  color: #1c1c1c;
+  font-size: 1.1;
+  font-weight: bold;
+  line-height: 1.5;
+  padding: .3rem 1.5rem;
+  text-decoration: none;
+}
+
+.custom-btn:hover{
+  background-color:#1c1c1c;
+  border: medium solid #fff;
+  border-radius: 0.5rem;
+  color: #fff;
+}
+
+
+
 /* Popup container */
 .popup {
   position: relative;

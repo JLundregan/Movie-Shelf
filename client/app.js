@@ -19,6 +19,7 @@ function formSubmitted(event){
 }
 
 function getSearchResults(searchTerm){
+  resultsList.innerHTML = '';
   //dont forget to delete the slash after BASE_URL
   return fetch(`${BASE_URL}search/${searchTerm}`)
     .then(res => res.json())

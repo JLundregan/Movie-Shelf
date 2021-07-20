@@ -19,8 +19,8 @@ function showMovie(movie) {
 
   const libButton = document.createElement('button');
   libButton.id = 'libButton';
-  libButton.classList.add('btn');
-  libButton.classList.add('btn-primary');
+  libButton.classList.add('custom-btn');
+  // libButton.classList.add('btn-primary');
   libButton.innerHTML = 'Add to Library';
   //  <button class="btn btn-primary" id="libraryButton">Add to Library</button>
   const popup = document.createElement('div');
