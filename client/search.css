@@ -16,6 +16,7 @@ main {
 
 #search-label {
   color: white;
+  font-size: 40px;
   font-weight: bold;
   padding-bottom: 10px;
 }
@@ -23,12 +24,22 @@ main {
 /* #search {
   width: 70%;
 } */
+.bottom-border {
+  border-bottom: medium solid #f2f2f2;
+  margin-bottom: 20px;
+  padding-bottom: 20px;
+}
+
+.results-show {
+  margin-top: 10px;
+}
 
 #search:focus {
   border: medium solid #d62020;
   border-radius: 0.5rem;
   -webkit-animation: fadeIn 0.5s;
-  animation: fadeIn 0.5s
+  animation: fadeIn 0.5s;
+  outline: none;
 }
 
 #submit-button {
@@ -55,6 +66,56 @@ main {
   border: medium solid #fff;
   border-radius: 0.5rem;
   color: #fff;
+}
+
+/* The results of the search */
+li {
+  /* border: medium solid #f2f2f2;
+  border-radius: 8px; */
+  background-color: #f2f2f2;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px 5px black;
+  color: black;
+  list-style-type: none;
+  margin: 15px auto 15px auto;
+  width: 100%;
+}
+
+.result-img{
+  color: black;
+  margin:10px 20px 10px 10px;
+}
+
+.result-title{
+  color: black;
+  font-weight: bold;
+  margin: 10px;
+  text-decoration: none;
+}
+
+.result-title:hover{
+  background-color: black;
+  color: #f2f2f2;
+}
+
+.result-lib-button{
+  /* Size of the material icon is 24px, thus height must equal 24 + padding-top + padding-bottom
+  to render the icon at its proper size of 24px */
+  border: medium solid black;
+  border-radius: 0.5rem;
+  background-color: black;
+  color: #f2f2f2;
+  height: 34px;
+  outline-style: none;
+  padding: 2px;
+}
+
+.result-lib-button:hover {
+  background-color: #f2f2f2;
+  border: medium solid black;
+  border-radius: 0.5rem;
+  color: black;
+  outline-style: none;
 }
 
 /* Popup container */

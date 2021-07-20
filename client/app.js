@@ -1,7 +1,7 @@
 const form = document.querySelector('form');
 const searchInput = document.querySelector('input');
 const resultsList = document.querySelector("#results");
-//const movieGetter = require('./movie')
+const container = document.querySelector('main');
 var Datastore = require('nedb'), db = new Datastore({ filename: './client/Files/data.db', autoload: true });
 
 //This is where I would put the deployed site's URL (1:18:40 in the video)
@@ -26,19 +26,29 @@ function getSearchResults(searchTerm){
 }
 
 function showResults(results) {
+  container.classList.add('results-show');
+  form.classList.add('bottom-border');
   results.forEach(movie => {
     const li = document.createElement('li');
     const img = document.createElement('img');
     const libButton = document.createElement('button');
     const popup = document.createElement('div');
 
+    //Adding the image, title, and add to library button to each result
     li.appendChild(img);
+    img.classList.add("result-img");
     img.src = movie.image;
+    img.addEventListener('error', function(){
+      img.src = '../images/imgnotfound.png';
+    });
+
     const a = document.createElement('a');
     a.textContent = movie.title;
     a.href = "./movie.html?tmdbID=" + movie.tmdbID;
+    a.classList.add('result-title');
     li.appendChild(a);
     libButton.innerHTML = "<span class='material-icons'>add</span>"
+    libButton.classList.add("result-lib-button");
     libButton.id = "libButton";
 
     //This checks to see if the movie is already in library
@@ -48,15 +58,16 @@ function showResults(results) {
         inLibrary = true;
       }
     });
+
     //Now we add the popup, telling the user if it has been added, or if it is already in ibrary
     popup.classList.add('popup');
     popup.innerHTML = "<span class='popuptext' id='" + movie.tmdbID+ "-myPopup'>Added to Your Library!</span>";
     li.appendChild(libButton);
     li.appendChild(popup);
+
     //this adds the functionality to the plus button that will show up on each of the search results
     libButton.addEventListener('click', function(){
         getMovie(movie.tmdbID).then(function(mov) {
-          //console.log(mov);
           if(!inLibrary){
             db.insert(mov);
           } else {
