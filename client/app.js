@@ -18,7 +18,6 @@ function formSubmitted(event){
   //console.log(searchTerm);
 }
 
-
 function getSearchResults(searchTerm){
   //dont forget to delete the slash after BASE_URL
   return fetch(`${BASE_URL}search/${searchTerm}`)

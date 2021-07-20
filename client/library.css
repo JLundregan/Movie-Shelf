@@ -1,10 +1,50 @@
 body {
   align-items: center;
-  background-color: #282525;
+  background-color: #1c1c1c;
   justify-content: center;
   font-family: 'Verdana';
   min-height: 100vh;
   margin: 0;
+}
+
+#top-div {
+  background-color: #f2f2f2;
+  box-shadow: 0 5px 15px 2px black;
+  color: black;
+  position: relative;
+  /* padding: 40px 15px; */
+  width: 100%;
+}
+
+#top-div h1 {
+  color: black;
+  display: inline-block;
+  padding: 40px 0 40px 124.6px;
+  vertical-align: middle;
+}
+
+#search-button{
+  /* position: relative;
+  right: -600px; */
+  background-color: #1c1c1c;
+  border-radius: 0.5rem;
+  color: #f2f2f2;
+  font-size: 1;
+  font-weight: 400;
+  line-height: 1.5;
+  padding: .375rem 1rem;
+  position: absolute;
+  right: 124.6px;
+  text-decoration: none;
+  top: 50%;
+  transform: translateY(-50%);
+}
+
+#search-button:hover{
+  background-color: #f2f2f2;
+  border: medium solid #1c1c1c;
+  border-radius: 0.5rem;
+  color: #1c1c1c;
 }
 
 
@@ -25,10 +65,6 @@ body {
   /* background-color: rgba(0,0,0, 0.85); */
   overflow: hidden;
   padding-right: 17px; /*This is just the hardcoded scrollbar width from chrome*/
-}
-
-#modal-background{
-
 }
 
 .movie-modal {
