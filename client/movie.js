@@ -25,6 +25,14 @@ function showMovie(movie) {
   //  <button class="btn btn-primary" id="libraryButton">Add to Library</button>
   const popup = document.createElement('div');
 
+  //Checks to make sure current movie is not already in library
+  let inLibrary = false;
+  db.findOne({tmdbID: movie.tmdbID}, function(err,doc){
+    if(doc){
+      inLibrary = true;
+    }
+  });
+
   popup.classList.add('popup');
   popup.innerHTML = "<span class='popuptext' id='" + movie.tmdbID+ "-myPopup'>Added to Your Library!</span>";
   main.appendChild(libButton);
@@ -73,7 +81,11 @@ function showMovie(movie) {
   `;
 
   libButton.addEventListener('click', function(){
-    addToLibrary(movie);
+    if(!inLibrary){
+      addToLibrary(movie);
+    } else {
+      popup.innerHTML = "<span class='popuptext' id='" + movie.tmdbID+ "-myPopup'>Already in Library</span>";
+    }
     showPopup(movie.tmdbID);
   });
 

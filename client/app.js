@@ -25,7 +25,6 @@ function getSearchResults(searchTerm){
     .then(res => res.json())
 }
 
-
 function showResults(results) {
   results.forEach(movie => {
     const li = document.createElement('li');
@@ -42,6 +41,14 @@ function showResults(results) {
     libButton.innerHTML = "<span class='material-icons'>add</span>"
     libButton.id = "libButton";
 
+    //This checks to see if the movie is already in library
+    let inLibrary = false;
+    db.findOne({tmdbID: movie.tmdbID}, function(err,doc){
+      if(doc){
+        inLibrary = true;
+      }
+    });
+    //Now we add the popup, telling the user if it has been added, or if it is already in ibrary
     popup.classList.add('popup');
     popup.innerHTML = "<span class='popuptext' id='" + movie.tmdbID+ "-myPopup'>Added to Your Library!</span>";
     li.appendChild(libButton);
@@ -50,7 +57,11 @@ function showResults(results) {
     libButton.addEventListener('click', function(){
         getMovie(movie.tmdbID).then(function(mov) {
           //console.log(mov);
-          db.insert(mov);
+          if(!inLibrary){
+            db.insert(mov);
+          } else {
+            popup.innerHTML = "<span class='popuptext' id='" + movie.tmdbID+ "-myPopup'>Already in Library</span>";
+          }
           showPopup(mov.tmdbID);
         });
     });
