@@ -1,5 +1,51 @@
+body {
+  background-color: #1c1c1c;
+}
+
 main {
-  margin-top: 2em;
+  align-items: center;
+  margin-top: 10em;
+}
+
+.search-bar-container {
+  box-shadow: 0 2px 15px 2px #f2f2f2;
+  padding: 40px 15px;
+  margin: auto;
+  width: 60%;
+}
+
+#search-label {
+  color: white;
+  font-weight: bold;
+  padding-bottom: 10px;
+}
+
+#search:focus {
+  border: medium solid #d62020;
+  border-radius: 0.5rem;
+  -webkit-animation: fadeIn 0.5s;
+  animation: fadeIn 0.5s
+}
+
+.custom-btn{
+  /* position: relative;
+  right: -600px; */
+  background-color: #fff;
+  border-radius: 0.5rem;
+  color: #1c1c1c;
+  font-size: 1;
+  font-weight: bold;
+  line-height: 1.5;
+  margin-top: 40px;
+  padding: .375rem 1.5rem;
+  text-decoration: none;
+}
+
+.custom-btn:hover{
+  background-color:#1c1c1c;
+  border: medium solid #fff;
+  border-radius: 0.5rem;
+  color: #fff;
 }
 
 /* Popup container */
@@ -25,18 +71,6 @@ main {
   left: 50%;
   margin-left: 80px;
 }
-
-/* Popup arrow */
-/* .popup .popuptext::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #fff transparent transparent transparent;
-} */
 
 /* Toggle this class when clicking on the popup container (hide and show the popup) */
 .popup .show {
