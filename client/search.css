@@ -20,6 +20,10 @@ main {
   padding-bottom: 10px;
 }
 
+/* #search {
+  width: 70%;
+} */
+
 #search:focus {
   border: medium solid #d62020;
   border-radius: 0.5rem;
@@ -27,10 +31,15 @@ main {
   animation: fadeIn 0.5s
 }
 
+#submit-button {
+  display: inline-block;
+}
+
 .custom-btn{
   /* position: relative;
   right: -600px; */
   background-color: #fff;
+  border: medium solid #fff;
   border-radius: 0.5rem;
   color: #1c1c1c;
   font-size: 1;
