@@ -30,6 +30,7 @@ function searchMovies(searchTerm) {
         const $element = $(element);
         const $image = $element.find('.image .poster img');
         const $title = $element.find('.details .title div a');
+        const $description = $element.find('div.overview p');
 
         //pulled from the part of the title anchor tag that has "/movie/tmdbID"
         const tmdbID = $title.attr('href').match(/movie\/(.*)/)[1];
@@ -37,6 +38,7 @@ function searchMovies(searchTerm) {
         const movie = {
           image: "https://www.themoviedb.org" + $image.attr('src'),
           title: $title.text(),
+          description: $description.text(),
           tmdbID
         };
         movies.push(movie);
