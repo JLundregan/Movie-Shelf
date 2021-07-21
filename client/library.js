@@ -2,10 +2,10 @@ var Datastore = require('nedb'), db = new Datastore({ filename: './client/Files/
 
 let data = [];
 db.find({}, function (err, docs) {
-  console.log(docs);
+  // console.log(docs);
   docs.sort(alphabetize);
   for(var i = 0; i < docs.length; i++){
-    console.log("Here is " + docs[i].title);
+    // console.log("Here is " + docs[i].title);
     makeHTML(docs[i]);
   }
 });
@@ -20,7 +20,6 @@ The functions
 //This gets called on the movie objects to create their respective HTML elements
 //and insert each movie div into the CSS grid
 function makeHTML(movieObject) {
-  console.log('We are in the makeHTML functoin');
   var movie = document.createElement("div");
   document.getElementById('movie-grid').append(movie);
 
@@ -35,9 +34,6 @@ function makeHTML(movieObject) {
   //movie.innerHTML = "<h3>" + movieObject.title + "</h3>"; //Consider showing the title upon hover
 
   //This is to make the movie thumbnail the background of the html element
-  // let imageURL = "images/" + movieObject.thumbnail;
-  // document.getElementById(currentId).style.backgroundImage= "url('" + imageURL + "')";
-  //document.getElementById(currentId).style.backgroundSize = "230px 330px";
   let imageURL = movieObject.poster;
   document.getElementById(currentId).style.backgroundImage = "url('" + imageURL + "')";
   document.getElementById(currentId).style.backgroundSize = "230px 330px";
@@ -57,15 +53,20 @@ function addModal(movId, movObj){
    currentMovieModal.classList.add('movie-modal');
    currentMovieModal.id = movId + "-modal";
 
-   //***Needs potential optimization, cause right now it looks kind of weird***
+
    //This populates the modal with each movie's respective information.
-   currentMovieModal.innerHTML = "<div id='close'><span class='material-icons'>close</span></div><div id='modal-info'><h1>" +
-   movObj.title + "</h1><div class='description'><p>" + movObj.summary +
-   "</p></div><p>Runtime: " + movObj.runTime + "</p><p>Director: " + movObj.director +
-   "</p><p>Released: " +  movObj.year + "</p><p>TMDB user Score: " + movObj.userScore + "</p></div>";
+   // currentMovieModal.innerHTML = "<div id='close'><span class='material-icons'>close</span></div><div id='modal-info'><h1>" +
+   // movObj.title + "</h1><div class='description'><p>" + movObj.summary +
+   // "</p></div><p>Runtime: " + movObj.runTime + "</p><p>Director: " + movObj.director +
+   // "</p><p>Released: " +  movObj.year + "</p><p>TMDB user Score: " + movObj.userScore + "</p></div>";
+   currentMovieModal.innerHTML = `<div id='close'><span class='material-icons'>close</span></div><div id='modal-info'><h1>
+   ${movObj.title}</h1><div class='description'><p>${movObj.summary}</p></div><p>Runtime: ${movObj.runTime}</p>
+   <p>Director: ${movObj.director}</p><p>Released: ${movObj.year}</p><p>TMDB user Score: ${movObj.userScore}</p></div>
+   <div class="remove-div"><span class="material-icons" id="remove-button">remove<span class="fadeIn">Remove from Shelf</span></span></div>`;
+
    document.getElementById('modal-container').prepend(currentMovieModal);
 
-     //This is to create a background with a color equal to the dominant color of the Thumbnail
+   //This is to create a background with a color equal to the dominant color of the Thumbnail
    //Since Color Thief requires an img element, this creates an invisible (because of the 'hidden-image' class)
    //img element from which to extract the dominant color. This color is then used for the modal's
    //'background-color'
@@ -103,6 +104,12 @@ function addModal(movId, movObj){
    //adds the ability to click outside the modal to close it, rather than just the close button
    document.getElementById('black-background').addEventListener('click', function(){
      removeModal(movId);
+   });
+
+   //Adds functionality to "remove from library" button
+   document.getElementById('remove-button').addEventListener('click', function(){
+     db.remove({tmdbID: movObj.tmdbID}, function(err, numDeleted){});
+     window.location.reload();
    });
  }
 
