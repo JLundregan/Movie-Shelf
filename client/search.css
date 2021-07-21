@@ -159,26 +159,26 @@ li {
 
 /* Popup container */
 .popup {
-  position: relative;
-  display: inline-block;
+  position: absolute;
   cursor: pointer;
+  left: -58px;
+  margin-top: 5px;
 }
 
 /* The actual popup (appears on top) */
 .popup .popuptext {
   visibility: hidden;
-  width: 160px;
-  background-color: #fff;
-  color: #555;
+  width: 150px;
+  background-color: black;
+  color: #f2f2f2;
   text-align: center;
   border-radius: 6px;
   padding: 8px 0;
   position: absolute;
   pointer-events: none;
-  z-index: 1;
-  bottom: 125%;
-  left: 50%;
-  margin-left: 80px;
+  /* z-index: 1;
+  top: 110%;
+  left: 275%; */
 }
 
 /* Toggle this class when clicking on the popup container (hide and show the popup) */

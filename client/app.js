@@ -69,9 +69,9 @@ function showResults(results) {
 
     //Now we add the popup, telling the user if it has been added, or if it is already in ibrary
     popup.classList.add('popup');
-    popup.innerHTML = "<span class='popuptext' id='" + movie.tmdbID+ "-myPopup'>Added to Your Library!</span>";
+    popup.innerHTML = "<span class='popuptext' id='" + movie.tmdbID+ "-myPopup'>Added to Your Shelf!</span>";
     li.appendChild(libButton);
-    li.appendChild(popup);
+    libButton.appendChild(popup);
 
     //this adds the functionality to the plus button that will show up on each of the search results
     libButton.addEventListener('click', function(){
@@ -79,7 +79,7 @@ function showResults(results) {
           if(!inLibrary){
             db.insert(mov);
           } else {
-            popup.innerHTML = "<span class='popuptext' id='" + movie.tmdbID+ "-myPopup'>Already in Library</span>";
+            popup.innerHTML = "<span class='popuptext' id='" + movie.tmdbID+ "-myPopup'>Already on Shelf</span>";
           }
           showPopup(mov.tmdbID);
         });
