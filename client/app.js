@@ -31,6 +31,7 @@ function showResults(results) {
   results.forEach(movie => {
     const li = document.createElement('li');
     const img = document.createElement('img');
+    const p = document.createElement('p');
     const libButton = document.createElement('button');
     const popup = document.createElement('div');
 
@@ -47,6 +48,13 @@ function showResults(results) {
     a.href = "./movie.html?tmdbID=" + movie.tmdbID;
     a.classList.add('result-title');
     li.appendChild(a);
+
+    //This was experimental code for adding the description
+    p.innerHTML = movie.description;
+    p.classList.add('result-p');
+    li.appendChild(p);
+
+    //Adds the plus sign button
     libButton.innerHTML = "<span class='material-icons'>add</span>"
     libButton.classList.add("result-lib-button");
     libButton.id = "libButton";

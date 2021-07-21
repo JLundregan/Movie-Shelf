@@ -27,16 +27,23 @@ main {
 .bottom-border {
   border-bottom: medium solid #f2f2f2;
   margin-bottom: 20px;
-  padding-bottom: 20px;
+  padding-bottom: 35px;
 }
 
 .results-show {
   margin-top: 10px;
 }
 
+#search {
+  border: medium solid white;
+  border-radius: 0.5rem;
+  outline-style: none;
+}
+
 #search:focus {
   border: medium solid #d62020;
   border-radius: 0.5rem;
+  box-shadow: none;
   -webkit-animation: fadeIn 0.5s;
   animation: fadeIn 0.5s;
   outline: none;
@@ -78,24 +85,49 @@ li {
   color: black;
   list-style-type: none;
   margin: 15px auto 15px auto;
+  max-height: 161px;
+  position: relative;
   width: 100%;
 }
 
 .result-img{
   color: black;
+  float: left;
   margin:10px 20px 10px 10px;
+  width: 94px;
+  vertical-align: middle;
 }
 
 .result-title{
   color: black;
   font-weight: bold;
-  margin: 10px;
+  font-size: 22px;
+  line-height: 1;
+  position: absolute;
   text-decoration: none;
+  top: 5%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 55%;
 }
 
 .result-title:hover{
   background-color: black;
   color: #f2f2f2;
+}
+
+.result-p {
+  left: 124px;
+  /* margin: 0 10px 10px 10px; */
+  overflow: hidden;
+  position: absolute;
+  top: 30%;
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  word-break: break-word;
+  max-width: 55%;
 }
 
 .result-lib-button{
@@ -105,9 +137,16 @@ li {
   border-radius: 0.5rem;
   background-color: black;
   color: #f2f2f2;
+  display: inline-block;
+  float: right;
   height: 34px;
+  margin-left: 20px;
   outline-style: none;
   padding: 2px;
+  position: absolute;
+  right: 13%;
+  top: 50%;
+  transform: translateY(-50%);
 }
 
 .result-lib-button:hover {
