@@ -14,7 +14,6 @@ body {
   position: relative;
   /* padding: 40px 15px; */
   width: 100%;
-  z-index: -1;
 }
 
 #top-div h1 {
@@ -48,91 +47,7 @@ body {
   color: #1c1c1c;
 }
 
-
-.black-background{
-  background-color: black;
-  height: 100vh;
-  position: fixed;
-  width:100%;
-  z-index: 0;
-  opacity: 0.7;
-}
-
-.noscroll {
-  overflow: hidden;
-}
-
-.show-modal {
-  /* background-color: rgba(0,0,0, 0.85); */
-  overflow: hidden;
-  padding-right: 17px; /*This is just the hardcoded scrollbar width from chrome*/
-}
-
-.movie-modal {
-  background-color: #5a5c5a;
-  border-radius: 5px;
-  box-shadow: 0 4px 20px 5px black;
-  color: white;
-  height: 675px;
-  overflow-y: auto;
-  padding: 30px 30px 0 30px;
-  pointer-events: auto;
-  position: fixed;
-  text-align: center;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  transition: opacity 0.3s ease;
-  width: 550px;
-  z-index: 1;
-}
-
-.movie-modal h1 {
-  font-size: 40px;
-}
-
-.movie-modal p {
-  font-size: 18px;
-  padding: 0px;
-}
-
-.description {
-  font-size: 20px;
-  padding-bottom: 15px;
-  text-align: left;
-}
-
-.modal-background{
-  background-size: cover;
-  background-repeat: no-repeat;
-  bottom: 0px;
-  filter: blur(8px);
-  height: 100%;
-  left: 0px;
-  opacity: 0.3;
-  position: fixed;
-  top: 0px;
-  width: 100%;
-  z-index:-1;
-}
-
-.hidden-image {
-  display: none;
-}
-
-#modal-info {
-  margin-top: 50px;
-}
-
-/* The close button */
-#close {
-  cursor: pointer;
-  height: 24px;
-  pointer-events: auto;
-  position: fixed;
-  width: 28px;
-}
-
+/* The movies and grid */
 #movie-grid {
   display: grid;
   grid-column-gap: 30px;
@@ -157,3 +72,149 @@ body {
   box-shadow: 0 4px 20px 5px white;
   color: black;
 }
+
+/* The modal and all associated elements */
+.black-background{
+  background-color: black;
+  height: 100vh;
+  position: fixed;
+  width:100%;
+  z-index: 1;
+  opacity: 0.7;
+}
+
+.noscroll {
+  overflow: hidden;
+}
+
+.modal-background{
+  background-size: cover;
+  background-repeat: no-repeat;
+  bottom: 0px;
+  filter: blur(8px);
+  height: 100%;
+  left: 0px;
+  opacity: 0.3;
+  position: fixed;
+  top: 0px;
+  width: 100%;
+  z-index:-1;
+}
+
+.hidden-image {
+  display: none;
+}
+
+.show-modal {
+  /* background-color: rgba(0,0,0, 0.85); */
+  overflow: hidden;
+  padding-right: 17px; /*This is just the hardcoded scrollbar width from chrome*/
+}
+
+.movie-modal {
+  background-color: #5a5c5a;
+  border-radius: 5px;
+  box-shadow: 0 4px 20px 5px black;
+  color: white;
+  height: 675px;
+  overflow-y: auto;
+  padding: 30px 30px 0 30px;
+  pointer-events: auto;
+  position: fixed;
+  text-align: center;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  transition: opacity 0.3s ease;
+  width: 550px;
+  z-index: 2;
+}
+
+.movie-modal h1 {
+  font-size: 40px;
+}
+
+.movie-modal p {
+  font-size: 18px;
+  padding: 0px;
+}
+
+.description {
+  font-size: 20px;
+  padding-bottom: 15px;
+  text-align: left;
+}
+
+#modal-info {
+  margin-top: 50px;
+}
+
+/* The close button */
+#close {
+  cursor: pointer;
+  height: 24px;
+  pointer-events: auto;
+  position: fixed;
+  width: 28px;
+}
+
+
+.remove-div{
+  display: flex;
+  justify-content: center;
+}
+
+#remove-button{
+  background-color: white;
+  border-radius: 50%;
+  color: black;
+  cursor: pointer;
+  padding: 5px;
+  position: relative;
+  display: flex;
+  align-items: center;
+  max-width: 34px;
+}
+
+#remove-button:hover{
+  border-radius: 20px;
+  padding-left: 15px;
+  padding-right: 15px;
+  max-width: 300px;
+  transition: max-width 1s;
+  -webkit-transition: max-width 1s;
+}
+
+#remove-button span{
+  display: none;
+  font-size: 16px;
+  font-family: 'Verdana';
+  font-weight: bold;
+  margin-left: 5px;
+  white-space: nowrap;
+  position: relative;
+}
+
+#remove-button:hover span{
+  display: inline;
+  padding-right: 5px;
+  -webkit-animation-duration: 2s;
+  animation-duration: 2s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+@-webkit-keyframes fadeIn {
+           0% {opacity: 0;}
+           100% {opacity: 1;}
+        }
+
+        @keyframes fadeIn {
+           0% {opacity: 0;}
+           100% {opacity: 1;}
+        }
+
+        .fadeIn {
+           -webkit-animation-name: fadeIn;
+           animation-name: fadeIn;
+        }
