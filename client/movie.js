@@ -1,5 +1,9 @@
 const main = document.querySelector('main');
-var Datastore = require('nedb'), db = new Datastore({ filename: './client/Files/data.db', autoload: true });
+var Datastore = require('nedb'),
+  db = new Datastore({
+    filename: './client/Files/data.db',
+    autoload: true
+  });
 
 console.log(window.location.search);
 //Bascially, when the page loads, request the specific movie that you have clicked on
@@ -9,7 +13,7 @@ const tmdbID = window.location.search.match(/tmdbID=(.*)/)[1];
 //This is where I would put the deployed site's URL (1:18:40 in the video)
 const BASE_URL = "https://movie-shelf.vercel.app/";
 
-function getMovie(tmdbID){
+function getMovie(tmdbID) {
   return fetch(`${BASE_URL}movie/${tmdbID}`)
     .then(res => res.json());
 }
@@ -27,14 +31,16 @@ function showMovie(movie) {
 
   //Checks to make sure current movie is not already in library
   let inLibrary = false;
-  db.findOne({tmdbID: movie.tmdbID}, function(err,doc){
-    if(doc){
+  db.findOne({
+    tmdbID: movie.tmdbID
+  }, function(err, doc) {
+    if (doc) {
       inLibrary = true;
     }
   });
 
   popup.classList.add('popup');
-  popup.innerHTML = "<span class='popuptext' id='" + movie.tmdbID+ "-myPopup'>Added to Your Library!</span>";
+  popup.innerHTML = "<span class='popuptext' id='" + movie.tmdbID + "-myPopup'>Added to Your Library!</span>";
   main.appendChild(libButton);
   main.appendChild(popup);
   main.appendChild(section);
@@ -80,11 +86,11 @@ function showMovie(movie) {
     </section>
   `;
 
-  libButton.addEventListener('click', function(){
-    if(!inLibrary){
+  libButton.addEventListener('click', function() {
+    if (!inLibrary) {
       addToLibrary(movie);
     } else {
-      popup.innerHTML = "<span class='popuptext' id='" + movie.tmdbID+ "-myPopup'>Already in Library</span>";
+      popup.innerHTML = "<span class='popuptext' id='" + movie.tmdbID + "-myPopup'>Already in Library</span>";
     }
     showPopup(movie.tmdbID);
   });
@@ -92,7 +98,7 @@ function showMovie(movie) {
 }
 
 
-function addToLibrary(movie){
+function addToLibrary(movie) {
   console.log(db.filename);
   db.insert(movie);
   console.log(`ran addToLibrary function on ${movie.title}`);
@@ -102,10 +108,10 @@ function addToLibrary(movie){
 //   getMovie
 // };
 
-function showPopup(tmdbID){
+function showPopup(tmdbID) {
   var popup = document.getElementById(tmdbID + "-myPopup");
   popup.classList.toggle("show");
-  setTimeout(function () {
+  setTimeout(function() {
     popup.classList.toggle("show");
   }, 2500);
 }

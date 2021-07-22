@@ -1,4 +1,4 @@
-.custom-btn{
+.custom-btn {
   /* position: relative;
   right: -600px; */
   background-color: #fff;
@@ -12,14 +12,12 @@
   text-decoration: none;
 }
 
-.custom-btn:hover{
-  background-color:#1c1c1c;
+.custom-btn:hover {
+  background-color: #1c1c1c;
   border: medium solid #fff;
   border-radius: 0.5rem;
   color: #fff;
 }
-
-
 
 /* Popup container */
 .popup {
@@ -56,7 +54,6 @@
   border-style: solid;
   border-color: #fff transparent transparent transparent;
 } */
-
 /* Toggle this class when clicking on the popup container (hide and show the popup) */
 .popup .show {
   visibility: visible;
@@ -66,11 +63,21 @@
 
 /* Add animation (fade in the popup) */
 @-webkit-keyframes fadeIn {
-  from {opacity: 0;}
-  to {opacity: 1;}
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes fadeIn {
-  from {opacity: 0;}
-  to {opacity:1 ;}
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }

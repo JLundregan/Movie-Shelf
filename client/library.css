@@ -90,13 +90,13 @@ body {
 .modal-background {
   background-size: cover;
   background-repeat: no-repeat;
-  bottom: 0px;
+  bottom: 0;
   filter: blur(8px);
   height: 100%;
-  left: 0px;
+  left: 0;
   opacity: 0.3;
   position: fixed;
-  top: 0px;
+  top: 0;
   width: 100%;
   z-index: -1;
 }
@@ -137,7 +137,7 @@ body {
 
 .movie-modal p {
   font-size: 18px;
-  padding: 0px;
+  padding: 0;
 }
 
 .description {

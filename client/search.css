@@ -53,7 +53,7 @@ main {
   display: inline-block;
 }
 
-.custom-btn{
+.custom-btn {
   /* position: relative;
   right: -600px; */
   background-color: #fff;
@@ -68,8 +68,8 @@ main {
   text-decoration: none;
 }
 
-.custom-btn:hover{
-  background-color:#1c1c1c;
+.custom-btn:hover {
+  background-color: #1c1c1c;
   border: medium solid #fff;
   border-radius: 0.5rem;
   color: #fff;
@@ -90,15 +90,15 @@ li {
   width: 100%;
 }
 
-.result-img{
+.result-img {
   color: black;
   float: left;
-  margin:10px 20px 10px 10px;
+  margin: 10px 20px 10px 10px;
   width: 94px;
   vertical-align: middle;
 }
 
-.result-title{
+.result-title {
   color: black;
   font-weight: bold;
   font-size: 22px;
@@ -112,7 +112,7 @@ li {
   max-width: 55%;
 }
 
-.result-title:hover{
+.result-title:hover {
   background-color: black;
   color: #f2f2f2;
 }
@@ -130,7 +130,7 @@ li {
   max-width: 55%;
 }
 
-.result-lib-button{
+.result-lib-button {
   /* Size of the material icon is 24px, thus height must equal 24 + padding-top + padding-bottom
   to render the icon at its proper size of 24px */
   border: medium solid black;
@@ -190,11 +190,21 @@ li {
 
 /* Add animation (fade in the popup) */
 @-webkit-keyframes fadeIn {
-  from {opacity: 0;}
-  to {opacity: 1;}
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes fadeIn {
-  from {opacity: 0;}
-  to {opacity:1 ;}
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
 }
