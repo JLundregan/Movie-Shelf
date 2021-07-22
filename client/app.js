@@ -69,7 +69,7 @@ function showResults(results) {
 
     //Now we add the popup, telling the user if it has been added, or if it is already in ibrary
     popup.classList.add('popup');
-    popup.innerHTML = "<span class='popuptext' id='" + movie.tmdbID+ "-myPopup'>Added to Your Shelf!</span>";
+    popup.innerHTML = "<span class='popuptext' id='" + movie.tmdbID+ "-myPopup'>Added to Shelf!</span>";
     li.appendChild(libButton);
     libButton.appendChild(popup);
 

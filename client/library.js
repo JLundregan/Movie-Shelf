@@ -78,10 +78,10 @@ function addModal(movId, movObj){
 
    document.getElementById('modal-container').prepend(currentMovieModal);
 
-   //This is to create a background with a color equal to the dominant color of the Thumbnail
-   //Since Color Thief requires an img element, this creates an invisible (because of the 'hidden-image' class)
-   //img element from which to extract the dominant color. This color is then used for the modal's
-   //'background-color'
+   /* This is to create a background with a color equal to the dominant color of the thumbnail.
+   Since Color Thief requires an img element, this creates an invisible (because of the 'hidden-image' class)
+   img element from which to extract the dominant color. This color is then used for the modal's
+   'background-color' */
    let modalBackground = "";
    let dominantColor = "";
    const colorThief = new ColorThief();
@@ -118,7 +118,6 @@ function addModal(movId, movObj){
    //Adds functionality to "remove from library" button
    document.getElementById('remove-button').addEventListener('click', function(){
      let title = movObj.title;
-     // let id = movId;
      db.remove({tmdbID: movObj.tmdbID}, function(err, numDeleted){});
      removeModal(movId);
      showRemovedPopup(title, movId);

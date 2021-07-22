@@ -237,7 +237,7 @@ body {
   background-color: white;
   border-radius: 10px;
   font-weight: bold;
-  position: absolute;
+  position: fixed;
   left: 50%;
   top: 50%;
   transform: translate(-50%, -50%);
