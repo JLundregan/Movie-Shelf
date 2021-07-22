@@ -1,21 +1,33 @@
 var Datastore = require('nedb'), db = new Datastore({ filename: './client/Files/data.db', autoload: true });
 
-let data = [];
-db.find({}, function (err, docs) {
-  // console.log(docs);
-  docs.sort(alphabetize);
-  for(var i = 0; i < docs.length; i++){
-    // console.log("Here is " + docs[i].title);
-    makeHTML(docs[i]);
-  }
-});
-
+// let data = [];
+// db.find({}, function (err, docs) {
+//   // console.log(docs);
+//   docs.sort(alphabetize);
+//   for(var i = 0; i < docs.length; i++){
+//     // console.log("Here is " + docs[i].title);
+//     makeHTML(docs[i]);
+//   }
+// });
+parseDatabase();
 
 /*
 *****************************************************************************
 The functions
 *****************************************************************************
 */
+
+//Loops through the database, calling makeHTML to populate the user's shelf
+function parseDatabase(){
+  db.find({}, function (err, docs) {
+    // console.log(docs);
+    docs.sort(alphabetize);
+    for(var i = 0; i < docs.length; i++){
+      // console.log("Here is " + docs[i].title);
+      makeHTML(docs[i]);
+    }
+  });
+}
 
 //This gets called on the movie objects to create their respective HTML elements
 //and insert each movie div into the CSS grid
@@ -91,10 +103,7 @@ function addModal(movId, movObj){
     });
 
    //This adds a background element before the modal to reduce the opacity of the rest of the page
-   let blackBackground = document.createElement('div');
-   blackBackground.id = 'black-background';
-   blackBackground.classList.add('black-background');
-   document.getElementById('modal-container').prepend(blackBackground);
+   addBlackBackground(document.getElementById('modal-container'), movId)
 
    //adds functionality to the close button
    document.getElementById('close').addEventListener('click', function(){
@@ -102,14 +111,18 @@ function addModal(movId, movObj){
    });
 
    //adds the ability to click outside the modal to close it, rather than just the close button
-   document.getElementById('black-background').addEventListener('click', function(){
-     removeModal(movId);
-   });
+   // document.getElementById('black-background').addEventListener('click', function(){
+   //   removeModal(movId);
+   // });
 
    //Adds functionality to "remove from library" button
    document.getElementById('remove-button').addEventListener('click', function(){
+     let title = movObj.title;
+     // let id = movId;
      db.remove({tmdbID: movObj.tmdbID}, function(err, numDeleted){});
-     window.location.reload();
+     removeModal(movId);
+     showRemovedPopup(title, movId);
+     setTimeout(function() {window.location.reload()}, 1500);
    });
  }
 
@@ -143,4 +156,27 @@ function alphabetize(input1, input2){
     return -1;
   }
   return 0;
+}
+
+//This creates a popup to tell the user that the selected movie has been removed
+function showRemovedPopup(movTitle, movieID){
+ const removedPopup = document.createElement('div');
+ removedPopup.classList.add('removed-popup');
+ removedPopup.textContent = "Successfully removed " + movTitle + " from your Shelf";
+ document.body.append(removedPopup);
+ addBlackBackground(document.getElementById('modal-container'), movieID)
+ setTimeout(function() {document.body.removeChild(removedPopup);}, 2000);
+}
+
+//This adds a background element before the modal to reduce the opacity of the rest of the page
+//Including functionality where clicking this background closes the modal
+function addBlackBackground(container, movieID){
+  let blackBackground = document.createElement('div');
+  blackBackground.id = 'black-background';
+  blackBackground.classList.add('black-background');
+  container.prepend(blackBackground);
+
+  blackBackground.addEventListener('click', function(){
+    removeModal(movieID);
+  });
 }

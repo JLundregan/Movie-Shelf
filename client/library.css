@@ -23,7 +23,7 @@ body {
   vertical-align: middle;
 }
 
-#search-button{
+#search-button {
   /* position: relative;
   right: -600px; */
   background-color: #1c1c1c;
@@ -40,7 +40,7 @@ body {
   transform: translateY(-50%);
 }
 
-#search-button:hover{
+#search-button:hover {
   background-color: #f2f2f2;
   border: medium solid #1c1c1c;
   border-radius: 0.5rem;
@@ -74,11 +74,11 @@ body {
 }
 
 /* The modal and all associated elements */
-.black-background{
+.black-background {
   background-color: black;
   height: 100vh;
   position: fixed;
-  width:100%;
+  width: 100%;
   z-index: 1;
   opacity: 0.7;
 }
@@ -87,7 +87,7 @@ body {
   overflow: hidden;
 }
 
-.modal-background{
+.modal-background {
   background-size: cover;
   background-repeat: no-repeat;
   bottom: 0px;
@@ -98,7 +98,7 @@ body {
   position: fixed;
   top: 0px;
   width: 100%;
-  z-index:-1;
+  z-index: -1;
 }
 
 .hidden-image {
@@ -108,7 +108,8 @@ body {
 .show-modal {
   /* background-color: rgba(0,0,0, 0.85); */
   overflow: hidden;
-  padding-right: 17px; /*This is just the hardcoded scrollbar width from chrome*/
+  padding-right: 17px;
+  /*This is just the hardcoded scrollbar width from chrome*/
 }
 
 .movie-modal {
@@ -158,13 +159,12 @@ body {
   width: 28px;
 }
 
-
-.remove-div{
+.remove-div {
   display: flex;
   justify-content: center;
 }
 
-#remove-button{
+#remove-button {
   background-color: white;
   border-radius: 50%;
   color: black;
@@ -176,7 +176,7 @@ body {
   max-width: 34px;
 }
 
-#remove-button:hover{
+#remove-button:hover {
   border-radius: 20px;
   padding-left: 15px;
   padding-right: 15px;
@@ -185,7 +185,7 @@ body {
   -webkit-transition: max-width 1s;
 }
 
-#remove-button span{
+#remove-button span {
   display: none;
   font-size: 16px;
   font-family: 'Verdana';
@@ -195,7 +195,7 @@ body {
   position: relative;
 }
 
-#remove-button:hover span{
+#remove-button:hover span {
   display: inline;
   padding-right: 5px;
   -webkit-animation-duration: 2s;
@@ -205,16 +205,45 @@ body {
 }
 
 @-webkit-keyframes fadeIn {
-           0% {opacity: 0;}
-           100% {opacity: 1;}
-        }
+  0% {
+    opacity: 0;
+  }
 
-        @keyframes fadeIn {
-           0% {opacity: 0;}
-           100% {opacity: 1;}
-        }
+  100% {
+    opacity: 1;
+  }
+}
 
-        .fadeIn {
-           -webkit-animation-name: fadeIn;
-           animation-name: fadeIn;
-        }
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+
+  100% {
+    opacity: 1;
+  }
+}
+
+.fadeIn {
+  -webkit-animation-name: fadeIn;
+  animation-name: fadeIn;
+}
+
+/* This is the popup telling the user that their movie has been removed */
+.removed-popup {
+  height: 250;
+  width: 300;
+  color: black;
+  background-color: white;
+  border-radius: 10px;
+  font-weight: bold;
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin: auto;
+  padding: 50px 20px;
+  line-height: 1.5;
+  z-index: 5;
+  box-shadow: 0 4px 20px 5px black;
+}
