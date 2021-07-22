@@ -1,3 +1,7 @@
+body {
+  background-color: #1c1c1c;
+}
+
 .custom-btn {
   /* position: relative;
   right: -600px; */
@@ -8,6 +12,7 @@
   font-size: 1.1;
   font-weight: bold;
   line-height: 1.5;
+  margin-bottom: 28px;
   padding: .3rem 1.5rem;
   text-decoration: none;
 }
@@ -18,6 +23,49 @@
   border-radius: 0.5rem;
   color: #fff;
 }
+
+
+h1 {
+  margin-bottom: 40px;
+}
+
+#mov-image {
+  display: inline;
+  margin-right: 20px;
+  background-color: rgba(242,242,242,0.8);;
+  border-radius: 8px;
+  padding: 10px
+}
+
+#meta-info{
+  width: 70%;
+  float: right;
+  background-color: #f2f2f2;
+  border-radius: 8px;
+  box-shadow: 0 4px 20px 5px black;
+  color:black;
+  position: relative;
+  padding: 15px;
+  left: -30px;
+  font-size: 18px;
+}
+
+dt {
+  font-size: 22px;
+  padding-top: 12px;
+}
+
+dd {
+  margin-bottom: 0;
+  padding-top: 12px;
+}
+
+/* .flex-stuff{
+  display: flex;
+  width: 100vw;
+} */
+
+
 
 /* Popup container */
 .popup {

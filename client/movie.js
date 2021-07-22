@@ -76,10 +76,8 @@ function showMovie(movie) {
     <section class="row">
       <h1>${movie.title}</h1>
       <div class="col-sm-12">
-        <img src="${movie.poster}" class="img-fluid"/>
-      </div>
-      <div class="col-sm-12">
-        <dl class="row">
+        <img src="${movie.poster}" class="img-fluid" id="mov-image"/>
+        <dl class="row" id="meta-info">
           ${descriptionHTML}
         </dl>
       </div>
