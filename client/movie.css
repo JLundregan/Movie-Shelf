@@ -38,6 +38,9 @@ h1 {
   padding: 10px;
 }
 
+/* *********************************************** */
+/* The description and associated elements */
+/* *********************************************** */
 #meta-info {
   width: 70%;
   float: right;
@@ -49,6 +52,7 @@ h1 {
   padding: 15px;
   left: -30px;
   font-size: 18px;
+  z-index: 0;
 }
 
 dl {
@@ -59,6 +63,7 @@ dl {
 dt {
   font-size: 22px;
   padding-top: 12px;
+  padding-left: 0;
 }
 
 dd {
@@ -66,12 +71,64 @@ dd {
   border-radius: 3px;
   margin-bottom: 0;
   padding-top: 12px;
+  /* This restricts the description to 4 lines */
+  display: -webkit-box;
+  -webkit-line-clamp: 4;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
 }
 
-@media screen and (max-width: 1100px) {
-  #meta-info {
-    width: 60%;
-  }
+/* This is for the read more popup */
+.black-background {
+  background-color: black;
+  height: 100vh;
+  position: fixed;
+  width: 100%;
+  z-index: 0;
+  opacity: 0.7;
+}
+
+.description-popup {
+  /* height: 250px; */
+  max-width: 5250px;
+  color: black;
+  background-color: white;
+  border-radius: 10px;
+  box-shadow: 0 4px 20px 5px black;
+  font-size: 20px;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin: auto;
+  padding: 50px 40px;
+  line-height: 1.5;
+  z-index: 5;
+  box-shadow: 0 4px 20px 5px black;
+}
+
+#movie-description {
+  cursor: pointer;
+}
+
+#libButton{
+  /* width: 320px; */
+  background-color: black;
+  color: #f2f2f2;
+  font-size: 20px;
+  /* width: 70%; */
+  margin-bottom: 0;
+  margin-top: 15px;
+  padding: 15px;
+  position: relative;
+  /* left: 28.5%; */
+}
+
+#libButton:hover {
+  background-color: #f2f2f2;
+  border: medium solid black;
+  border-radius: 0.5rem;
+  color: black;
 }
 
 @media screen and (max-width: 1000px) {
@@ -86,50 +143,46 @@ dd {
   }
 }
 
-#libButton{
-  width: 320px;
-  margin-top: 10px;
+@media screen and (max-width: 1100px) {
+  #meta-info {
+    width: 60%;
+  }
 }
 
-/* .flex-stuff{
-  display: flex;
-  width: 100vw;
-} */
+/* *********************************************** */
+/* the "added to shelf" popup */
+/* *********************************************** */
 /* Popup container */
 .popup {
-  position: relative;
-  display: inline-block;
-  cursor: pointer;
+  position: absolute;
+  /* display: inline-block; */
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 /* The actual popup (appears on top) */
 .popup .popuptext {
   visibility: hidden;
-  width: 160px;
-  background-color: #fff;
-  color: #555;
+  width: 200px;
+  height: 200px;
+  background-color: white;
+  box-shadow: 0 4px 20px 5px black;
+  color: black;
+  font-size: 20px;
+  font-weight: bold;
   text-align: center;
   border-radius: 6px;
-  padding: 8px 0;
+  padding: 80px 0 0 0;
   position: absolute;
-  pointer-events: none;
-  z-index: 1;
-  bottom: 125%;
   left: 50%;
-  margin-left: 80px;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  pointer-events: none;
+  z-index: 4;
 }
 
-/* Popup arrow */
-/* .popup .popuptext::after {
-  content: "";
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  margin-left: -5px;
-  border-width: 5px;
-  border-style: solid;
-  border-color: #fff transparent transparent transparent;
-} */
+
 /* Toggle this class when clicking on the popup container (hide and show the popup) */
 .popup .show {
   visibility: visible;
@@ -157,3 +210,4 @@ dd {
     opacity: 1;
   }
 }
+/* *********************************************** */
