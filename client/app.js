@@ -2,14 +2,18 @@ const form = document.querySelector('form');
 const searchInput = document.querySelector('input');
 const resultsList = document.querySelector("#results");
 const container = document.querySelector('main');
-var Datastore = require('nedb'), db = new Datastore({ filename: './client/Files/data.db', autoload: true });
+var Datastore = require('nedb'),
+  db = new Datastore({
+    filename: './client/Files/data.db',
+    autoload: true
+  });
 
 //This is where I would put the deployed site's URL (1:18:40 in the video)
 const BASE_URL = "https://movie-shelf.vercel.app/";
 
 form.addEventListener('submit', formSubmitted);
 
-function formSubmitted(event){
+function formSubmitted(event) {
   event.preventDefault();
 
   const searchTerm = searchInput.value;
@@ -18,7 +22,7 @@ function formSubmitted(event){
   //console.log(searchTerm);
 }
 
-function getSearchResults(searchTerm){
+function getSearchResults(searchTerm) {
   resultsList.innerHTML = '';
   //dont forget to delete the slash after BASE_URL
   return fetch(`${BASE_URL}search/${searchTerm}`)
@@ -39,7 +43,7 @@ function showResults(results) {
     li.appendChild(img);
     img.classList.add("result-img");
     img.src = movie.image;
-    img.addEventListener('error', function(){
+    img.addEventListener('error', function() {
       img.src = '../images/imgnotfound.png';
     });
 
@@ -61,43 +65,45 @@ function showResults(results) {
 
     //This checks to see if the movie is already in library
     let inLibrary = false;
-    db.findOne({tmdbID: movie.tmdbID}, function(err,doc){
-      if(doc){
+    db.findOne({
+      tmdbID: movie.tmdbID
+    }, function(err, doc) {
+      if (doc) {
         inLibrary = true;
       }
     });
 
     //Now we add the popup, telling the user if it has been added, or if it is already in ibrary
     popup.classList.add('popup');
-    popup.innerHTML = "<span class='popuptext' id='" + movie.tmdbID+ "-myPopup'>Added to Your Shelf!</span>";
+    popup.innerHTML = "<span class='popuptext' id='" + movie.tmdbID + "-myPopup'>Added to Shelf!</span>";
     li.appendChild(libButton);
     libButton.appendChild(popup);
 
     //this adds the functionality to the plus button that will show up on each of the search results
-    libButton.addEventListener('click', function(){
-        getMovie(movie.tmdbID).then(function(mov) {
-          if(!inLibrary){
-            db.insert(mov);
-          } else {
-            popup.innerHTML = "<span class='popuptext' id='" + movie.tmdbID+ "-myPopup'>Already on Shelf</span>";
-          }
-          showPopup(mov.tmdbID);
-        });
+    libButton.addEventListener('click', function() {
+      getMovie(movie.tmdbID).then(function(mov) {
+        if (!inLibrary) {
+          db.insert(mov);
+        } else {
+          popup.innerHTML = "<span class='popuptext' id='" + movie.tmdbID + "-myPopup'>Already on Shelf</span>";
+        }
+        showPopup(mov.tmdbID);
+      });
     });
 
     resultsList.appendChild(li);
   })
 }
 
-function getMovie(tmdbID){
+function getMovie(tmdbID) {
   return fetch(`${BASE_URL}movie/${tmdbID}`)
     .then(res => res.json());
 }
 
-function showPopup(tmdbID){
+function showPopup(tmdbID) {
   var popup = document.getElementById(tmdbID + "-myPopup");
   popup.classList.toggle("show");
-  setTimeout(function () {
+  setTimeout(function() {
     popup.classList.toggle("show");
   }, 2500);
 }
