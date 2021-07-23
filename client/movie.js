@@ -24,9 +24,8 @@ function showMovie(movie) {
   const libButton = document.createElement('button');
   libButton.id = 'libButton';
   libButton.classList.add('custom-btn');
-  // libButton.classList.add('btn-primary');
   libButton.innerHTML = 'Add to Library';
-  //  <button class="btn btn-primary" id="libraryButton">Add to Library</button>
+
   const popup = document.createElement('div');
 
   //Checks to make sure current movie is not already in library
@@ -41,7 +40,7 @@ function showMovie(movie) {
 
   popup.classList.add('popup');
   popup.innerHTML = "<span class='popuptext' id='" + movie.tmdbID + "-myPopup'>Added to Your Library!</span>";
-  main.appendChild(libButton);
+  // main.appendChild(libButton);
   main.appendChild(popup);
   main.appendChild(section);
 
@@ -80,6 +79,7 @@ function showMovie(movie) {
         <dl class="row" id="meta-info">
           ${descriptionHTML}
         </dl>
+        <button id='libButton' class='custom-btn'>Add to Shelf</button>
       </div>
     </section>
   `;
