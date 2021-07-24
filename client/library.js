@@ -43,7 +43,8 @@ function makeHTML(movieObject) {
   //let currentMovieObject = movieArray.find(mov => mov.tmdbID === movieObject.tmdbID);
 
   //populates the grid with all of the movies in the movieList array
-  let currentId = movieObject.title.replace(/ /g, "-");
+  // let currentId = movieObject.title.replace(/ /g, "-");
+  let currentId = movieObject.tmdbID;
   movie.id = currentId;
   movie.classList.add("movie-entry");
   movie.classList.add("grid-item");
@@ -86,15 +87,13 @@ function addModal(movId, movObj) {
   Since Color Thief requires an img element, this creates an invisible (because of the 'hidden-image' class)
   img element from which to extract the dominant color. This color is then used for the modal's
   'background-color' */
-  let modalBackground = "";
-  let dominantColor = "";
   const colorThief = new ColorThief();
   let hiddenImage = new Image();
   hiddenImage.classList.add('hidden-image');
   hiddenImage.src = movObj.poster;
   hiddenImage.addEventListener('load', function() {
-    dominantColor = colorThief.getColor(hiddenImage);
-    modalBackground = document.createElement('div');
+    let dominantColor = colorThief.getColor(hiddenImage);
+    let modalBackground = document.createElement('div');
 
     //this will basically be a pseudo element used to make the modal background the
     //blurred thumbnail image of the respective movie, where the underlying color is
@@ -169,7 +168,7 @@ function alphabetize(input1, input2) {
 function showRemovedPopup(movTitle, movieID) {
   const removedPopup = document.createElement('div');
   removedPopup.classList.add('removed-popup');
-  removedPopup.textContent = "Successfully removed " + movTitle + " from your Shelf";
+  removedPopup.textContent = "Removed " + movTitle + " from your Shelf";
   document.body.append(removedPopup);
   addBlackBackground(document.getElementById('modal-container'), movieID)
   setTimeout(function() {

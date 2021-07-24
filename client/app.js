@@ -84,6 +84,7 @@ function showResults(results) {
       getMovie(movie.tmdbID).then(function(mov) {
         if (!inLibrary) {
           db.insert(mov);
+          inLibrary = true;
         } else {
           popup.innerHTML = "<span class='popuptext' id='" + movie.tmdbID + "-myPopup'>Already on Shelf</span>";
         }
