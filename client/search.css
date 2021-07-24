@@ -7,6 +7,11 @@ main {
   margin-top: 10em;
 }
 
+form {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+
 .search-bar-container {
   box-shadow: 0 2px 15px 2px #f2f2f2;
   padding: 40px 15px;
@@ -16,14 +21,16 @@ main {
 
 #search-label {
   color: white;
+  font-family: "Helvetica";
   font-size: 40px;
   font-weight: bold;
   padding-bottom: 10px;
 }
 
-/* #search {
-  width: 70%;
-} */
+#search {
+  font-family: "Courier New";
+}
+
 .bottom-border {
   border-bottom: medium solid #f2f2f2;
   margin-bottom: 20px;
@@ -60,6 +67,7 @@ main {
   border: medium solid #fff;
   border-radius: 0.5rem;
   color: #1c1c1c;
+  font-family: "Courier New";
   font-size: 1;
   font-weight: bold;
   line-height: 1.5;
