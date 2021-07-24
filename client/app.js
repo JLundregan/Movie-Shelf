@@ -32,6 +32,15 @@ function getSearchResults(searchTerm) {
 function showResults(results) {
   container.classList.add('results-show');
   form.classList.add('bottom-border');
+
+  if(results.length == 0){
+    const li = document.createElement('li');
+    li.innerHTML = "<p class='no-results-text'>No Results<br>(Make sure everything is spelled correctly)</p>";
+    //li.classList.add('no-results-text');
+    resultsList.appendChild(li);
+    return;
+  }
+
   results.forEach(movie => {
     const li = document.createElement('li');
     const img = document.createElement('img');
