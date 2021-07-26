@@ -13,18 +13,23 @@
 
 <body>
   <div id="modal-container">
-    <div id="top-div">
-      <h1>Welcome to your Shelf</h1>
-      <a href="./index.html" type="button" id="search-button">Find Movies</a>
+    
+    <!-- The top section -->
+    <div class="heading">
+      <div id="top-div">
+        <h1>Welcome to your Shelf</h1>
+        <a href="./index.html" type="button" class="custom-btn" id="search-button">Find Movies</a>
+      </div>
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link active" href="./library.html">Movies</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" href="./showlibrary.html">Series</a>
+        </li>
+      </ul>
     </div>
-    <ul class="nav nav-tabs">
-      <li class="nav-item">
-        <a class="nav-link" href="./library.html">Movies</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="./showlibrary.html">Series</a>
-      </li>
-    </ul>
+
     <div id="movie-grid">
     </div>
     <!-- Back to top button -->

@@ -54,6 +54,7 @@ function showResults(results) {
   //This handles cases where there are no results
   if(results.length == 0){
     const li = document.createElement('li');
+    li.classList.add("result-li");
     li.innerHTML = "<p class='no-results-text'>No Results<br>(Make sure everything is spelled correctly)</p>";
     //li.classList.add('no-results-text');
     resultsList.appendChild(li);

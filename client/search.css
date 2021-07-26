@@ -39,31 +39,32 @@ The scroll bar
 /* *******************************************
 The header div
 ******************************************* */
-
-#top-div {
+.heading {
   background-color: #f2f2f2;
   box-shadow: 0 5px 15px 2px black;
   color: black;
+}
+
+#top-div {
+  background-color: #f2f2f2;
+  color: black;
   position: relative;
   width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-content: center;
+  align-items: center;
+  padding: 40px 8.2%;
 }
 
 #top-div h1 {
   color: black;
-  display: inline-block;
+  /* display: inline-block; */
   font-family: "Courier New";
   font-weight: bold;
-  padding: 40px 0 40px 8.2%;
-  vertical-align: middle;
+  /* padding: 40px 0 40px 8.2%;
+  vertical-align: middle; */
 }
-
-/* .shrink-div{
-  padding: 15px 0 15px 8.2%;
-}
-
-.expand-div{
-  padding: 40px 0 40px 8.2%;
-} */
 
 #shelf-button{
   background-color: #1c1c1c;
@@ -72,12 +73,11 @@ The header div
   font-family: "Courier New";
   font-size: 16px;
   margin-top: 0;
-  margin-right: 17px;
-  position: absolute;
-  right: 8.2%;
+  /* margin-right: 17px; */
+  /* margin-right: 34.25px; */
+  margin-right: 2.141rem;
+  text-align: center;
   text-decoration: none;
-  top: 50%;
-  transform: translateY(-50%);
 }
 
 #shelf-button:hover {
@@ -85,6 +85,31 @@ The header div
   border: medium solid #1c1c1c;
   border-radius: 0.5rem;
   color: #1c1c1c;
+}
+
+/* *******************************************
+The movie/series  navbar
+******************************************* */
+.nav {
+  justify-content: flex-end;
+  background-color: #1c1c1c;
+}
+
+.nav-tabs .nav-link{
+  background-color: #1c1c1c;
+  border-radius: 0 0 0.3rem 0.3rem;
+  color: #f2f2f2;
+  font-family: "Courier New";
+  font-weight: bold;
+}
+
+
+.nav-tabs .nav-link.active {
+  background-color: #f2f2f2;
+  border-color: #f2f2f2;
+  color: #1c1c1c;
+  font-family: "Courier New";
+  font-weight: bold;
 }
 
 /* *******************************************
