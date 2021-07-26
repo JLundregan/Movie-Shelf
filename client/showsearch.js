@@ -6,7 +6,7 @@ const searchBarContainer = document.getElementById('search-bar-container');
 // const topDivHeader = document.querySelector('#top-div h1');
 var Datastore = require('nedb'),
   db = new Datastore({
-    filename: './client/Files/data.db',
+    filename: './client/Files/series.db',
     autoload: true
   });
 
@@ -41,7 +41,7 @@ function formSubmitted(event) {
 function getSearchResults(searchTerm) {
   resultsList.innerHTML = '';
   //dont forget to delete the slash after BASE_URL
-  return fetch(`${BASE_URL}search/${searchTerm}`)
+  return fetch(`${BASE_URL}searchtv/${searchTerm}`)
     .then(res => res.json())
 }
 
@@ -60,7 +60,7 @@ function showResults(results) {
     return;
   }
 
-  results.forEach(movie => {
+  results.forEach(show => {
     const li = document.createElement('li');
     const img = document.createElement('img');
     const p = document.createElement('p');
@@ -72,19 +72,19 @@ function showResults(results) {
     //Adding the image, title, and add to library button to each result
     li.appendChild(img);
     img.classList.add("result-img");
-    img.src = movie.image;
+    img.src = show.image;
     img.addEventListener('error', function() {
       img.src = '../images/imgnotfound.png';
     });
 
     const a = document.createElement('a');
-    a.textContent = movie.title;
-    a.href = "./movie.html?tmdbID=" + movie.tmdbID;
+    a.textContent = show.title;
+    a.href = "./show.html?tmdbID=" + show.tmdbID;
     a.classList.add('result-title');
     li.appendChild(a);
 
     //This was experimental code for adding the description
-    p.innerHTML = movie.description;
+    p.innerHTML = show.description;
     p.classList.add('result-p');
     li.appendChild(p);
 
@@ -93,10 +93,10 @@ function showResults(results) {
     libButton.classList.add("result-lib-button");
     libButton.id = "libButton";
 
-    //This checks to see if the movie is already in library
+    //This checks to see if the show is already in library
     let inLibrary = false;
     db.findOne({
-      tmdbID: movie.tmdbID
+      tmdbID: show.tmdbID
     }, function(err, doc) {
       if (doc) {
         inLibrary = true;
@@ -105,20 +105,20 @@ function showResults(results) {
 
     //Now we add the popup, telling the user if it has been added, or if it is already in ibrary
     popup.classList.add('popup');
-    popup.innerHTML = "<span class='popuptext' id='" + movie.tmdbID + "-myPopup'>Added to Shelf!</span>";
+    popup.innerHTML = "<span class='popuptext' id='" + show.tmdbID + "-myPopup'>Added to Shelf!</span>";
     li.appendChild(libButton);
     libButton.appendChild(popup);
 
     //this adds the functionality to the plus button that will show up on each of the search results
     libButton.addEventListener('click', function() {
-      getMovie(movie.tmdbID).then(function(mov) {
+      getShow(show.tmdbID).then(function(showresult) {
         if (!inLibrary) {
-          db.insert(mov);
+          db.insert(showresult);
           inLibrary = true;
         } else {
-          popup.innerHTML = "<span class='popuptext' id='" + movie.tmdbID + "-myPopup'>Already on Shelf</span>";
+          popup.innerHTML = "<span class='popuptext' id='" + show.tmdbID + "-myPopup'>Already on Shelf</span>";
         }
-        showPopup(mov.tmdbID);
+        showPopup(showresult.tmdbID);
       });
     });
 
@@ -131,8 +131,8 @@ function showResults(results) {
     });
 }
 
-function getMovie(tmdbID) {
-  return fetch(`${BASE_URL}movie/${tmdbID}`)
+function getShow(tmdbID) {
+  return fetch(`${BASE_URL}show/${tmdbID}`)
     .then(res => res.json());
 }
 
