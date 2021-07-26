@@ -161,7 +161,7 @@ The search bar
 }
 
 /* The results of the search */
-li {
+li.result-li{
   /* border: medium solid #f2f2f2;
   border-radius: 8px; */
   background-color: #f2f2f2;

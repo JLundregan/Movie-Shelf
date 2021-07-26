@@ -30,6 +30,25 @@ app.get('/movie/:tmdbID', (req, res) => {
 });
 
 
+//For searching series
+app.get('/searchtv/:title', (req, res) => {
+  scraper
+  .searchShows(req.params.title)
+  .then(shows => {
+    res.json(shows);
+  });
+});
+
+//This is to scrape series
+app.get('/show/:tmdbID', (req, res) => {
+  scraper
+  .getShow(req.params.tmdbID)
+  .then(show => {
+    res.json(show);
+  });
+});
+
+
 const port = process.env.PORT || 3000;
 app.listen(port, () => {
   console.log(`Listening on ${port}`);
