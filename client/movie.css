@@ -2,6 +2,10 @@ body {
   background-color: #1c1c1c;
 }
 
+main {
+  padding-top: 2em;
+}
+
 .custom-btn {
   /* position: relative;
   right: -600px; */
@@ -11,6 +15,7 @@ body {
   color: #1c1c1c;
   font-size: 1.1;
   font-weight: bold;
+  font-family: "Courier New";
   line-height: 1.5;
   margin-bottom: 28px;
   margin-right: 10px;
@@ -84,7 +89,7 @@ dd {
   height: 100vh;
   position: fixed;
   width: 100%;
-  z-index: 0;
+  /* z-index: 0; */
   opacity: 0.7;
 }
 

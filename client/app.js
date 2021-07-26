@@ -2,6 +2,8 @@ const form = document.querySelector('form');
 const searchInput = document.querySelector('input');
 const resultsList = document.querySelector("#results");
 const container = document.querySelector('main');
+const searchBarContainer = document.getElementById('search-bar-container');
+// const topDivHeader = document.querySelector('#top-div h1');
 var Datastore = require('nedb'),
   db = new Datastore({
     filename: './client/Files/data.db',
@@ -10,6 +12,20 @@ var Datastore = require('nedb'),
 
 //This is where I would put the deployed site's URL (1:18:40 in the video)
 const BASE_URL = "https://movie-shelf.vercel.app/";
+
+
+//Get the button
+let scrollbutton = document.getElementById("btn-back-to-top");
+
+// When the user scrolls down 20px from the top of the document, show the button
+window.onscroll = function () {
+  scrollFunction();
+};
+
+// When the user clicks on the button, scroll to the top of the document
+scrollbutton.addEventListener("click", backToTop);
+
+
 
 form.addEventListener('submit', formSubmitted);
 
@@ -30,8 +46,10 @@ function getSearchResults(searchTerm) {
 }
 
 function showResults(results) {
-  container.classList.add('results-show');
+  // container.classList.add('results-show');
   form.classList.add('bottom-border');
+  // topDivHeader.classList.remove('expand-div');
+  // topDivHeader.classList.add('shrink-div');
 
   if(results.length == 0){
     const li = document.createElement('li');
@@ -103,6 +121,11 @@ function showResults(results) {
 
     resultsList.appendChild(li);
   })
+    window.scrollTo({
+      top: 234.8,
+      left: 0,
+      behavior: 'smooth'
+    });
 }
 
 function getMovie(tmdbID) {
@@ -116,4 +139,22 @@ function showPopup(tmdbID) {
   setTimeout(function() {
     popup.classList.toggle("show");
   }, 2500);
+}
+
+//The next two have to do with the scroll button that scrolls the page to the top
+//Once the arrow button (scrollButton) is clicked
+function scrollFunction() {
+  if (
+    document.body.scrollTop > 20 ||
+    document.documentElement.scrollTop > 20
+  ) {
+    scrollbutton.style.display = "block";
+  } else {
+    scrollbutton.style.display = "none";
+  }
+}
+
+function backToTop() {
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
 }
