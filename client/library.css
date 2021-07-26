@@ -7,6 +7,32 @@ body {
   margin: 0;
 }
 
+/* *******************************************
+The scroll bar
+******************************************* */
+::-webkit-scrollbar{
+  background-color: #1c1c1c;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  background-color: #1c1c1c;
+  border-radius: 10px;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background-color: #f2f2f2;
+  border-radius: 10px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+  background-color: #e1e6ed;
+}
+
+/* *******************************************
+The top banner
+******************************************* */
 #top-div {
   background-color: #f2f2f2;
   box-shadow: 0 5px 15px 2px black;
@@ -48,7 +74,9 @@ body {
   color: #1c1c1c;
 }
 
-/* The movies and grid */
+/* *******************************************
+The movies and grid
+******************************************* */
 #movie-grid {
   display: grid;
   grid-column-gap: 30px;
@@ -72,22 +100,6 @@ body {
   background-color: white;
   box-shadow: 0 4px 20px 5px white;
   color: black;
-}
-
-/* The modal and all associated elements */
-.black-background {
-  background-color: black;
-  height: 100vh;
-  position: fixed;
-  width: 100%;
-  z-index: 1;
-  opacity: 0.7;
-  -webkit-animation: fadeIn7 1s;
-  animation: fadeIn7 1s;
-}
-
-.noscroll {
-  overflow: hidden;
 }
 
 
@@ -173,6 +185,7 @@ The Modal and associated elements
   width: 28px;
 }
 
+
 .remove-div {
   display: flex;
   justify-content: center;
@@ -219,6 +232,60 @@ The Modal and associated elements
   animation-duration: 2s;
   -webkit-animation-fill-mode: both;
   animation-fill-mode: both;
+}
+
+/* *******************************************
+The "associated elements"
+******************************************* */
+.black-background {
+  background-color: black;
+  height: 100vh;
+  position: fixed;
+  width: 100%;
+  z-index: 1;
+  opacity: 0.7;
+  -webkit-animation: fadeIn7 1s;
+  animation: fadeIn7 1s;
+}
+
+.noscroll {
+  overflow: hidden;
+}
+
+/*****************************************************
+The popup telling the user that their movie has been removed
+**************************************************** */
+.removed-popup {
+  height: 250;
+  width: 300;
+  color: black;
+  background-color: white;
+  border-radius: 10px;
+  font-weight: bold;
+  position: fixed;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  margin: auto;
+  padding: 50px 20px;
+  line-height: 1.5;
+  z-index: 5;
+  box-shadow: 0 4px 20px 5px black;
+  -webkit-animation: fadeIn 1s;
+  animation: fadeIn 1s;
+}
+
+/* ***********************************
+The "Scroll to top" button
+*********************************** */
+#btn-back-to-top{
+  border-radius: 20px;
+  bottom: 20px;
+  background-color: #f2f2f2;
+  color: black;
+  display: none;
+  position: fixed;
+  right: 20px;
 }
 
 /* ***********************************
@@ -272,24 +339,4 @@ Animations
 .fadeIn7 {
   -webkit-animation-name: fadeIn;
   animation-name: fadeIn;
-}
-
-/* **************************************************** */
-/* This is the popup telling the user that their movie has been removed */
-.removed-popup {
-  height: 250;
-  width: 300;
-  color: black;
-  background-color: white;
-  border-radius: 10px;
-  font-weight: bold;
-  position: fixed;
-  left: 50%;
-  top: 50%;
-  transform: translate(-50%, -50%);
-  margin: auto;
-  padding: 50px 20px;
-  line-height: 1.5;
-  z-index: 5;
-  box-shadow: 0 4px 20px 5px black;
 }

@@ -21,13 +21,6 @@ function getMovie(tmdbID) {
 function showMovie(movie) {
   const section = document.createElement('section');
 
-  // const libButton = document.createElement('button');
-  // libButton.id = 'libButton';
-  // libButton.classList.add('custom-btn');
-  // libButton.innerHTML = 'Add to Library';
-
-
-
   //Checks to make sure current movie is not already in library
   let inLibrary = false;
   db.findOne({
@@ -41,7 +34,6 @@ function showMovie(movie) {
   const popup = document.createElement('div');
   popup.classList.add('popup');
   popup.innerHTML = "<span class='popuptext' id='" + movie.tmdbID + "-myPopup'>Added to Shelf!</span>";
-  // main.appendChild(libButton);
   document.body.appendChild(popup);
   main.appendChild(section);
 
