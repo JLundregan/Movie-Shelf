@@ -108,7 +108,7 @@ function addModal(showId, showObj) {
     //the image's dominant color
     modalBackground.classList.add('modal-background');
     modalBackground.id = 'modal-background';
-    modalBackground.style.backgroundColor = "rgb(" + dominantColor + ")";
+    modalBackground.style.height = currentShowModal.scrollHeight + "px";
     modalBackground.style.backgroundImage = "url('" + showObj.poster + "')";
     currentShowModal.prepend(modalBackground);
   });

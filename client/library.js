@@ -4,15 +4,7 @@ var Datastore = require('nedb'),
     autoload: true
   });
 
-// let data = [];
-// db.find({}, function (err, docs) {
-//   // console.log(docs);
-//   docs.sort(alphabetize);
-//   for(var i = 0; i < docs.length; i++){
-//     // console.log("Here is " + docs[i].title);
-//     makeHTML(docs[i]);
-//   }
-// });
+
 parseDatabase();
 
 //Get the button
@@ -110,11 +102,21 @@ function addModal(movId, movObj) {
     //this will basically be a pseudo element used to make the modal background the
     //blurred thumbnail image of the respective movie, where the underlying color is
     //the image's dominant color
+
+    //let modalColor = document.createElement('div');
+    // modalColor.style.backgroundColor = "rgb(" + dominantColor + ")";
+    // console.log(currentMovieModal.scrollHeight);
+    // modalColor.style.height = currentMovieModal.scrollHeight + "px";
+    // modalColor.classList.add('modal-background');
+    // modalColor.classList.add('modal-color');
+
     modalBackground.classList.add('modal-background');
     modalBackground.id = 'modal-background';
-    modalBackground.style.backgroundColor = "rgb(" + dominantColor + ")";
+    // modalBackground.style.backgroundColor = "rgb(" + dominantColor + ")";
     modalBackground.style.backgroundImage = "url('" + movObj.poster + "')";
+    modalBackground.style.height = currentMovieModal.scrollHeight + "px";
     currentMovieModal.prepend(modalBackground);
+    // currentMovieModal.prepend(modalColor);
   });
 
   //This adds a background element before the modal to reduce the opacity of the rest of the page

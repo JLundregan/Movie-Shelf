@@ -40,11 +40,6 @@ The top banner
 }
 
 #top-div {
-  /* background-color: #f2f2f2;
-  box-shadow: 0 5px 15px 2px black;
-  color: black;
-  position: relative;
-  width: 100%; */
   background-color: #f2f2f2;
   color: black;
   position: relative;
@@ -57,35 +52,18 @@ The top banner
 }
 
 #top-div h1 {
-  /* color: black;
-  display: inline-block;
-  font-family: "Courier New";
-  font-weight: bold;
-  padding: 40px 0 40px 8.2%;
-  vertical-align: middle; */
   color: black;
   font-family: "Courier New";
   font-weight: bold;
 }
 
 #search-button {
-  /* background-color: #1c1c1c;
-  border-radius: 0.5rem;
-  color: #f2f2f2;
-  font-family: "Courier New";
-  font-size: 1;
-  font-weight: bold;
-  line-height: 1.5;
-  padding: .375rem 1rem;
-  right: 8.2%;
-  text-decoration: none; */
   background-color: #1c1c1c;
   border-radius: 0.5rem;
   color: #f2f2f2;
   font-family: "Courier New";
   font-size: 16px;
   margin-top: 0;
-  /* right: 8.2%; */
   text-align: center;
   text-decoration: none;
 }
@@ -98,8 +76,6 @@ The top banner
 }
 
 .custom-btn {
-  /* position: relative;
-  right: -600px; */
   background-color: #fff;
   border: medium solid #fff;
   border-radius: 0.5rem;
@@ -137,7 +113,6 @@ The movie/series  navbar
   padding-left: 32.5px;
   padding-right: 32.5px;
 }
-
 
 .nav-tabs .nav-link.active {
   background-color: #f2f2f2;
@@ -196,7 +171,7 @@ The Modal and associated elements
   background-repeat: no-repeat;
   bottom: 0;
   filter: blur(8px);
-  height: 100%;
+  /* height: 100%; */
   left: 0;
   opacity: 0.3;
   position: fixed;
@@ -204,6 +179,7 @@ The Modal and associated elements
   width: 100%;
   z-index: -1;
 }
+
 
 .hidden-image {
   display: none;
@@ -252,7 +228,6 @@ The Modal and associated elements
   border-bottom: medium solid #555;
   border-top: medium solid #555;
   font-size: 20px;
-  /* padding-bottom: 15px; */
   padding-top: 0;
   text-align: left;
 }
@@ -283,7 +258,6 @@ The Modal and associated elements
   border-radius: 50%;
   color: black;
   cursor: pointer;
-  /* margin-bottom: 40px; */
   padding: 5px;
   position: relative;
   display: flex;
