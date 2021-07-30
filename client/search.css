@@ -215,6 +215,7 @@ li.result-li{
 
 .result-img {
   color: black;
+  cursor: pointer;
   float: left;
   margin: 10px 20px 10px 10px;
   width: 94px;
@@ -241,6 +242,7 @@ li.result-li{
 }
 
 .result-p {
+  cursor: pointer;
   left: 124px;
   /* margin: 0 10px 10px 10px; */
   overflow: hidden;

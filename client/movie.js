@@ -19,6 +19,7 @@ function getMovie(tmdbID) {
 }
 
 function showMovie(movie) {
+  const backButton = document.getElementById('back-button');
   const section = document.createElement('section');
 
   //Checks to make sure current movie is not already in library
@@ -58,12 +59,16 @@ function showMovie(movie) {
   }];
 
   const descriptionHTML = properties.reduce((html, property) => {
-
     html += `
       <dt class="col-sm-3">${property.title}</dt>
       <dd class="col-sm-9">${movie[property.property]}</dd>`;
     return html;
   }, '');
+
+  //This replaces the default undefined image with the better undefined image
+  if (movie.poster == "https://www.themoviedb.orgundefined"){
+    movie.poster = '../images/imgnotfound.png'
+  }
 
   section.outerHTML = `
     <section class="row">

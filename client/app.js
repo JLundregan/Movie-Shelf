@@ -3,7 +3,7 @@ const searchInput = document.querySelector('input');
 const resultsList = document.querySelector("#results");
 const container = document.querySelector('main');
 const searchBarContainer = document.getElementById('search-bar-container');
-// const topDivHeader = document.querySelector('#top-div h1');
+
 var Datastore = require('nedb'),
   db = new Datastore({
     filename: './client/Files/data.db',
@@ -26,8 +26,24 @@ window.onscroll = function () {
 scrollbutton.addEventListener("click", backToTop);
 
 
+//This event listener clears the 'last search' from localStorage, allowing for a new search
+searchInput.addEventListener("click", function(){
+  //console.log('localStorage starts out as: ' + localStorage.getItem("last search"));
+  localStorage.clear();
+  //console.log('localStorage is now: ' + localStorage.getItem("last search"));
+  form.addEventListener('submit', formSubmitted);
+})
 
-form.addEventListener('submit', formSubmitted);
+//This covers the case when clicking "search" from the movie page.
+//If there is a search in localStorage, this pulls from that. Otherwise,
+//just default to normal search page behavior.
+if(localStorage.hasOwnProperty('last search')){
+  getSearchResults(localStorage.getItem("last search"))
+    .then(showResults);
+} else {
+  form.addEventListener('submit', formSubmitted);
+}
+// form.addEventListener('submit', formSubmitted);
 
 function formSubmitted(event) {
   event.preventDefault();
@@ -35,7 +51,6 @@ function formSubmitted(event) {
   const searchTerm = searchInput.value;
   getSearchResults(searchTerm)
     .then(showResults);
-  //console.log(searchTerm);
 }
 
 function getSearchResults(searchTerm) {
@@ -48,15 +63,12 @@ function getSearchResults(searchTerm) {
 function showResults(results) {
   // container.classList.add('results-show');
   form.classList.add('bottom-border');
-  // topDivHeader.classList.remove('expand-div');
-  // topDivHeader.classList.add('shrink-div');
 
   //This handles cases where there are no results
   if(results.length == 0){
     const li = document.createElement('li');
     li.classList.add("result-li");
     li.innerHTML = "<p class='no-results-text'>No Results<br>(Make sure everything is spelled correctly)</p>";
-    //li.classList.add('no-results-text');
     resultsList.appendChild(li);
     return;
   }
@@ -79,6 +91,14 @@ function showResults(results) {
     });
 
     const a = document.createElement('a');
+    //add event listener to the 'a,' adding movie to local storage
+    a.addEventListener('click', function(){
+      if(!localStorage.hasOwnProperty("last search")){
+        localStorage.setItem("last search", searchInput.value);
+      }
+      localStorage.removeItem('scrollPosition');
+      localStorage.setItem('scrollPosition', document.documentElement.scrollTop);
+    })
     a.textContent = movie.title;
     a.href = "./movie.html?tmdbID=" + movie.tmdbID;
     a.classList.add('result-title');
@@ -123,12 +143,40 @@ function showResults(results) {
       });
     });
 
+    //adds ability to click poster or description to go to movie info page
+    img.addEventListener('click', function(){
+      if(!localStorage.hasOwnProperty("last search")){
+        localStorage.setItem("last search", searchInput.value);
+      }
+      localStorage.removeItem('scrollPosition');
+      localStorage.setItem('scrollPosition', document.documentElement.scrollTop);
+      window.location.href = "./movie.html?tmdbID=" + movie.tmdbID;;
+    })
+    p.addEventListener('click', function(){
+      if(!localStorage.hasOwnProperty("last search")){
+        localStorage.setItem("last search", searchInput.value);
+      }
+      localStorage.removeItem('scrollPosition');
+      localStorage.setItem('scrollPosition', document.documentElement.scrollTop);
+      window.location.href = "./movie.html?tmdbID=" + movie.tmdbID;;
+    })
+    //add event listener to a adding movie to local storage
+
     resultsList.appendChild(li);
   })
+
+    //This checks to see how the far the user has scrolled down on the page, and returns them
+    //to that position once they go back to the search page from the movie. If they
+    //have not scrolled, the top defaults to 276.8, the top of the element that contains the search bar
+    let topPos = 276.8;
+    if(localStorage.hasOwnProperty('scrollPosition')){
+      topPos = localStorage.getItem('scrollPosition')
+    }
+
     window.scrollTo({
-      top: 276.8,
+      top: topPos,
       left: 0,
-      behavior: 'smooth'
+      behavior: 'auto'
     });
 }
 
@@ -161,4 +209,10 @@ function scrollFunction() {
 function backToTop() {
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
+}
+
+//I made this function exclusively so I could give the navbar "onclick" attributes in the HTML,
+//rather than writing event listeners in the js file here
+function clearStorage(){
+  localStorage.clear();
 }

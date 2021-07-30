@@ -25,9 +25,25 @@ window.onscroll = function () {
 // When the user clicks on the button, scroll to the top of the document
 scrollbutton.addEventListener("click", backToTop);
 
+searchInput.addEventListener("click", function(){
+  //console.log('localStorage starts out as: ' + localStorage.getItem("last search"));
+  localStorage.clear();
+  //console.log('localStorage is now: ' + localStorage.getItem("last search"));
+  form.addEventListener('submit', formSubmitted);
+})
 
+//This covers the case when clicking "search" from the movie page.
+//If there is a search in localStorage, this pulls from that. Otherwise,
+//just default to normal search page behavior.
+if(localStorage.hasOwnProperty('last search')){
+  getSearchResults(localStorage.getItem("last search"))
+    .then(showResults);
+} else {
+  console.log('we have reached the else statement for form submit event');
+  form.addEventListener('submit', formSubmitted);
+}
 
-form.addEventListener('submit', formSubmitted);
+// form.addEventListener('submit', formSubmitted);
 
 function formSubmitted(event) {
   event.preventDefault();
@@ -79,6 +95,13 @@ function showResults(results) {
     });
 
     const a = document.createElement('a');
+    a.addEventListener('click', function(){
+      if(!localStorage.hasOwnProperty('last search')){
+        localStorage.setItem("last search", searchInput.value);
+      }
+      localStorage.removeItem('scrollPosition');
+      localStorage.setItem('scrollPosition', document.documentElement.scrollTop);
+    })
     a.textContent = show.title;
     a.href = "./show.html?tmdbID=" + show.tmdbID;
     a.classList.add('result-title');
@@ -123,13 +146,40 @@ function showResults(results) {
       });
     });
 
+    //adds ability to click poster or description to go to movie info page
+    img.addEventListener('click', function(){
+      if(!localStorage.hasOwnProperty('last search')){
+        localStorage.setItem("last search", searchInput.value);
+      }
+      localStorage.removeItem('scrollPosition');
+      localStorage.setItem('scrollPosition', document.documentElement.scrollTop);
+      window.location.href = "./show.html?tmdbID=" + show.tmdbID;;
+    })
+    p.addEventListener('click', function(){
+      if(!localStorage.hasOwnProperty('last search')){
+        localStorage.setItem("last search", searchInput.value);
+      }
+      localStorage.removeItem('scrollPosition');
+      localStorage.setItem('scrollPosition', document.documentElement.scrollTop);
+      window.location.href = "./show.html?tmdbID=" + show.tmdbID;;
+    })
+
     resultsList.appendChild(li);
   })
-    window.scrollTo({
-      top: 276.8,
-      left: 0,
-      behavior: 'smooth'
-    });
+
+  //This checks to see how the far the user has scrolled down on the page, and returns them
+  //to that position once they go back to the search page from the movie. If they
+  //have not scrolled, the top defaults to 276.8
+  let topPos = 276.8;
+  if(localStorage.hasOwnProperty('scrollPosition')){
+    topPos = localStorage.getItem('scrollPosition')
+  }
+
+  window.scrollTo({
+    top: topPos,
+    left: 0,
+    behavior: 'auto'
+  });
 }
 
 function getShow(tmdbID) {
@@ -161,4 +211,8 @@ function scrollFunction() {
 function backToTop() {
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
+}
+
+function clearStorage(){
+  localStorage.clear();
 }
