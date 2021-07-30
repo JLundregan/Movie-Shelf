@@ -59,6 +59,10 @@ function showShow(show) {
     return html;
   }, '');
 
+  if (show.poster == "https://www.themoviedb.orgundefined"){
+    show.poster = '../images/imgnotfound.png'
+  }
+
   section.outerHTML = `
     <section class="row">
       <h1>${show.title}</h1>
