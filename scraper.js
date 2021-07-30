@@ -89,7 +89,13 @@ function getMovie(tmdbID){
       const $runTime = $(".runtime");
       const runTime = $runTime.text();
 
-      const poster = "https://www.themoviedb.org" + $('.poster_wrapper img.poster').attr('src').replace("_filter(blur)", "");
+      let poster = "";
+      if( $('.poster_wrapper img.poster').attr('src') == undefined){
+        poster =  "https://www.themoviedb.org" + $('.poster_wrapper img.poster').attr('src');
+      } else {
+        poster = "https://www.themoviedb.org" + $('.poster_wrapper img.poster').attr('src').replace("_filter(blur)", "");
+      }
+      // const poster = "https://www.themoviedb.org" + $('.poster_wrapper img.poster').attr('src').replace("_filter(blur)", "");
       const summary = $(".overview p").text();
 
       const $userScore = $('div.user_score_chart');
