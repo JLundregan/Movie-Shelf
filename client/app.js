@@ -214,5 +214,7 @@ function backToTop() {
 //I made this function exclusively so I could give the navbar "onclick" attributes in the HTML,
 //rather than writing event listeners in the js file here
 function clearStorage(){
+  // resultsList.innerHTML = '';
   localStorage.clear();
+  window.location.reload();
 }

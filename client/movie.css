@@ -31,6 +31,7 @@ main {
 }
 
 h1 {
+  font-family: "Montserrat";
   margin-bottom: 40px;
 }
 
@@ -69,6 +70,7 @@ dl {
 }
 
 dt {
+  font-family: "Montserrat";
   font-size: 22px;
   padding-top: 12px;
   padding-left: 0;
