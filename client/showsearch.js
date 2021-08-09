@@ -213,6 +213,9 @@ function backToTop() {
   document.documentElement.scrollTop = 0;
 }
 
+//I made this function exclusively so I could give the navbar "onclick" attributes in the HTML,
+//rather than writing event listeners in the js file here
 function clearStorage(){
   localStorage.clear();
+  resultsList.innerHTML = '';
 }

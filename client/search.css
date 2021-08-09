@@ -54,7 +54,7 @@ The header div
   justify-content: space-between;
   align-content: center;
   align-items: center;
-  padding: 40px 8.2%;
+  padding: 40px 9.1%;
 }
 
 #top-div h1 {
@@ -64,18 +64,20 @@ The header div
   font-weight: bold;
   /* padding: 40px 0 40px 8.2%;
   vertical-align: middle; */
+  margin-bottom: 0;
 }
 
 #shelf-button{
   background-color: #1c1c1c;
   border-radius: 0.5rem;
   color: #f2f2f2;
-  font-family: "Courier New";
+  font-family: "Montserrat";
   font-size: 16px;
+  margin-right: 0;
   margin-top: 0;
-  /* margin-right: 17px; */
-  /* margin-right: 34.25px; */
-  margin-right: 2.141rem;
+  /* margin-right: 2.141rem; */
+  padding-left: 2.35rem;
+  padding-right: 2.35rem;
   text-align: center;
   text-decoration: none;
 }
@@ -99,7 +101,7 @@ The movie/series  navbar
   background-color: #1c1c1c;
   border-radius: 0 0 0.3rem 0.3rem;
   color: #f2f2f2;
-  font-family: "Courier New";
+  font-family: "Montserrat";
   font-weight: bold;
 }
 
@@ -108,7 +110,7 @@ The movie/series  navbar
   background-color: #f2f2f2;
   border-color: #f2f2f2;
   color: #1c1c1c;
-  font-family: "Courier New";
+  font-family: "Montserrat";
   font-weight: bold;
 }
 
@@ -117,17 +119,17 @@ The search bar
 ******************************************* */
 #search-bar-container {
   box-shadow: 0 2px 15px 2px #f2f2f2;
-  padding: 40px 15px 30px;
+  padding: 20px 15px 20px;
   margin: auto;
   width: 60%;
 }
 
 #search-label {
   color: white;
-  font-family: "Helvetica";
+  font-family: "Montserrat";
   font-size: 40px;
   font-weight: bold;
-  padding-bottom: 10px;
+  margin-bottom: 15px;
   position: relative;
   width: 100%;
 }
@@ -138,11 +140,8 @@ The search bar
   padding-bottom: 35px;
 }
 
-/* .results-show {
-  margin-top: 20px;
-} */
-
 #search {
+  background-color: white;
   border: medium solid white;
   border-radius: 0.5rem;
   font-family: "Courier New";
@@ -169,11 +168,12 @@ The search bar
   border: medium solid #fff;
   border-radius: 0.5rem;
   color: #1c1c1c;
-  font-family: "Courier New";
-  font-size: 1;
+  font-family: "Montserrat";
   font-weight: bold;
   line-height: 1.5;
-  margin-top: 40px;
+  margin-top: 30px;
+  margin-right: 15px;
+  min-width: 6.75rem;
   padding: .375rem 1.5rem;
   text-decoration: none;
 }
@@ -202,7 +202,7 @@ li.result-li{
 }
 
 .no-results-text{
-  font-family: "Helvetica";
+  font-family: "Courier New";
   font-weight: bold;
   font-size: 18px;
   font-style: italic;
@@ -324,6 +324,9 @@ The "Scroll to top" button
   display: none;
   position: fixed;
   right: 20px;
+  height: 50px;
+  padding-bottom: 12px;
+  padding-top: 12px;
 }
 
 /* ***********************************

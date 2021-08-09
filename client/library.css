@@ -2,7 +2,7 @@ body {
   align-items: center;
   background-color: #1c1c1c;
   justify-content: center;
-  font-family: 'Verdana';
+  font-family: 'Montserrat';
   min-height: 100vh;
   margin: 0;
 }
@@ -48,20 +48,22 @@ The top banner
   justify-content: space-between;
   align-content: center;
   align-items: center;
-  padding: 40px 8.2%;
+  padding: 40px 7.4%;
+  /* Used to be 8.2%, before I changed the nav-tab font to Montserrat */
 }
 
 #top-div h1 {
   color: black;
   font-family: "Courier New";
   font-weight: bold;
+  margin-bottom: 0;
 }
 
 #search-button {
   background-color: #1c1c1c;
   border-radius: 0.5rem;
   color: #f2f2f2;
-  font-family: "Courier New";
+  font-family: "Montserrat";
   font-size: 16px;
   margin-top: 0;
   text-align: center;
@@ -80,7 +82,7 @@ The top banner
   border: medium solid #fff;
   border-radius: 0.5rem;
   color: #1c1c1c;
-  font-family: "Courier New";
+  font-family: "Montserrat";
   font-size: 1;
   font-weight: bold;
   line-height: 1.5;
@@ -108,7 +110,7 @@ The movie/series  navbar
   background-color: #1c1c1c;
   border-radius: 0 0 0.3rem 0.3rem;
   color: #f2f2f2;
-  font-family: "Courier New";
+  font-family: "Montserrat";
   font-weight: bold;
   padding-left: 32.5px;
   padding-right: 32.5px;
@@ -118,7 +120,7 @@ The movie/series  navbar
   background-color: #f2f2f2;
   border-color: #f2f2f2;
   color: #1c1c1c;
-  font-family: "Courier New";
+  font-family: "Montserrat";
   font-weight: bold;
 }
 
@@ -171,7 +173,6 @@ The Modal and associated elements
   background-repeat: no-repeat;
   bottom: 0;
   filter: blur(8px);
-  /* height: 100%; */
   left: 0;
   opacity: 0.3;
   position: fixed;
@@ -179,7 +180,6 @@ The Modal and associated elements
   width: 100%;
   z-index: -1;
 }
-
 
 .hidden-image {
   display: none;
@@ -214,7 +214,7 @@ The Modal and associated elements
 }
 
 .movie-modal h1 {
-  font-family: "Helvetica";
+  font-family: "Montserrat";
   font-size: 50px;
 }
 
@@ -222,6 +222,8 @@ The Modal and associated elements
   font-size: 18px;
   padding: 15px 0;
   margin-bottom: 0;
+  margin-left: 20px;
+  margin-right: 20px;
 }
 
 .description {
@@ -345,6 +347,10 @@ The "Scroll to top" button
   display: none;
   position: fixed;
   right: 20px;
+  right: 20px;
+  height: 50px;
+  padding-bottom: 12px;
+  padding-top: 12px;
 }
 
 /* ***********************************
