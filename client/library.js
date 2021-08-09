@@ -1,10 +1,12 @@
-var Datastore = require('nedb'),
-  db = new Datastore({
-    filename: './client/Files/data.db',
-    autoload: true
-  });
+// var Datastore = require('nedb'),
+//   db = new Datastore({
+//     filename: './client/Files/data.db',
+//     autoload: true
+//   });
 
 
+// parseDatabase();
+var db = require('./db.js');
 parseDatabase();
 
 //Get the button
@@ -27,7 +29,7 @@ The functions
 
 //Loops through the database, calling makeHTML to populate the user's shelf
 function parseDatabase() {
-  db.find({}, function(err, docs) {
+  db.movies.find({}, function(err, docs) {
     // console.log(docs);
     docs.sort(alphabetize);
     for (var i = 0; i < docs.length; i++) {
@@ -135,7 +137,7 @@ function addModal(movId, movObj) {
   //Adds functionality to "remove from library" button
   document.getElementById('remove-button').addEventListener('click', function() {
     let title = movObj.title;
-    db.remove({
+    db.movies.remove({
       tmdbID: movObj.tmdbID
     }, function(err, numDeleted) {});
     removeModal(movId);

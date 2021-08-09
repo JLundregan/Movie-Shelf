@@ -1,8 +1,8 @@
-var Datastore = require('nedb'),
-  db = new Datastore({
-    filename: './client/Files/series.db',
-    autoload: true
-  });
+// var Datastore = require('nedb'),
+//   db = new Datastore({
+//     filename: './client/Files/series.db',
+//     autoload: true
+//   });
 
 // let data = [];
 // db.find({}, function (err, docs) {
@@ -13,6 +13,8 @@ var Datastore = require('nedb'),
 //     makeHTML(docs[i]);
 //   }
 // });
+
+var db = require('./db.js');
 parseDatabase();
 
 //Get the button
@@ -35,7 +37,7 @@ The functions
 
 //Loops through the database, calling makeHTML to populate the user's shelf
 function parseDatabase() {
-  db.find({}, function(err, docs) {
+  db.series.find({}, function(err, docs) {
     // console.log(docs);
     docs.sort(alphabetize);
     for (var i = 0; i < docs.length; i++) {
@@ -129,7 +131,7 @@ function addModal(showId, showObj) {
   //Adds functionality to "remove from library" button
   document.getElementById('remove-button').addEventListener('click', function() {
     let title = showObj.title;
-    db.remove({
+    db.series.remove({
       tmdbID: showObj.tmdbID
     }, function(err, numDeleted) {});
     removeModal(showId);
