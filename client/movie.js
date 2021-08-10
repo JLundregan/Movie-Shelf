@@ -1,9 +1,10 @@
 const main = document.querySelector('main');
-var Datastore = require('nedb'),
-  db = new Datastore({
-    filename: './client/Files/data.db',
-    autoload: true
-  });
+// var Datastore = require('nedb'),
+//   db = new Datastore({
+//     filename: './client/Files/data.db',
+//     autoload: true
+//   });
+var db = require('./db.js');
 
 // console.log(window.location.search);
 //Bascially, when the page loads, request the specific movie that you have clicked on
@@ -24,7 +25,7 @@ function showMovie(movie) {
 
   //Checks to make sure current movie is not already in library
   let inLibrary = false;
-  db.findOne({
+  db.movies.findOne({
     tmdbID: movie.tmdbID
   }, function(err, doc) {
     if (doc) {
@@ -93,7 +94,7 @@ function showMovie(movie) {
 
   libButton.addEventListener('click', function() {
     if (!inLibrary) {
-      db.insert(movie);
+      db.movies.insert(movie);
       inLibrary = true;
       //console.log("Here is your movies' tmdbID:" + movie.tmdbID)
     } else {
@@ -102,13 +103,6 @@ function showMovie(movie) {
     showPopup(movie.tmdbID);
   });
 
-}
-
-//I can probably delete this
-function addToLibrary(movie) {
-  console.log(db.filename);
-  db.insert(movie);
-  console.log(`ran addToLibrary function on ${movie.title}`);
 }
 
 function showPopup(tmdbID) {

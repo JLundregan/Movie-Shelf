@@ -4,11 +4,12 @@ const resultsList = document.querySelector("#results");
 const container = document.querySelector('main');
 const searchBarContainer = document.getElementById('search-bar-container');
 // const topDivHeader = document.querySelector('#top-div h1');
-var Datastore = require('nedb'),
-  db = new Datastore({
-    filename: './client/Files/series.db',
-    autoload: true
-  });
+// var Datastore = require('nedb'),
+//   db = new Datastore({
+//     filename: './client/Files/series.db',
+//     autoload: true
+//   });
+var db = require('./db.js');
 
 //This is where I would put the deployed site's URL (1:18:40 in the video)
 const BASE_URL = "https://movie-shelf.vercel.app/";
@@ -119,7 +120,7 @@ function showResults(results) {
 
     //This checks to see if the show is already in library
     let inLibrary = false;
-    db.findOne({
+    db.series.findOne({
       tmdbID: show.tmdbID
     }, function(err, doc) {
       if (doc) {
@@ -137,7 +138,7 @@ function showResults(results) {
     libButton.addEventListener('click', function() {
       getShow(show.tmdbID).then(function(showresult) {
         if (!inLibrary) {
-          db.insert(showresult);
+          db.series.insert(showresult);
           inLibrary = true;
         } else {
           popup.innerHTML = "<span class='popuptext' id='" + show.tmdbID + "-myPopup'>Already on Shelf</span>";
