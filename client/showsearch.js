@@ -27,9 +27,7 @@ window.onscroll = function () {
 scrollbutton.addEventListener("click", backToTop);
 
 searchInput.addEventListener("click", function(){
-  //console.log('localStorage starts out as: ' + localStorage.getItem("last search"));
   localStorage.clear();
-  //console.log('localStorage is now: ' + localStorage.getItem("last search"));
   form.addEventListener('submit', formSubmitted);
 })
 
@@ -40,11 +38,8 @@ if(localStorage.hasOwnProperty('last search')){
   getSearchResults(localStorage.getItem("last search"))
     .then(showResults);
 } else {
-  console.log('we have reached the else statement for form submit event');
   form.addEventListener('submit', formSubmitted);
 }
-
-// form.addEventListener('submit', formSubmitted);
 
 function formSubmitted(event) {
   event.preventDefault();
@@ -52,12 +47,12 @@ function formSubmitted(event) {
   const searchTerm = searchInput.value;
   getSearchResults(searchTerm)
     .then(showResults);
-  //console.log(searchTerm);
 }
 
 function getSearchResults(searchTerm) {
+  //This first line just clears the current search results, as I was running into the problem
+  //where the results of new queries were just being added to those of previous queries
   resultsList.innerHTML = '';
-  //dont forget to delete the slash after BASE_URL
   return fetch(`${BASE_URL}searchtv/${searchTerm}`)
     .then(res => res.json())
 }
@@ -108,7 +103,6 @@ function showResults(results) {
     a.classList.add('result-title');
     li.appendChild(a);
 
-    //This was experimental code for adding the description
     p.innerHTML = show.description;
     p.classList.add('result-p');
     li.appendChild(p);
@@ -136,14 +130,14 @@ function showResults(results) {
 
     //this adds the functionality to the plus button that will show up on each of the search results
     libButton.addEventListener('click', function() {
-      getShow(show.tmdbID).then(function(showresult) {
+      getShow(show.tmdbID).then(function(showResult) {
         if (!inLibrary) {
-          db.series.insert(showresult);
+          db.series.insert(showResult);
           inLibrary = true;
         } else {
           popup.innerHTML = "<span class='popuptext' id='" + show.tmdbID + "-myPopup'>Already on Shelf</span>";
         }
-        showPopup(showresult.tmdbID);
+        showPopup(showResult.tmdbID);
       });
     });
 
@@ -169,8 +163,8 @@ function showResults(results) {
   })
 
   //This checks to see how the far the user has scrolled down on the page, and returns them
-  //to that position once they go back to the search page from the movie. If they
-  //have not scrolled, the top defaults to 276.8
+  //to that position once they go back to the search page from the show. If they
+  //have not scrolled, the top defaults to 276.8, which is the top of the search container
   let topPos = 276.8;
   if(localStorage.hasOwnProperty('scrollPosition')){
     topPos = localStorage.getItem('scrollPosition')

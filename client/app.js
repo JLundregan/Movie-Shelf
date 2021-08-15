@@ -29,9 +29,7 @@ scrollbutton.addEventListener("click", backToTop);
 
 //This event listener clears the 'last search' from localStorage, allowing for a new search
 searchInput.addEventListener("click", function(){
-  //console.log('localStorage starts out as: ' + localStorage.getItem("last search"));
   localStorage.clear();
-  //console.log('localStorage is now: ' + localStorage.getItem("last search"));
   form.addEventListener('submit', formSubmitted);
 })
 
@@ -44,7 +42,6 @@ if(localStorage.hasOwnProperty('last search')){
 } else {
   form.addEventListener('submit', formSubmitted);
 }
-// form.addEventListener('submit', formSubmitted);
 
 function formSubmitted(event) {
   event.preventDefault();
@@ -55,8 +52,9 @@ function formSubmitted(event) {
 }
 
 function getSearchResults(searchTerm) {
+  //This first line just clears the current search results, as I was running into the problem
+  //where the results of new queries were just being added to those of previous queries
   resultsList.innerHTML = '';
-  //dont forget to delete the slash after BASE_URL
   return fetch(`${BASE_URL}search/${searchTerm}`)
     .then(res => res.json())
 }
@@ -105,7 +103,6 @@ function showResults(results) {
     a.classList.add('result-title');
     li.appendChild(a);
 
-    //This was experimental code for adding the description
     p.innerHTML = movie.description;
     p.classList.add('result-p');
     li.appendChild(p);
@@ -215,7 +212,6 @@ function backToTop() {
 //I made this function exclusively so I could give the navbar "onclick" attributes in the HTML,
 //rather than writing event listeners in the js file here
 function clearStorage(){
-  // resultsList.innerHTML = '';
   localStorage.clear();
   window.location.reload();
 }

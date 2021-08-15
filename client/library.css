@@ -101,12 +101,12 @@ The top banner
 /* *******************************************
 The movie/series  navbar
 ******************************************* */
-.nav {
+.top-nav {
   justify-content: flex-end;
   background-color: #1c1c1c;
 }
 
-.nav-tabs .nav-link{
+.top-nav-tabs .nav-link{
   background-color: #1c1c1c;
   border-radius: 0 0 0.3rem 0.3rem;
   color: #f2f2f2;
@@ -116,7 +116,7 @@ The movie/series  navbar
   padding-right: 32.5px;
 }
 
-.nav-tabs .nav-link.active {
+.top-nav-tabs .nav-link.active {
   background-color: #f2f2f2;
   border-color: #f2f2f2;
   color: #1c1c1c;
@@ -124,6 +124,42 @@ The movie/series  navbar
   font-weight: bold;
 }
 
+/* *******************************************
+The alphabet  navbar
+******************************************* */
+.alphabet-nav {
+  position: absolute;
+  display: inline-flex;
+  /* position: sticky; */
+  /* position: fixed; */
+  top: 2rem;
+  background-color: #1c1c1c;
+  margin-left: 2.5rem;
+  padding-top: 10px;
+}
+
+.alphabet-nav-link {
+  background-color: #1c1c1c;
+  color: #f2f2f2;
+  font-family: "Montserrat";
+  padding: 3px 14px;
+}
+
+.alphabet-nav-link:hover {
+  color: #d62020;
+}
+
+
+/* .alphabet-nav-tabs .active {
+  background-color: #f2f2f2;
+  border-color: #f2f2f2;
+  color: #1c1c1c;
+  font-family: "Montserrat";
+} */
+
+.sticky-top{
+  z-index:0;
+}
 /* *******************************************
 The movies and grid
 ******************************************* */
@@ -152,9 +188,14 @@ The movies and grid
   color: black;
 }
 
+.grid-item-title {
+  display: none;
+}
+
 /* Makes sure that the grid is responsive */
 @media (max-width: 1228px) {
   #movie-grid { grid-template-columns: repeat(4, 230px); grid-column-gap: 1fr; }
+  .alphabet-nav{display:none;}
 }
 
 @media (max-width: 1030px) {
@@ -250,12 +291,14 @@ The Modal and associated elements
 
 .remove-div {
   display: flex;
-  justify-content: center;
-  margin-top: 20px;
-  margin-bottom: 35px;
+  justify-content: space-evenly;
+  /* margin-top: 20px;
+  margin-bottom: 35px; */
+  margin: 20px auto 35px;
+  /* width: 30% */
 }
 
-#remove-button {
+#remove-button, #seen-button {
   background-color: white;
   border-radius: 50%;
   color: black;
@@ -267,7 +310,7 @@ The Modal and associated elements
   max-width: 34px;
 }
 
-#remove-button:hover {
+#remove-button:hover, #seen-button:hover {
   border-radius: 20px;
   padding-left: 15px;
   padding-right: 15px;
@@ -276,7 +319,7 @@ The Modal and associated elements
   -webkit-transition: max-width 1s;
 }
 
-#remove-button span {
+#remove-button span, #seen-button span {
   display: none;
   font-size: 16px;
   font-family: "Courier New";
@@ -286,7 +329,7 @@ The Modal and associated elements
   position: relative;
 }
 
-#remove-button:hover span {
+#remove-button:hover span, #seen-button:hover span  {
   display: inline;
   padding-right: 5px;
   -webkit-animation-duration: 2s;
