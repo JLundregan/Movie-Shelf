@@ -1,12 +1,15 @@
-// var Datastore = require('nedb'),
-//   db = new Datastore({
-//     filename: './client/Files/data.db',
-//     autoload: true
-//   });
-
-
-// parseDatabase();
 var db = require('./db.js');
+
+//This creates an array of "movie" grid elements for use in the alphabet sidebar
+let movieEntries = [];
+
+let letters = ['#','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+let numbers = ['1','2','3','4','5','6','7','8','9'];
+
+//This is an array of objects of movies that are the first to start with their given letter
+//For use with alphabet navbar
+let firstMovieArray = [];
+
 parseDatabase();
 
 //Get the button
@@ -19,7 +22,6 @@ window.onscroll = function () {
 
 // When the user clicks on the button, scroll to the top of the document
 scrollbutton.addEventListener("click", backToTop);
-
 
 /*
 *****************************************************************************
@@ -35,6 +37,20 @@ function parseDatabase() {
     for (var i = 0; i < docs.length; i++) {
       // console.log("Here is " + docs[i].title);
       makeHTML(docs[i]);
+
+      //This populates the alphabet navbar
+      if(checkIfFirstMovie(letters, numbers, docs[i].title, firstMovieArray, docs[i].tmdbID)){
+        // let aNavBar = document.querySelector('.alphabet-nav');
+        // const a = document.createElement('a');
+        // a.classList.add('nav-link');
+        // a.classList.add('alphabet-nav-link');
+        // a.innerHTML = letters[0];
+        // let firstMovie = firstMovieArray.find(o => o.letter === letters[0]);
+        // a.href = '#' + firstMovie.movieId;
+        // aNavBar.append(a);
+        // letters.shift();
+        makeAlphabetNavLink(firstMovieArray);
+      }
     }
   });
 }
@@ -45,21 +61,23 @@ function makeHTML(movieObject) {
   var movie = document.createElement("div");
   document.getElementById('movie-grid').append(movie);
 
-  //This is the current movie object, as it wouldn't let me pass movieObjectList[i] into addModal
-  //let currentMovieObject = movieArray.find(mov => mov.tmdbID === movieObject.tmdbID);
-
   //populates the grid with all of the movies in the movieList array
   // let currentId = movieObject.title.replace(/ /g, "-");
   let currentId = movieObject.tmdbID;
   movie.id = currentId;
   movie.classList.add("movie-entry");
   movie.classList.add("grid-item");
-  //movie.innerHTML = "<h3>" + movieObject.title + "</h3>"; //Consider showing the title upon hover
+
+  //This h3 is not displayed, but only exists for the alphabet sidebar
+  movie.innerHTML = "<h3 class='grid-item-title'>" + movieObject.title + "</h3>";
 
   //This is to make the movie thumbnail the background of the html element
   let imageURL = movieObject.poster;
   document.getElementById(currentId).style.backgroundImage = "url('" + imageURL + "')";
   document.getElementById(currentId).style.backgroundSize = "230px 330px";
+
+  //We need this array for use with the alphabet sidebar
+  movieEntries.push(movie);
 
   //adds the ability to generate a modal with movie information
   movie.addEventListener('click', function() {
@@ -78,14 +96,12 @@ function addModal(movId, movObj) {
 
 
   //This populates the modal with each movie's respective information.
-  // currentMovieModal.innerHTML = "<div id='close'><span class='material-icons'>close</span></div><div id='modal-info'><h1>" +
-  // movObj.title + "</h1><div class='description'><p>" + movObj.summary +
-  // "</p></div><p>Runtime: " + movObj.runTime + "</p><p>Director: " + movObj.director +
-  // "</p><p>Released: " +  movObj.year + "</p><p>TMDB user Score: " + movObj.userScore + "</p></div>";
   currentMovieModal.innerHTML = `<div id='close'><span class='material-icons'>close</span></div><div id='modal-info'><h1>
    ${movObj.title}</h1><div class='description'><p>${movObj.summary}</p></div><p>Runtime: ${movObj.runTime}</p>
    <p>Director: ${movObj.director}</p><p>Released: ${movObj.year}</p><p>TMDB user Score: ${movObj.userScore}</p></div>
-   <div class="remove-div"><span class="material-icons" id="remove-button">remove<span class="fadeIn">Remove from Shelf</span></span></div>`;
+   <div class="remove-div"><span class="material-icons" id="remove-button">remove<span class="fadeIn">Remove from Shelf</span></span>
+   <span class="material-icons" id="seen-button">done<span class="fadeIn">Mark as Seen</span></span>
+   </div>`;
 
   document.getElementById('modal-container').prepend(currentMovieModal);
 
@@ -134,6 +150,7 @@ function addModal(movId, movObj) {
   //   removeModal(movId);
   // });
 
+
   //Adds functionality to "remove from library" button
   document.getElementById('remove-button').addEventListener('click', function() {
     let title = movObj.title;
@@ -180,7 +197,8 @@ function alphabetize(input1, input2) {
   return 0;
 }
 
-//This creates a popup to tell the user that the selected movie has been removed
+//This creates a popup to tell the user that the selected movie has been removed,
+//when they have clicked "remove from shelf"
 function showRemovedPopup(movTitle, movieID) {
   const removedPopup = document.createElement('div');
   removedPopup.classList.add('removed-popup');
@@ -223,3 +241,102 @@ function backToTop() {
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
 }
+
+/****************************************************
+These next two control functionality of the alphabet navbar
+****************************************************/
+
+function checkIfFirstMovie(letterArray, numberArray, title, movieElementArray, movObjId){
+  //let letterArray = ['#','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+  //let numberArray = ['1','2','3','4','5','6','7','8','9'];
+
+  //let title = movArray[i].textContent;
+  let firstMovie = {};
+
+  //This if statement just discounts A, An, and The
+  let relevantChar = "";
+  let splitTitle = title.split(' ');
+  if (splitTitle[0] == 'The' || splitTitle[0] == 'A' || splitTitle[0] == 'An') {
+    relevantChar = splitTitle[1][0];
+  } else {
+    relevantChar = title[0];
+  }
+  console.log("We are here in checkIfFirstMovie");
+
+  //This, theoretically, checks to see if the first letter of the movie is a letter
+  //beyond current letter. EG, No movies that begin with X, so check for Y
+  if(letterArray.includes(relevantChar, 1)){
+    let charIndex = letterArray.findIndex((element) => element == relevantChar);
+    letterArray.splice(0, charIndex);
+  }
+  // if(letterArray.length > 1 && relevantChar==letterArray[1]){
+  //   letterArray.shift();
+  // }
+
+  //The first tests whether relevantChar equals the current letter.
+  //If not, the statement after the 'or' checks if current letter is the pound sign,
+  //and if so, if relevantChar is also a number
+  if((relevantChar==letterArray[0]) || (letterArray[0] == '#' && numberArray.includes(relevantChar))){
+    console.log("We are here in the if statement");
+    firstMovie.letter = letterArray[0];
+    firstMovie.movieId = movObjId;
+    movieElementArray.push(firstMovie);
+    // letterArray.shift();
+    return true;
+  } else {
+    return false;
+  }
+}
+
+//the movieArray parameter is an array of objects containing a 'letter' property, which
+//is the first relevant character of the title, and a 'movieId' property, which is that respective movie's id
+function makeAlphabetNavLink(movieArray){
+  let aNavBar = document.querySelector('.alphabet-nav');
+  const a = document.createElement('a');
+  a.classList.add('nav-link');
+  a.classList.add('alphabet-nav-link');
+  a.innerHTML = letters[0];
+  let firstMovie = movieArray.find(o => o.letter === letters[0]);
+  a.href = '#' + firstMovie.movieId;
+  aNavBar.append(a);
+  letters.shift();
+}
+
+
+/****************************************************
+This allows the user to Ctrl+F and search for a movie
+****************************************************/
+
+// document.addEventListener("keydown", function(e){
+//   if(e.key == "f" && e.ctrlKey){
+//     const searchPopup = document.createElement('div');
+//     searchPopup.id = 'search-bar-container2';
+//     searchPopup.innerHTML = `<form><fieldset class='form-group'>
+//      <input type='text' class='form-control' id='search' placeholder='Find movie'>
+//      </fieldset>`;
+//      document.body.append(searchPopup);
+//
+//      document.getElementById('search').addEventListener("change", function(){
+//        searchOnPage(document.getElementById('search').value.toLowerCase());
+//      })
+//
+//   }
+// });
+
+function searchOnPage(searchText){
+  // let bodyText = document.body.innerText;
+  const movieEntries = document.querySelectorAll(".movie-entry");
+  const movieTitles = [];
+
+  movieEntries.forEach( (element) => {movieTitles.push(element.textContent.toLowerCase())});
+
+  var index = movieTitles.findIndex(v => v.includes(searchText));
+  console.log("index is: " + index);
+
+  console.log("looking for " + searchText + "...");
+  if(index > -1){
+    window.location.hash = movieEntries[index].id;
+  }
+}
+/****************************************************
+****************************************************/

@@ -1,20 +1,16 @@
-// var Datastore = require('nedb'),
-//   db = new Datastore({
-//     filename: './client/Files/series.db',
-//     autoload: true
-//   });
-
-// let data = [];
-// db.find({}, function (err, docs) {
-//   // console.log(docs);
-//   docs.sort(alphabetize);
-//   for(var i = 0; i < docs.length; i++){
-//     // console.log("Here is " + docs[i].title);
-//     makeHTML(docs[i]);
-//   }
-// });
-
 var db = require('./db.js');
+
+
+//This creates an array of "movie" grid elements for use in the alphabet sidebar
+let movieEntries = [];
+
+let letters = ['#','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+let numbers = ['1','2','3','4','5','6','7','8','9'];
+
+//This is an array of objects of movies that are the first to start with their given letter
+//For use with alphabet navbar
+let firstMovieArray = [];
+
 parseDatabase();
 
 //Get the button
@@ -43,6 +39,11 @@ function parseDatabase() {
     for (var i = 0; i < docs.length; i++) {
       // console.log("Here is " + docs[i].title);
       makeHTML(docs[i]);
+
+      //This populates the alphabet navbar
+      if(checkIfFirstMovie(letters, numbers, docs[i].title, firstMovieArray, docs[i].tmdbID)){
+        makeAlphabetNavLink(firstMovieArray);
+      }
     }
   });
 }
@@ -216,4 +217,66 @@ function scrollFunction() {
 function backToTop() {
   document.body.scrollTop = 0;
   document.documentElement.scrollTop = 0;
+}
+
+/****************************************************
+These next two control functionality of the alphabet navbar (I just kept referring to them as "movies" instead of "shows")
+****************************************************/
+
+function checkIfFirstMovie(letterArray, numberArray, title, movieElementArray, movObjId){
+  //let letterArray = ['#','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
+  //let numberArray = ['1','2','3','4','5','6','7','8','9'];
+
+  //let title = movArray[i].textContent;
+  let firstMovie = {};
+
+  //This if statement just discounts A, An, and The
+  let relevantChar = "";
+  let splitTitle = title.split(' ');
+  if (splitTitle[0] == 'The' || splitTitle[0] == 'A' || splitTitle[0] == 'An') {
+    relevantChar = splitTitle[1][0];
+  } else {
+    relevantChar = title[0];
+  }
+  console.log("We are here in checkIfFirstMovie");
+
+  //This, theoretically, checks to see if the first letter of the movie is a letter
+  //beyond current letter. EG, No movies that begin with X, so check for Y
+  if(letterArray.includes(relevantChar, 1)){
+    let charIndex = letterArray.findIndex((element) => element == relevantChar);
+    letterArray.splice(0, charIndex);
+  }
+
+  // if(letterArray.length > 1 && relevantChar==letterArray[1]){
+  //   letterArray.shift();
+  // }
+
+
+  //The first tests whether relevantChar equals the current letter.
+  //If not, the statement after the 'or' checks if current letter is the pound sign,
+  //and if so, if relevantChar is also a number
+  if((relevantChar==letterArray[0]) || (letterArray[0] == '#' && numberArray.includes(relevantChar))){
+    console.log("We are here in the if statement");
+    firstMovie.letter = letterArray[0];
+    firstMovie.movieId = movObjId;
+    movieElementArray.push(firstMovie);
+    // letterArray.shift();
+    return true;
+  } else {
+    return false;
+  }
+}
+
+//the movieArray parameter is an array of objects containing a 'letter' property, which
+//is the first relevant character of the title, and a 'movieId' property, which is that respective movie's id
+function makeAlphabetNavLink(movieArray){
+  let aNavBar = document.querySelector('.alphabet-nav');
+  const a = document.createElement('a');
+  a.classList.add('nav-link');
+  a.classList.add('alphabet-nav-link');
+  a.innerHTML = letters[0];
+  let firstMovie = movieArray.find(o => o.letter === letters[0]);
+  a.href = '#' + firstMovie.movieId;
+  aNavBar.append(a);
+  letters.shift();
 }
