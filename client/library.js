@@ -35,21 +35,14 @@ function parseDatabase() {
     // console.log(docs);
     docs.sort(alphabetize);
     for (var i = 0; i < docs.length; i++) {
+
+      // db.movies.update({tmdbID : docs[i].tmdbID}, {$set: {seen : false}}, {});
       // console.log("Here is " + docs[i].title);
       makeHTML(docs[i]);
 
       //This populates the alphabet navbar
       if(checkIfFirstMovie(letters, numbers, docs[i].title, firstMovieArray, docs[i].tmdbID)){
-        // let aNavBar = document.querySelector('.alphabet-nav');
-        // const a = document.createElement('a');
-        // a.classList.add('nav-link');
-        // a.classList.add('alphabet-nav-link');
-        // a.innerHTML = letters[0];
-        // let firstMovie = firstMovieArray.find(o => o.letter === letters[0]);
-        // a.href = '#' + firstMovie.movieId;
-        // aNavBar.append(a);
-        // letters.shift();
-        makeAlphabetNavLink(firstMovieArray);
+        setAlphabetNavLink(firstMovieArray);
       }
     }
   });
@@ -79,6 +72,16 @@ function makeHTML(movieObject) {
   //We need this array for use with the alphabet sidebar
   movieEntries.push(movie);
 
+  if(movieObject.seen){
+    // document.getElementById(currentId).style.boxShadow = "0 4px 20px 5px red";
+    movie.classList.add('watched');
+    let seenCheckIcon = document.createElement("span");
+    seenCheckIcon.classList.add('material-icons');
+    seenCheckIcon.classList.add('seen-check-icon');
+    seenCheckIcon.textContent = 'done';
+    movie.appendChild(seenCheckIcon);
+  }
+
   //adds the ability to generate a modal with movie information
   movie.addEventListener('click', function() {
     addModal(currentId, movieObject);
@@ -95,12 +98,20 @@ function addModal(movId, movObj) {
   currentMovieModal.id = movId + "-modal";
 
 
+  let seenButtonText = "Mark as Seen";
+  let seenButtonIcon = "visibility";
+  if(document.getElementById(movId).classList.contains('seen') || movObj.seen){
+    seenButtonText = "Mark as Unseen";
+    seenButtonIcon = "done";
+  }
+
+
   //This populates the modal with each movie's respective information.
   currentMovieModal.innerHTML = `<div id='close'><span class='material-icons'>close</span></div><div id='modal-info'><h1>
    ${movObj.title}</h1><div class='description'><p>${movObj.summary}</p></div><p>Runtime: ${movObj.runTime}</p>
    <p>Director: ${movObj.director}</p><p>Released: ${movObj.year}</p><p>TMDB user Score: ${movObj.userScore}</p></div>
    <div class="remove-div"><span class="material-icons" id="remove-button">remove<span class="fadeIn">Remove from Shelf</span></span>
-   <span class="material-icons" id="seen-button">done<span class="fadeIn">Mark as Seen</span></span>
+   <span class="material-icons" id="seen-button">${seenButtonIcon}<span class="fadeIn">${seenButtonText}</span></span>
    </div>`;
 
   document.getElementById('modal-container').prepend(currentMovieModal);
@@ -145,12 +156,6 @@ function addModal(movId, movObj) {
     removeModal(movId);
   });
 
-  //adds the ability to click outside the modal to close it, rather than just the close button
-  // document.getElementById('black-background').addEventListener('click', function(){
-  //   removeModal(movId);
-  // });
-
-
   //Adds functionality to "remove from library" button
   document.getElementById('remove-button').addEventListener('click', function() {
     let title = movObj.title;
@@ -158,10 +163,33 @@ function addModal(movId, movObj) {
       tmdbID: movObj.tmdbID
     }, function(err, numDeleted) {});
     removeModal(movId);
-    showRemovedPopup(title, movId);
+    let removePopupText = "Removed " + title + " from your Shelf";
+    showPopup(movId, removePopupText);
     setTimeout(function() {
       window.location.reload()
     }, 1500);
+  });
+
+  //Adds functionality to the "mark as seen" button
+  document.getElementById('seen-button').addEventListener('click', function() {
+    if(!document.getElementById(movId).classList.contains('seen')){
+      db.movies.update({tmdbID : movObj.tmdbID}, {$set: {seen : true}}, {});
+      document.getElementById('seen-button').innerHTML = "done<span class='fadeIn'>Mark as Unseen</span>";
+      let seenCheckIcon = document.createElement("span");
+      seenCheckIcon.classList.add('material-icons');
+      seenCheckIcon.classList.add('seen-check-icon');
+      seenCheckIcon.textContent = 'done';
+      document.getElementById(movId).appendChild(seenCheckIcon);
+
+      //I only add this class because the database does not refresh unless I reload page,
+      //and that was allowing users to add multiple check marks to the same movie
+      document.getElementById(movId).classList.add('seen');
+    } else {
+      db.movies.update({tmdbID : movObj.tmdbID}, {$set: {seen : false}}, {});
+      document.getElementById('seen-button').innerHTML = "visibility<span class='fadeIn'>Mark as Seen</span>";
+      document.getElementById(movId).removeChild(document.getElementById(movId).querySelector('.seen-check-icon'));
+      document.getElementById(movId).classList.remove('seen');
+    }
   });
 }
 
@@ -199,10 +227,10 @@ function alphabetize(input1, input2) {
 
 //This creates a popup to tell the user that the selected movie has been removed,
 //when they have clicked "remove from shelf"
-function showRemovedPopup(movTitle, movieID) {
+function showPopup(movieID, text) {
   const removedPopup = document.createElement('div');
   removedPopup.classList.add('removed-popup');
-  removedPopup.textContent = "Removed " + movTitle + " from your Shelf";
+  removedPopup.textContent = text;
   document.body.append(removedPopup);
   addBlackBackground(document.getElementById('modal-container'), movieID)
   setTimeout(function() {
@@ -223,9 +251,10 @@ function addBlackBackground(container, movieID) {
   });
 }
 
-
-//The next two have to do with the scroll button that scrolls the page to the top
-//Once the arrow button (scrollButton) is clicked
+/****************************************************
+The next two have to do with the scroll button that scrolls the page to the top
+Once the arrow button (scrollButton) is clicked
+****************************************************/
 function scrollFunction() {
   if (
     document.body.scrollTop > 20 ||
@@ -261,7 +290,6 @@ function checkIfFirstMovie(letterArray, numberArray, title, movieElementArray, m
   } else {
     relevantChar = title[0];
   }
-  console.log("We are here in checkIfFirstMovie");
 
   //This, theoretically, checks to see if the first letter of the movie is a letter
   //beyond current letter. EG, No movies that begin with X, so check for Y
@@ -277,7 +305,6 @@ function checkIfFirstMovie(letterArray, numberArray, title, movieElementArray, m
   //If not, the statement after the 'or' checks if current letter is the pound sign,
   //and if so, if relevantChar is also a number
   if((relevantChar==letterArray[0]) || (letterArray[0] == '#' && numberArray.includes(relevantChar))){
-    console.log("We are here in the if statement");
     firstMovie.letter = letterArray[0];
     firstMovie.movieId = movObjId;
     movieElementArray.push(firstMovie);
@@ -290,7 +317,7 @@ function checkIfFirstMovie(letterArray, numberArray, title, movieElementArray, m
 
 //the movieArray parameter is an array of objects containing a 'letter' property, which
 //is the first relevant character of the title, and a 'movieId' property, which is that respective movie's id
-function makeAlphabetNavLink(movieArray){
+function setAlphabetNavLink(movieArray){
   let aNavBar = document.querySelector('.alphabet-nav');
   const a = document.createElement('a');
   a.classList.add('nav-link');
@@ -305,7 +332,7 @@ function makeAlphabetNavLink(movieArray){
 
 /****************************************************
 This allows the user to Ctrl+F and search for a movie
-****************************************************/
+****************************************************
 
 // document.addEventListener("keydown", function(e){
 //   if(e.key == "f" && e.ctrlKey){
@@ -338,5 +365,5 @@ function searchOnPage(searchText){
     window.location.hash = movieEntries[index].id;
   }
 }
-/****************************************************
+****************************************************
 ****************************************************/

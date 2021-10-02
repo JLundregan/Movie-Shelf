@@ -42,7 +42,7 @@ function parseDatabase() {
 
       //This populates the alphabet navbar
       if(checkIfFirstMovie(letters, numbers, docs[i].title, firstMovieArray, docs[i].tmdbID)){
-        makeAlphabetNavLink(firstMovieArray);
+        setAlphabetNavLink(firstMovieArray);
       }
     }
   });
@@ -65,6 +65,16 @@ function makeHTML(showObject) {
   show.classList.add("grid-item");
   //movie.innerHTML = "<h3>" + movieObject.title + "</h3>"; //Consider showing the title upon hover
 
+  if(showObject.seen){
+    // document.getElementById(currentId).style.boxShadow = "0 4px 20px 5px red";
+    show.classList.add('watched');
+    let seenCheckIcon = document.createElement("span");
+    seenCheckIcon.classList.add('material-icons');
+    seenCheckIcon.classList.add('seen-check-icon');
+    seenCheckIcon.textContent = 'done';
+    show.appendChild(seenCheckIcon);
+  }
+
   //This is to make the movie thumbnail the background of the html element
   let imageURL = showObject.poster;
   document.getElementById(currentId).style.backgroundImage = "url('" + imageURL + "')";
@@ -85,12 +95,20 @@ function addModal(showId, showObj) {
   currentShowModal.classList.add('movie-modal');
   currentShowModal.id = showId + "-modal";
 
+  let seenButtonText = "Mark as Seen";
+  let seenButtonIcon = "visibility";
+  if(document.getElementById(showId).classList.contains('seen') || showObj.seen){
+    seenButtonText = "Mark as Unseen";
+    seenButtonIcon = "done";
+  }
+
 
   //This populates the modal with each movie's respective information.
   currentShowModal.innerHTML = `<div id='close'><span class='material-icons'>close</span></div><div id='modal-info'><h1>
    ${showObj.title}</h1><div class='description'><p>${showObj.summary}</p></div><p>Released: ${showObj.year}</p>
    <p>TMDB user Score: ${showObj.userScore}</p></div><div class="remove-div">
-   <span class="material-icons" id="remove-button">remove<span class="fadeIn">Remove from Shelf</span></span></div>`;
+   <span class="material-icons" id="remove-button">remove<span class="fadeIn">Remove from Shelf</span></span>
+   <span class="material-icons" id="seen-button">${seenButtonIcon}<span class="fadeIn">${seenButtonText}</span></span></div>`;
 
   document.getElementById('modal-container').prepend(currentShowModal);
 
@@ -141,6 +159,29 @@ function addModal(showId, showObj) {
       window.location.reload()
     }, 1500);
   });
+
+
+    //Adds functionality to the "mark as seen" button
+    document.getElementById('seen-button').addEventListener('click', function() {
+      if(!document.getElementById(showId).classList.contains('seen')){
+        db.series.update({tmdbID : showObj.tmdbID}, {$set: {seen : true}}, {});
+        document.getElementById('seen-button').innerHTML = "done<span class='fadeIn'>Mark as Unseen</span>";
+        let seenCheckIcon = document.createElement("span");
+        seenCheckIcon.classList.add('material-icons');
+        seenCheckIcon.classList.add('seen-check-icon');
+        seenCheckIcon.textContent = 'done';
+        document.getElementById(showId).appendChild(seenCheckIcon);
+
+        //I only add this class because the database does not refresh unless I reload page,
+        //and that was allowing users to add multiple check marks to the same movie
+        document.getElementById(showId).classList.add('seen');
+      } else {
+        db.series.update({tmdbID : showObj.tmdbID}, {$set: {seen : false}}, {});
+        document.getElementById('seen-button').innerHTML = "visibility<span class='fadeIn'>Mark as Seen</span>";
+        document.getElementById(showId).removeChild(document.getElementById(showId).querySelector('.seen-check-icon'));
+        document.getElementById(showId).classList.remove('seen');
+      }
+    });
 }
 
 //Self-explanatory, but just basically undoes all of the changes that addModal added
@@ -238,7 +279,6 @@ function checkIfFirstMovie(letterArray, numberArray, title, movieElementArray, m
   } else {
     relevantChar = title[0];
   }
-  console.log("We are here in checkIfFirstMovie");
 
   //This, theoretically, checks to see if the first letter of the movie is a letter
   //beyond current letter. EG, No movies that begin with X, so check for Y
@@ -247,16 +287,10 @@ function checkIfFirstMovie(letterArray, numberArray, title, movieElementArray, m
     letterArray.splice(0, charIndex);
   }
 
-  // if(letterArray.length > 1 && relevantChar==letterArray[1]){
-  //   letterArray.shift();
-  // }
-
-
   //The first tests whether relevantChar equals the current letter.
   //If not, the statement after the 'or' checks if current letter is the pound sign,
   //and if so, if relevantChar is also a number
   if((relevantChar==letterArray[0]) || (letterArray[0] == '#' && numberArray.includes(relevantChar))){
-    console.log("We are here in the if statement");
     firstMovie.letter = letterArray[0];
     firstMovie.movieId = movObjId;
     movieElementArray.push(firstMovie);
@@ -269,7 +303,7 @@ function checkIfFirstMovie(letterArray, numberArray, title, movieElementArray, m
 
 //the movieArray parameter is an array of objects containing a 'letter' property, which
 //is the first relevant character of the title, and a 'movieId' property, which is that respective movie's id
-function makeAlphabetNavLink(movieArray){
+function setAlphabetNavLink(movieArray){
   let aNavBar = document.querySelector('.alphabet-nav');
   const a = document.createElement('a');
   a.classList.add('nav-link');
