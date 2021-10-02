@@ -22,7 +22,8 @@ function createWindow () {
     webPreferences: {
         nodeIntegration: true,
         contextIsolation: false
-    }
+    },
+    icon: './icon.png'
   });
 
   win.maximize();
