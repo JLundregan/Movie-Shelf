@@ -173,19 +173,33 @@ The movies and grid
   width: 100%;
 }
 
+.seen-check-icon{
+  background-color: black;
+  border-radius: 50%;
+  color: #d62020;
+  position: relative;
+  top: 15px;
+  right: 15px;
+  padding: 3px;
+}
+
 .movie-entry {
   color: white;
   cursor: pointer;
   display: inline-block;
   font-size: 20px;
   height: 330px;
-  text-align: center;
+  text-align: right;
 }
 
 .movie-entry:hover {
   background-color: white;
   box-shadow: 0 4px 20px 5px white;
   color: black;
+}
+
+.watched:hover{
+  box-shadow: 0 4px 20px 5px #d62020;;
 }
 
 .grid-item-title {
@@ -389,7 +403,6 @@ The "Scroll to top" button
   color: black;
   display: none;
   position: fixed;
-  right: 20px;
   right: 20px;
   height: 50px;
   padding-bottom: 12px;

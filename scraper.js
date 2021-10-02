@@ -117,7 +117,8 @@ function getMovie(tmdbID){
         poster,
         summary,
         director,
-        userScore
+        userScore,
+        seen: false
       };
       // console.log(body);
       // return {body}
@@ -157,7 +158,8 @@ function searchShows(searchTerm) {
           image: "https://www.themoviedb.org" + $image.attr('src'),
           title: $title.text(),
           description: $description.text(),
-          tmdbID
+          tmdbID,
+          seen: false
         };
         shows.push(show);
       });
