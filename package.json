@@ -12,6 +12,7 @@
   "author": "JLundregan",
   "license": "ISC",
   "dependencies": {
+    "@electron-forge/publisher-github": "^6.0.0-beta.61",
     "cheerio": "^1.0.0-rc.10",
     "cors": "^2.8.5",
     "electron-squirrel-startup": "^1.0.0",
@@ -51,6 +52,17 @@
         {
           "name": "@electron-forge/maker-rpm",
           "config": {}
+        }
+      ],
+      "publishers": [
+        {
+          "name": "@electron-forge/publisher-github",
+          "config": {
+            "repository": {
+              "owner": "erikhofer",
+              "name": "electron-publish-example"
+            }
+          }
         }
       ]
     }
