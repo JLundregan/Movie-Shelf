@@ -212,5 +212,5 @@ function backToTop() {
 //rather than writing event listeners in the js file here
 function clearStorage(){
   localStorage.clear();
-  resultsList.innerHTML = '';
+  window.location.reload();
 }
