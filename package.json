@@ -1,11 +1,11 @@
 {
   "name": "movieshelf",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "A page to document all of the movies in my library, whether digital or physical",
   "main": "main.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "electron .",
+    "start": "electron-forge start",
     "package": "electron-forge package",
     "make": "electron-forge make",
     "publish": "electron-forge publish"
