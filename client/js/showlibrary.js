@@ -1,4 +1,5 @@
-var db = require('./db.js');
+var db = require('./js/db.js');
+
 
 //This creates an array of "movie" grid elements for use in the alphabet sidebar
 let movieEntries = [];
@@ -31,13 +32,10 @@ The functions
 
 //Loops through the database, calling makeHTML to populate the user's shelf
 function parseDatabase() {
-  db.movies.find({}, function(err, docs) {
+  db.series.find({}, function(err, docs) {
     // console.log(docs);
     docs.sort(alphabetize);
     for (var i = 0; i < docs.length; i++) {
-
-      // db.movies.update({tmdbID : docs[i].tmdbID}, {$set: {seen : false}}, {});
-      // console.log("Here is " + docs[i].title);
       makeHTML(docs[i]);
 
       //This populates the alphabet navbar
@@ -48,73 +46,65 @@ function parseDatabase() {
   });
 }
 
-//This gets called on the movie objects to create their respective HTML elements
-//and insert each movie div into the CSS grid
-function makeHTML(movieObject) {
-  var movie = document.createElement("div");
-  document.getElementById('movie-grid').append(movie);
+//This gets called on the show objects to create their respective HTML elements
+//and insert each show div into the CSS grid
+function makeHTML(showObject) {
+  var show = document.createElement("div");
+  document.getElementById('movie-grid').append(show);
 
   //populates the grid with all of the movies in the movieList array
   // let currentId = movieObject.title.replace(/ /g, "-");
-  let currentId = movieObject.tmdbID;
-  movie.id = currentId;
-  movie.classList.add("movie-entry");
-  movie.classList.add("grid-item");
+  let currentId = showObject.tmdbID;
+  show.id = currentId;
+  show.classList.add("movie-entry");
+  show.classList.add("grid-item");
 
-  //This h3 is not displayed, but only exists for the alphabet sidebar
-  movie.innerHTML = "<h3 class='grid-item-title'>" + movieObject.title + "</h3>";
-
-  //This is to make the movie thumbnail the background of the html element
-  let imageURL = movieObject.poster;
-  document.getElementById(currentId).style.backgroundImage = "url('" + imageURL + "')";
-  document.getElementById(currentId).style.backgroundSize = "230px 330px";
-
-  //We need this array for use with the alphabet sidebar
-  movieEntries.push(movie);
-
-  if(movieObject.seen){
+  if(showObject.seen){
     // document.getElementById(currentId).style.boxShadow = "0 4px 20px 5px red";
-    movie.classList.add('watched');
+    show.classList.add('watched');
     let seenCheckIcon = document.createElement("span");
     seenCheckIcon.classList.add('material-icons');
     seenCheckIcon.classList.add('seen-check-icon');
     seenCheckIcon.textContent = 'done';
-    movie.appendChild(seenCheckIcon);
+    show.appendChild(seenCheckIcon);
   }
 
+  //This is to make the movie thumbnail the background of the html element
+  let imageURL = showObject.poster;
+  document.getElementById(currentId).style.backgroundImage = "url('" + imageURL + "')";
+  document.getElementById(currentId).style.backgroundSize = "230px 330px";
+
   //adds the ability to generate a modal with movie information
-  movie.addEventListener('click', function() {
-    addModal(currentId, movieObject);
+  show.addEventListener('click', function() {
+    addModal(currentId, showObject);
   });
 }
 
 //Creates the modal for each movie on click, also changing background styling to accomodate
-function addModal(movId, movObj) {
+function addModal(showId, showObj) {
   document.body.classList.add('noscroll');
   document.getElementById('modal-container').classList.add('show-modal');
 
-  let currentMovieModal = document.createElement('div');
-  currentMovieModal.classList.add('movie-modal');
-  currentMovieModal.id = movId + "-modal";
-
+  let currentShowModal = document.createElement('div');
+  currentShowModal.classList.add('movie-modal');
+  currentShowModal.id = showId + "-modal";
 
   let seenButtonText = "Mark as Seen";
   let seenButtonIcon = "visibility";
-  if(document.getElementById(movId).classList.contains('seen') || movObj.seen){
+  if(document.getElementById(showId).classList.contains('seen') || showObj.seen){
     seenButtonText = "Mark as Unseen";
     seenButtonIcon = "done";
   }
 
 
   //This populates the modal with each movie's respective information.
-  currentMovieModal.innerHTML = `<div id='close'><span class='material-icons'>close</span></div><div id='modal-info'><h1>
-   ${movObj.title}</h1><div class='description'><p>${movObj.summary}</p></div><p>Runtime: ${movObj.runTime}</p>
-   <p>Director: ${movObj.director}</p><p>Released: ${movObj.year}</p><p>TMDB user Score: ${movObj.userScore}</p></div>
-   <div class="remove-div"><span class="material-icons" id="remove-button">remove<span class="fadeIn">Remove from Shelf</span></span>
-   <span class="material-icons" id="seen-button">${seenButtonIcon}<span class="fadeIn">${seenButtonText}</span></span>
-   </div>`;
+  currentShowModal.innerHTML = `<div id='close'><span class='material-icons'>close</span></div><div id='modal-info'><h1>
+   ${showObj.title}</h1><div class='description'><p>${showObj.summary}</p></div><p>Released: ${showObj.year}</p>
+   <p>TMDB user Score: ${showObj.userScore}</p></div><div class="remove-div">
+   <span class="material-icons" id="remove-button">remove<span class="fadeIn">Remove from Shelf</span></span>
+   <span class="material-icons" id="seen-button">${seenButtonIcon}<span class="fadeIn">${seenButtonText}</span></span></div>`;
 
-  document.getElementById('modal-container').prepend(currentMovieModal);
+  document.getElementById('modal-container').prepend(currentShowModal);
 
   /* This is to create a background with a color equal to the dominant color of the thumbnail.
   Since Color Thief requires an img element, this creates an invisible (because of the 'hidden-image' class)
@@ -123,7 +113,7 @@ function addModal(movId, movObj) {
   const colorThief = new ColorThief();
   let hiddenImage = new Image();
   hiddenImage.classList.add('hidden-image');
-  hiddenImage.src = movObj.poster;
+  hiddenImage.src = showObj.poster;
   hiddenImage.addEventListener('load', function() {
     let dominantColor = colorThief.getColor(hiddenImage);
     let modalBackground = document.createElement('div');
@@ -131,76 +121,71 @@ function addModal(movId, movObj) {
     //this will basically be a pseudo element used to make the modal background the
     //blurred thumbnail image of the respective movie, where the underlying color is
     //the image's dominant color
-
-    //let modalColor = document.createElement('div');
-    // modalColor.style.backgroundColor = "rgb(" + dominantColor + ")";
-    // console.log(currentMovieModal.scrollHeight);
-    // modalColor.style.height = currentMovieModal.scrollHeight + "px";
-    // modalColor.classList.add('modal-background');
-    // modalColor.classList.add('modal-color');
-
     modalBackground.classList.add('modal-background');
     modalBackground.id = 'modal-background';
-    // modalBackground.style.backgroundColor = "rgb(" + dominantColor + ")";
-    modalBackground.style.backgroundImage = "url('" + movObj.poster + "')";
-    modalBackground.style.height = currentMovieModal.scrollHeight + "px";
-    currentMovieModal.prepend(modalBackground);
-    // currentMovieModal.prepend(modalColor);
+    modalBackground.style.height = currentShowModal.scrollHeight + "px";
+    modalBackground.style.backgroundImage = "url('" + showObj.poster + "')";
+    currentShowModal.prepend(modalBackground);
   });
 
   //This adds a background element before the modal to reduce the opacity of the rest of the page
-  addBlackBackground(document.getElementById('modal-container'), movId)
+  addBlackBackground(document.getElementById('modal-container'), showId)
 
   //adds functionality to the close button
   document.getElementById('close').addEventListener('click', function() {
-    removeModal(movId);
+    removeModal(showId);
   });
+
+  //adds the ability to click outside the modal to close it, rather than just the close button
+  // document.getElementById('black-background').addEventListener('click', function(){
+  //   removeModal(movId);
+  // });
 
   //Adds functionality to "remove from library" button
   document.getElementById('remove-button').addEventListener('click', function() {
-    let title = movObj.title;
-    db.movies.remove({
-      tmdbID: movObj.tmdbID
+    let title = showObj.title;
+    db.series.remove({
+      tmdbID: showObj.tmdbID
     }, function(err, numDeleted) {});
-    removeModal(movId);
-    let removePopupText = "Removed " + title + " from your Shelf";
-    showPopup(movId, removePopupText);
+    removeModal(showId);
+    showRemovedPopup(title, showId);
     setTimeout(function() {
       window.location.reload()
     }, 1500);
   });
 
-  //Adds functionality to the "mark as seen" button
-  document.getElementById('seen-button').addEventListener('click', function() {
-    if(!document.getElementById(movId).classList.contains('seen')){
-      db.movies.update({tmdbID : movObj.tmdbID}, {$set: {seen : true}}, {});
-      document.getElementById('seen-button').innerHTML = "done<span class='fadeIn'>Mark as Unseen</span>";
-      let seenCheckIcon = document.createElement("span");
-      seenCheckIcon.classList.add('material-icons');
-      seenCheckIcon.classList.add('seen-check-icon');
-      seenCheckIcon.textContent = 'done';
-      document.getElementById(movId).appendChild(seenCheckIcon);
 
-      //I only add this class because the database does not refresh unless I reload page,
-      //and that was allowing users to add multiple check marks to the same movie
-      document.getElementById(movId).classList.add('seen');
-    } else {
-      db.movies.update({tmdbID : movObj.tmdbID}, {$set: {seen : false}}, {});
-      document.getElementById('seen-button').innerHTML = "visibility<span class='fadeIn'>Mark as Seen</span>";
-      document.getElementById(movId).removeChild(document.getElementById(movId).querySelector('.seen-check-icon'));
-      document.getElementById(movId).classList.remove('seen');
-    }
-  });
+    //Adds functionality to the "mark as seen" button
+    document.getElementById('seen-button').addEventListener('click', function() {
+      if(!document.getElementById(showId).classList.contains('seen')){
+        db.series.update({tmdbID : showObj.tmdbID}, {$set: {seen : true}}, {});
+        document.getElementById('seen-button').innerHTML = "done<span class='fadeIn'>Mark as Unseen</span>";
+        let seenCheckIcon = document.createElement("span");
+        seenCheckIcon.classList.add('material-icons');
+        seenCheckIcon.classList.add('seen-check-icon');
+        seenCheckIcon.textContent = 'done';
+        document.getElementById(showId).appendChild(seenCheckIcon);
+
+        //I only add this class because the database does not refresh unless I reload page,
+        //and that was allowing users to add multiple check marks to the same movie
+        document.getElementById(showId).classList.add('seen');
+      } else {
+        db.series.update({tmdbID : showObj.tmdbID}, {$set: {seen : false}}, {});
+        document.getElementById('seen-button').innerHTML = "visibility<span class='fadeIn'>Mark as Seen</span>";
+        document.getElementById(showId).removeChild(document.getElementById(showId).querySelector('.seen-check-icon'));
+        document.getElementById(showId).classList.remove('seen');
+      }
+    });
 }
 
 //Self-explanatory, but just basically undoes all of the changes that addModal added
-function removeModal(movId) {
+function removeModal(showId) {
   let buttonParent = document.getElementById('close').parentNode; //This is the div with class 'movie-modal'
   let modalContainer = document.getElementById('modal-container')
   document.body.classList.remove('noscroll');
   modalContainer.classList.remove('show-modal');
   modalContainer.removeChild(document.getElementById('black-background'))
-  buttonParent.parentNode.removeChild(document.getElementById(movId + "-modal"));
+  buttonParent.parentNode.removeChild(document.getElementById(showId + "-modal"));
 }
 
 //This sort function is ascending alphabetical, except it discounts 'A', 'An', and 'The'
@@ -225,14 +210,13 @@ function alphabetize(input1, input2) {
   return 0;
 }
 
-//This creates a popup to tell the user that the selected movie has been removed,
-//when they have clicked "remove from shelf"
-function showPopup(movieID, text) {
+//This creates a popup to tell the user that the selected movie has been removed
+function showRemovedPopup(showTitle, showId) {
   const removedPopup = document.createElement('div');
   removedPopup.classList.add('removed-popup');
-  removedPopup.textContent = text;
+  removedPopup.textContent = "Removed " + showTitle + " from your Shelf";
   document.body.append(removedPopup);
-  addBlackBackground(document.getElementById('modal-container'), movieID)
+  addBlackBackground(document.getElementById('modal-container'), showId)
   setTimeout(function() {
     document.body.removeChild(removedPopup);
   }, 2000);
@@ -240,21 +224,20 @@ function showPopup(movieID, text) {
 
 //This adds a background element before the modal to reduce the opacity of the rest of the page
 //Including functionality where clicking this background closes the modal
-function addBlackBackground(container, movieID) {
+function addBlackBackground(container, seriesId) {
   let blackBackground = document.createElement('div');
   blackBackground.id = 'black-background';
   blackBackground.classList.add('black-background');
   container.prepend(blackBackground);
 
   blackBackground.addEventListener('click', function() {
-    removeModal(movieID);
+    removeModal(seriesId);
   });
 }
 
-/****************************************************
-The next two have to do with the scroll button that scrolls the page to the top
-Once the arrow button (scrollButton) is clicked
-****************************************************/
+
+//The next two have to do with the scroll button that scrolls the page to the top
+//Once the arrow button (scrollButton) is clicked
 function scrollFunction() {
   if (
     document.body.scrollTop > 20 ||
@@ -272,14 +255,13 @@ function backToTop() {
 }
 
 /****************************************************
-These next two control functionality of the alphabet navbar
+These next two control functionality of the alphabet navbar (I just kept referring to them as "movies" instead of "shows")
 ****************************************************/
 
 function checkIfFirstMovie(letterArray, numberArray, title, movieElementArray, movObjId){
   //let letterArray = ['#','A','B','C','D','E','F','G','H','I','J','K','L','M','N','O','P','Q','R','S','T','U','V','W','X','Y','Z'];
   //let numberArray = ['1','2','3','4','5','6','7','8','9'];
 
-  //let title = movArray[i].textContent;
   let firstMovie = {};
 
   //This if statement just discounts A, An, and The
@@ -297,9 +279,6 @@ function checkIfFirstMovie(letterArray, numberArray, title, movieElementArray, m
     let charIndex = letterArray.findIndex((element) => element == relevantChar);
     letterArray.splice(0, charIndex);
   }
-  // if(letterArray.length > 1 && relevantChar==letterArray[1]){
-  //   letterArray.shift();
-  // }
 
   //The first tests whether relevantChar equals the current letter.
   //If not, the statement after the 'or' checks if current letter is the pound sign,
@@ -328,42 +307,3 @@ function setAlphabetNavLink(movieArray){
   aNavBar.append(a);
   letters.shift();
 }
-
-
-/****************************************************
-This allows the user to Ctrl+F and search for a movie
-****************************************************
-
-// document.addEventListener("keydown", function(e){
-//   if(e.key == "f" && e.ctrlKey){
-//     const searchPopup = document.createElement('div');
-//     searchPopup.id = 'search-bar-container2';
-//     searchPopup.innerHTML = `<form><fieldset class='form-group'>
-//      <input type='text' class='form-control' id='search' placeholder='Find movie'>
-//      </fieldset>`;
-//      document.body.append(searchPopup);
-//
-//      document.getElementById('search').addEventListener("change", function(){
-//        searchOnPage(document.getElementById('search').value.toLowerCase());
-//      })
-//
-//   }
-// });
-
-function searchOnPage(searchText){
-  // let bodyText = document.body.innerText;
-  const movieEntries = document.querySelectorAll(".movie-entry");
-  const movieTitles = [];
-
-  movieEntries.forEach( (element) => {movieTitles.push(element.textContent.toLowerCase())});
-
-  var index = movieTitles.findIndex(v => v.includes(searchText));
-  console.log("index is: " + index);
-
-  console.log("looking for " + searchText + "...");
-  if(index > -1){
-    window.location.hash = movieEntries[index].id;
-  }
-}
-****************************************************
-****************************************************/

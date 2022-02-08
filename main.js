@@ -23,7 +23,7 @@ function createWindow () {
         nodeIntegration: true,
         contextIsolation: false
     },
-    icon: './icon.png'
+    icon: './images/icon.png'
   });
 
   win.maximize();

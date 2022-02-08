@@ -68,18 +68,6 @@ function getMovie(tmdbID){
       const $title = $('.title h2 a');
       const title = $title.text();
 
-      //This was for the imdb scraper, from which this code was copied
-      //Departing from the video
-      //const metaInfo = $('.ipc-inline-list.baseAlt.ipc-inline-list--show-dividers li');
-      // const metaInfo = $('ul[data-testid="hero-title-block__metadata"] li');
-      // let metaInfoArray = []
-      // metaInfo.each(function(i, elm) {
-      //   metaInfoArray.push($(this).text()); // for testing do text()
-      // });
-      //
-      // const year = metaInfoArray[0].slice(0, metaInfoArray[0].length / 2);
-      // const rating = metaInfoArray[1].slice(0, metaInfoArray[1].length / 2);
-      // const runTime = metaInfoArray[2];
       const $year = $(".title .release_date");
       const year = $year.text().slice(1,-1);
 
@@ -185,18 +173,6 @@ function getShow(tmdbID){
       const $title = $('.title h2 a');
       const title = $title.text();
 
-      //This was for the imdb scraper, from which this code was copied
-      //Departing from the video
-      //const metaInfo = $('.ipc-inline-list.baseAlt.ipc-inline-list--show-dividers li');
-      // const metaInfo = $('ul[data-testid="hero-title-block__metadata"] li');
-      // let metaInfoArray = []
-      // metaInfo.each(function(i, elm) {
-      //   metaInfoArray.push($(this).text()); // for testing do text()
-      // });
-      //
-      // const year = metaInfoArray[0].slice(0, metaInfoArray[0].length / 2);
-      // const rating = metaInfoArray[1].slice(0, metaInfoArray[1].length / 2);
-      // const runTime = metaInfoArray[2];
       const $year = $(".title .release_date");
       const year = $year.text().slice(1,-1);
 
@@ -228,8 +204,6 @@ function getShow(tmdbID){
         summary,
         userScore
       };
-      // console.log(body);
-      // return {body}
 
       showCache[tmdbID] = show;
 
