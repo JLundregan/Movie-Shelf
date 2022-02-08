@@ -1,12 +1,13 @@
-const main = document.querySelector('main');
-// var Datastore = require('nedb'),
-//   db = new Datastore({
-//     filename: './client/Files/series.db',
-//     autoload: true
-//   });
-var db = require('./db.js');
+/*
 
-// console.log(window.location.search);
+This file handles the movie page that the user lands on after clicking a search
+result on the search page
+
+*/
+
+const main = document.querySelector('main');
+var db = require('./js/db.js');
+
 //Bascially, when the page loads, request the specific movie that you have clicked on
 //"search" is the ID of the movie that was clicked
 const tmdbID = window.location.search.match(/tmdbID=(.*)/)[1];
@@ -14,18 +15,19 @@ const tmdbID = window.location.search.match(/tmdbID=(.*)/)[1];
 //This is where I would put the deployed site's URL (1:18:40 in the video)
 const BASE_URL = "https://movie-shelf.vercel.app/";
 
-function getShow(tmdbID) {
-  return fetch(`${BASE_URL}show/${tmdbID}`)
+function getMovie(tmdbID) {
+  return fetch(`${BASE_URL}movie/${tmdbID}`)
     .then(res => res.json());
 }
 
-function showShow(show) {
+function showMovie(movie) {
+  const backButton = document.getElementById('back-button');
   const section = document.createElement('section');
 
-  //Checks to make sure current show is not already in library
+  //Checks to make sure current movie is not already in library
   let inLibrary = false;
-  db.series.findOne({
-    tmdbID: show.tmdbID
+  db.movies.findOne({
+    tmdbID: movie.tmdbID
   }, function(err, doc) {
     if (doc) {
       inLibrary = true;
@@ -34,7 +36,7 @@ function showShow(show) {
 
   const popup = document.createElement('div');
   popup.classList.add('popup');
-  popup.innerHTML = "<span class='popuptext' id='" + show.tmdbID + "-myPopup'>Added to Shelf!</span>";
+  popup.innerHTML = "<span class='popuptext' id='" + movie.tmdbID + "-myPopup'>Added to Shelf!</span>";
   document.body.appendChild(popup);
   main.appendChild(section);
 
@@ -42,33 +44,39 @@ function showShow(show) {
     title: "Rating",
     property: 'rating'
   }, {
+    title: "Runtime",
+    property: "runTime"
+  }, {
     title: "Release Year",
     property: "year"
   }, {
     title: "Plot Summary",
     property: "summary"
   }, {
+    title: "Director",
+    property: "director"
+  }, {
     title: "TMDB User Score",
     property: "userScore"
   }];
 
   const descriptionHTML = properties.reduce((html, property) => {
-
     html += `
       <dt class="col-sm-3">${property.title}</dt>
-      <dd class="col-sm-9">${show[property.property]}</dd>`;
+      <dd class="col-sm-9">${movie[property.property]}</dd>`;
     return html;
   }, '');
 
-  if (show.poster == "https://www.themoviedb.orgundefined"){
-    show.poster = '../images/imgnotfound.png'
+  //This replaces the default undefined image with the better undefined image
+  if (movie.poster == "https://www.themoviedb.orgundefined"){
+    movie.poster = '../images/imgnotfound.png'
   }
 
   section.outerHTML = `
     <section class="row">
-      <h1>${show.title}</h1>
+      <h1>${movie.title}</h1>
       <div class="col-sm-12">
-        <img src="${show.poster}" class="img-fluid" id="mov-image"/>
+        <img src="${movie.poster}" class="img-fluid" id="mov-image"/>
         <dl class="row" id="meta-info">
           ${descriptionHTML}
           <button id='libButton' class='custom-btn'>Add to Shelf</button>
@@ -79,7 +87,7 @@ function showShow(show) {
 
   //This selects the description, and allows for the popup of a modal
   //with the full description
-  let descriptionElement = document.querySelectorAll('dd')[2];
+  let descriptionElement = document.querySelectorAll('dd')[3];
   descriptionElement.id  = 'movie-description';
   descriptionElement.addEventListener('click', function(){
     showDescription(descriptionElement.textContent);
@@ -87,13 +95,12 @@ function showShow(show) {
 
   libButton.addEventListener('click', function() {
     if (!inLibrary) {
-      db.series.insert(show);
+      db.movies.insert(movie);
       inLibrary = true;
-      //console.log("Here is your movies' tmdbID:" + movie.tmdbID)
     } else {
-      popup.innerHTML = "<span class='popuptext' id='" + show.tmdbID + "-myPopup'>Already on Shelf</span>";
+      popup.innerHTML = "<span class='popuptext' id='" + movie.tmdbID + "-myPopup'>Already on Shelf</span>";
     }
-    showPopup(show.tmdbID);
+    showPopup(movie.tmdbID);
   });
 
 }
@@ -116,7 +123,6 @@ function showPopup(tmdbID) {
     //window.location.reload();
   }, 2000);
 }
-
 
 //This is to pop up a modal showing the full description, since currently the css
 //clamps the description at 4-5 lines
@@ -141,5 +147,5 @@ function showDescription(description){
 
 }
 
-getShow(tmdbID)
-  .then(showShow);
+getMovie(tmdbID)
+  .then(showMovie);

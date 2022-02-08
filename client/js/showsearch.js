@@ -4,12 +4,7 @@ const resultsList = document.querySelector("#results");
 const container = document.querySelector('main');
 const searchBarContainer = document.getElementById('search-bar-container');
 
-// var Datastore = require('nedb'),
-//   db = new Datastore({
-//     filename: './client/Files/data.db',
-//     autoload: true
-//   });
-var db = require('./db.js');
+var db = require('./js/db.js');
 
 //This is where I would put the deployed site's URL (1:18:40 in the video)
 const BASE_URL = "https://movie-shelf.vercel.app/";
@@ -26,8 +21,6 @@ window.onscroll = function () {
 // When the user clicks on the button, scroll to the top of the document
 scrollbutton.addEventListener("click", backToTop);
 
-
-//This event listener clears the 'last search' from localStorage, allowing for a new search
 searchInput.addEventListener("click", function(){
   localStorage.clear();
   form.addEventListener('submit', formSubmitted);
@@ -55,12 +48,12 @@ function getSearchResults(searchTerm) {
   //This first line just clears the current search results, as I was running into the problem
   //where the results of new queries were just being added to those of previous queries
   resultsList.innerHTML = '';
-  return fetch(`${BASE_URL}search/${searchTerm}`)
+  return fetch(`${BASE_URL}searchtv/${searchTerm}`)
     .then(res => res.json())
 }
 
 function showResults(results) {
-  // container.classList.add('results-show');
+
   form.classList.add('bottom-border');
 
   //This handles cases where there are no results
@@ -68,11 +61,12 @@ function showResults(results) {
     const li = document.createElement('li');
     li.classList.add("result-li");
     li.innerHTML = "<p class='no-results-text'>No Results<br>(Make sure everything is spelled correctly)</p>";
+    //li.classList.add('no-results-text');
     resultsList.appendChild(li);
     return;
   }
 
-  results.forEach(movie => {
+  results.forEach(show => {
     const li = document.createElement('li');
     const img = document.createElement('img');
     const p = document.createElement('p');
@@ -84,26 +78,25 @@ function showResults(results) {
     //Adding the image, title, and add to library button to each result
     li.appendChild(img);
     img.classList.add("result-img");
-    img.src = movie.image;
+    img.src = show.image;
     img.addEventListener('error', function() {
       img.src = '../images/imgnotfound.png';
     });
 
     const a = document.createElement('a');
-    //add event listener to the 'a,' adding movie to local storage
     a.addEventListener('click', function(){
-      if(!localStorage.hasOwnProperty("last search")){
+      if(!localStorage.hasOwnProperty('last search')){
         localStorage.setItem("last search", searchInput.value);
       }
       localStorage.removeItem('scrollPosition');
       localStorage.setItem('scrollPosition', document.documentElement.scrollTop);
     })
-    a.textContent = movie.title;
-    a.href = "./movie.html?tmdbID=" + movie.tmdbID;
+    a.textContent = show.title;
+    a.href = "./show.html?tmdbID=" + show.tmdbID;
     a.classList.add('result-title');
     li.appendChild(a);
 
-    p.innerHTML = movie.description;
+    p.innerHTML = show.description;
     p.classList.add('result-p');
     li.appendChild(p);
 
@@ -112,10 +105,10 @@ function showResults(results) {
     libButton.classList.add("result-lib-button");
     libButton.id = "libButton";
 
-    //This checks to see if the movie is already in library
+    //This checks to see if the show is already in library
     let inLibrary = false;
-    db.movies.findOne({
-      tmdbID: movie.tmdbID
+    db.series.findOne({
+      tmdbID: show.tmdbID
     }, function(err, doc) {
       if (doc) {
         inLibrary = true;
@@ -124,62 +117,61 @@ function showResults(results) {
 
     //Now we add the popup, telling the user if it has been added, or if it is already in ibrary
     popup.classList.add('popup');
-    popup.innerHTML = "<span class='popuptext' id='" + movie.tmdbID + "-myPopup'>Added to Shelf!</span>";
+    popup.innerHTML = "<span class='popuptext' id='" + show.tmdbID + "-myPopup'>Added to Shelf!</span>";
     li.appendChild(libButton);
     libButton.appendChild(popup);
 
     //this adds the functionality to the plus button that will show up on each of the search results
     libButton.addEventListener('click', function() {
-      getMovie(movie.tmdbID).then(function(mov) {
+      getShow(show.tmdbID).then(function(showResult) {
         if (!inLibrary) {
-          db.movies.insert(mov);
+          db.series.insert(showResult);
           inLibrary = true;
         } else {
-          popup.innerHTML = "<span class='popuptext' id='" + movie.tmdbID + "-myPopup'>Already on Shelf</span>";
+          popup.innerHTML = "<span class='popuptext' id='" + show.tmdbID + "-myPopup'>Already on Shelf</span>";
         }
-        showPopup(mov.tmdbID);
+        showPopup(showResult.tmdbID);
       });
     });
 
     //adds ability to click poster or description to go to movie info page
     img.addEventListener('click', function(){
-      if(!localStorage.hasOwnProperty("last search")){
+      if(!localStorage.hasOwnProperty('last search')){
         localStorage.setItem("last search", searchInput.value);
       }
       localStorage.removeItem('scrollPosition');
       localStorage.setItem('scrollPosition', document.documentElement.scrollTop);
-      window.location.href = "./movie.html?tmdbID=" + movie.tmdbID;;
+      window.location.href = "./show.html?tmdbID=" + show.tmdbID;;
     })
     p.addEventListener('click', function(){
-      if(!localStorage.hasOwnProperty("last search")){
+      if(!localStorage.hasOwnProperty('last search')){
         localStorage.setItem("last search", searchInput.value);
       }
       localStorage.removeItem('scrollPosition');
       localStorage.setItem('scrollPosition', document.documentElement.scrollTop);
-      window.location.href = "./movie.html?tmdbID=" + movie.tmdbID;;
+      window.location.href = "./show.html?tmdbID=" + show.tmdbID;;
     })
-    //add event listener to a adding movie to local storage
 
     resultsList.appendChild(li);
   })
 
-    //This checks to see how the far the user has scrolled down on the page, and returns them
-    //to that position once they go back to the search page from the movie. If they
-    //have not scrolled, the top defaults to 276.8, the top of the element that contains the search bar
-    let topPos = 276.8;
-    if(localStorage.hasOwnProperty('scrollPosition')){
-      topPos = localStorage.getItem('scrollPosition')
-    }
+  //This checks to see how the far the user has scrolled down on the page, and returns them
+  //to that position once they go back to the search page from the show. If they
+  //have not scrolled, the top defaults to 276.8, which is the top of the search container
+  let topPos = 276.8;
+  if(localStorage.hasOwnProperty('scrollPosition')){
+    topPos = localStorage.getItem('scrollPosition')
+  }
 
-    window.scrollTo({
-      top: topPos,
-      left: 0,
-      behavior: 'auto'
-    });
+  window.scrollTo({
+    top: topPos,
+    left: 0,
+    behavior: 'auto'
+  });
 }
 
-function getMovie(tmdbID) {
-  return fetch(`${BASE_URL}movie/${tmdbID}`)
+function getShow(tmdbID) {
+  return fetch(`${BASE_URL}show/${tmdbID}`)
     .then(res => res.json());
 }
 
