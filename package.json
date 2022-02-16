@@ -1,6 +1,6 @@
 {
-  "name": "movieshelf",
-  "version": "1.0.1",
+  "name": "MovieShelf",
+  "version": "1.0.2",
   "description": "A page to document all of the movies in my library, whether digital or physical",
   "main": "main.js",
   "scripts": {
