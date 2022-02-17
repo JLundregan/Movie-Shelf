@@ -7,8 +7,8 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron-forge start",
     "package": "electron-forge package",
-    "make": "cd .. & electron-packager MovieShelf",
-    "publish": "cd .. && node build.js"
+    "make": "electron-packager .",
+    "publish": "node build.js"
   },
   "author": "JLundregan",
   "license": "ISC",
