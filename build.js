@@ -9,11 +9,8 @@ var settings = {
     appDirectory: './MovieShelf-win32-x64',
     // Specify the existing folder where
     outputDirectory: './MovieShelf-built-installers',
-    // The name of the Author of the app (the name of your company)
-    authors: 'Joshua Lundregan',
     // The name of the executable of your built
-    exe: './MovieShelf.exe',
-    iconURL: 'MovieShelf/images/icon.ico'
+    exe: './MovieShelf.exe'
 };
 
 resultPromise = electronInstaller.createWindowsInstaller(settings);
