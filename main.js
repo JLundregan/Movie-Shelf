@@ -86,6 +86,11 @@ function handleSquirrelEvent(application) {
 
 
 function createWindow () {
+
+  const nativeImage = require('electron').nativeImage;
+    var image = nativeImage.createFromPath(__dirname + '/images/icon.ico');
+    image.setTemplateImage(true);
+
   const win = new BrowserWindow({
     width: 800,
     height: 600,
@@ -93,10 +98,9 @@ function createWindow () {
         nodeIntegration: true,
         contextIsolation: false
     },
-    icon: './images/icon.png'
+    icon: image
   });
 
   win.maximize();
   win.loadFile('client/library.html');
-  //win.webContents.openDevTools();
 }
