@@ -53,6 +53,30 @@ function searchMovies(searchTerm) {
     });
 }
 
+async function getLetterboxdRating(url){
+  return fetch(url)
+    .then(response => response.text())
+    .then(head => {
+      const $ = cheerio.load(head);
+      const $score = $("head meta[name='twitter:data2']").attr('content');
+      const score = $score.slice(0,4);
+      const lbScore = {score}
+      return lbScore;
+    })
+}
+
+async function getDirector(url){
+  return fetch(url)
+    .then(response => response.text())
+    .then(body => {
+      const $ = cheerio.load(body);
+      const $director = $("#featured-film-header p a span");
+      const director = $director.text();
+      const lbDirector = {director}
+      return lbDirector;
+    })
+}
+
 function getMovie(tmdbID){
   //console.log('This is the searched URL:' + movieUrl + tmdbID);
 
@@ -63,7 +87,7 @@ function getMovie(tmdbID){
 
   return fetch(`${movieUrl}${tmdbID}`)
     .then(response => response.text())
-    .then(body => {
+    .then(async(body) => {
       const $ = cheerio.load(body);
       const $title = $('.title h2 a');
       const title = $title.text();
@@ -86,15 +110,18 @@ function getMovie(tmdbID){
       // const poster = "https://www.themoviedb.org" + $('.poster_wrapper img.poster').attr('src').replace("_filter(blur)", "");
       const summary = $(".overview p").text();
 
-      const $userScore = $('div.user_score_chart');
-      const userScore = Math.floor($userScore.attr('data-percent'));
+      const $userScore = await getLetterboxdRating(`https://letterboxd.com/tmdb/${tmdbID}`);
+      const userScore = $userScore.score;
+      // console.log("This is $userScore: " + $userScore + " and this is userScore: " + userScore);
 
-      const crew = [];
-      $(".people li.profile a").each(function(i, element) {
-        const crewMember = $(element).text();
-        crew.push(crewMember);
-      })
-      const director = crew[0];
+      // const crew = [];
+      // $(".people li.profile a").each(function(i, element) {
+      //   const crewMember = $(element).text();
+      //   crew.push(crewMember);
+      // })
+      // const director = crew[0];
+      const $director = await getDirector(`https://letterboxd.com/tmdb/${tmdbID}`);
+      const director = $director.director;
 
       const movie = {
         tmdbID,
@@ -119,7 +146,7 @@ function getMovie(tmdbID){
 
 
 function searchShows(searchTerm) {
-  console.log('This is the searched URL:' + searchShowUrl + searchTerm);
+  // console.log('This is the searched URL:' + searchShowUrl + searchTerm);
 
   //This caches the results of the search, in case the user has already searched this.
   //I might delete this later, this came from the coding garden tutorial
@@ -213,6 +240,7 @@ function getShow(tmdbID){
 
 module.exports = {
   searchMovies,
+  getLetterboxdRating,
   getMovie,
   searchShows,
   getShow

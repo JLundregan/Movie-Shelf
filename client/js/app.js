@@ -13,7 +13,7 @@ const searchBarContainer = document.getElementById('search-bar-container');
 var db = require('./js/db.js');
 
 //This is where I would put the deployed site's URL (1:18:40 in the video)
-const BASE_URL = "https://movie-shelf.vercel.app/";
+const BASE_URL = `https://movie-shelf.vercel.app/`;
 
 //Get the button
 let scrollbutton = document.getElementById("btn-back-to-top");

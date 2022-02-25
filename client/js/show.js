@@ -13,7 +13,7 @@ var db = require('./js/db.js');
 const tmdbID = window.location.search.match(/tmdbID=(.*)/)[1];
 
 //This is where I would put the deployed site's URL (1:18:40 in the video)
-const BASE_URL = "https://movie-shelf.vercel.app/";
+const BASE_URL = `https://movie-shelf.vercel.app/`;
 
 function getShow(tmdbID) {
   return fetch(`${BASE_URL}show/${tmdbID}`)

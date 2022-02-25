@@ -10,13 +10,15 @@ var settings = {
     // Specify the existing folder where
     outputDirectory: './MovieShelf-built-installers',
     // The name of the executable of your built
-    exe: './MovieShelf.exe'
+    exe: './MovieShelf.exe',
+    setupIcon: './images/icon.ico',
+    setupExe: 'MovieShelf-Setup.exe'
 };
 
 resultPromise = electronInstaller.createWindowsInstaller(settings);
 
 resultPromise.then(() => {
-    console.log("The installers of your application were succesfully created !");
+    console.log("Successfully created installers. Enjoy!");
 }, (e) => {
-    console.log(`Well, sometimes you are not so lucky: ${e.message}`)
+    console.log(`We're sory, something went wrong: ${e.message}`)
 });
