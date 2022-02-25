@@ -5,3 +5,5 @@ client/db/
 out/
 MovieShelf-built-installers/
 MovieShelf-win32-x64/
+
+changedb.js

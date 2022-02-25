@@ -59,7 +59,13 @@ async function getLetterboxdRating(url){
     .then(head => {
       const $ = cheerio.load(head);
       const $score = $("head meta[name='twitter:data2']").attr('content');
-      const score = $score.slice(0,4);
+
+      let score = "";
+      if($score !== undefined){
+        score = $score.slice(0,4);
+      }
+
+      // const score = $score.slice(0,4);
       const lbScore = {score}
       return lbScore;
     })
@@ -71,7 +77,13 @@ async function getDirector(url){
     .then(body => {
       const $ = cheerio.load(body);
       const $director = $("#featured-film-header p a span");
-      const director = $director.text();
+
+      let director = "";
+      if($director !== undefined){
+        director = $director.text();
+      }
+
+      // const director = $director.text();
       const lbDirector = {director}
       return lbDirector;
     })
