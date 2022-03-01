@@ -18,7 +18,6 @@ function searchMovies(searchTerm) {
   //console.log('This is the searched URL:' + searchUrl + searchTerm);
 
   //This caches the results of the search, in case the user has already searched this.
-  //I might delete this later, this came from the coding garden tutorial
   if(searchCache[searchTerm]){
     console.log('Serving from cache: ', searchTerm);
     return Promise.resolve(searchCache[searchTerm]);

@@ -12,6 +12,7 @@ var settings = {
     // The name of the executable of your built
     exe: './MovieShelf.exe',
     setupIcon: './images/icon.ico',
+    iconUrl: 'https://www.kindpng.com/picc/m/73-737657_jpg-library-library-book-shelf-icon-free-download.png',
     setupExe: 'MovieShelf-Setup.exe'
 };
 
