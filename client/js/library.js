@@ -114,7 +114,7 @@ function addModal(movId, movObj) {
   //This populates the modal with each movie's respective information.
   currentMovieModal.innerHTML = `<div id='close'><span class='material-icons'>close</span></div><div id='modal-info'><h1>
    ${movObj.title}</h1><div class='description'><p>${movObj.summary}</p></div><p>Runtime: ${movObj.runTime}</p>
-   <p>Director: ${movObj.director}</p><p>Released: ${movObj.year}</p><p>TMDB user Score: ${movObj.userScore}</p></div>
+   <p>Director: ${movObj.director}</p><p>Released: ${movObj.year}</p><p>Letterboxd Score: ${movObj.userScore}</p></div>
    <div class="remove-div"><span class="material-icons" id="remove-button">remove<span class="fadeIn">Remove from Shelf</span></span>
    <span class="material-icons" id="seen-button">${seenButtonIcon}<span class="fadeIn">${seenButtonText}</span></span>
    </div>`;

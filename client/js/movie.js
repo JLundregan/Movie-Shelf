@@ -56,7 +56,7 @@ function showMovie(movie) {
     title: "Director",
     property: "director"
   }, {
-    title: "TMDB User Score",
+    title: "Letterboxd User Score",
     property: "userScore"
   }];
 
