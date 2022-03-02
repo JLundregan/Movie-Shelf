@@ -79,7 +79,13 @@ async function getDirector(url){
 
       let director = "";
       if($director !== undefined){
-        director = $director.text();
+        $("#featured-film-header p a span").each(function(i, element) {
+          if(i>=1){
+            director += ", " + $(element).text();
+          } else {
+            director = $(element).text();
+          }
+        });
       }
 
       // const director = $director.text();
