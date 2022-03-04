@@ -7,6 +7,9 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
     "make": "electron-packager .",
+    "package-win": "electron-packager . ",
+    "package-mac": "electron-packager . --platform=darwin --arch=x64",
+    "package-linux": "--platform=linux --arch=x64",
     "publish": "node build.js"
   },
   "author": "JLundregan",
