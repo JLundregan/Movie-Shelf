@@ -7,3 +7,5 @@ MovieShelf-built-installers/
 MovieShelf-win32-x64/
 
 changedb.js
+dist/
+electron-builder.yml
