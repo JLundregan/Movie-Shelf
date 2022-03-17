@@ -6,8 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "electron .",
-    "build": "electron-builder build --mac --win --publish never",
-    "deploy": "electron-builder build --mac --win --publish always"
+    "build": "electron-builder build --win --publish never",
+    "deploy": "electron-builder build --win --publish always"
   },
   "repository": {
     "type" : "git",
@@ -24,6 +24,10 @@
     "mac": {
       "icon": "images/icon.ico"
     },
+    "asarUnpack": [
+      "client/db/data.db",
+      "client/db/series.db"
+    ],
     "nsis": {
       "oneClick": "false",
       "installerIcon": "images/icon.ico",

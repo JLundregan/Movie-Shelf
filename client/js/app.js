@@ -110,6 +110,12 @@ function showResults(results) {
     libButton.classList.add("result-lib-button");
     libButton.id = "libButton";
 
+    //Now we add the popup, telling the user if it has been added, or if it is already in ibrary
+    popup.classList.add('popup');
+    popup.innerHTML = "<span class='popuptext' id='" + movie.tmdbID + "-myPopup'>Added to Shelf!</span>";
+    li.appendChild(libButton);
+    libButton.appendChild(popup);
+
     //This checks to see if the movie is already in library
     let inLibrary = false;
     db.movies.findOne({
@@ -117,14 +123,9 @@ function showResults(results) {
     }, function(err, doc) {
       if (doc) {
         inLibrary = true;
+        libButton.classList.add("in-shelf");
       }
     });
-
-    //Now we add the popup, telling the user if it has been added, or if it is already in ibrary
-    popup.classList.add('popup');
-    popup.innerHTML = "<span class='popuptext' id='" + movie.tmdbID + "-myPopup'>Added to Shelf!</span>";
-    li.appendChild(libButton);
-    libButton.appendChild(popup);
 
     //this adds the functionality to the plus button that will show up on each of the search results
     libButton.addEventListener('click', function() {
