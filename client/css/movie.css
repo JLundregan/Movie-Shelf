@@ -141,6 +141,14 @@ dd {
   color: black;
 }
 
+#libButton.in-shelf {
+  background-color: #f2f2f2;
+  border: medium solid black;
+  border-radius: 0.5rem;
+  color: black;
+  pointer-events: none;
+}
+
 @media screen and (max-width: 1000px) {
   #mov-image {
     width: 30%;

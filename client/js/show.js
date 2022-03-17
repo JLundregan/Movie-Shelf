@@ -23,16 +23,6 @@ function getShow(tmdbID) {
 function showShow(show) {
   const section = document.createElement('section');
 
-  //Checks to make sure current show is not already in library
-  let inLibrary = false;
-  db.series.findOne({
-    tmdbID: show.tmdbID
-  }, function(err, doc) {
-    if (doc) {
-      inLibrary = true;
-    }
-  });
-
   const popup = document.createElement('div');
   popup.classList.add('popup');
   popup.innerHTML = "<span class='popuptext' id='" + show.tmdbID + "-myPopup'>Added to Shelf!</span>";
@@ -85,6 +75,18 @@ function showShow(show) {
   descriptionElement.addEventListener('click', function(){
     showDescription(descriptionElement.textContent);
   })
+
+  //Checks to make sure current movie is not already in library
+  let inLibrary = false;
+  db.movies.findOne({
+    tmdbID: movie.tmdbID
+  }, function(err, doc) {
+    if (doc) {
+      inLibrary = true;
+      libButton.classList.add("in-shelf");
+      libButton.textContent = "Already in Shelf";
+    }
+  });
 
   libButton.addEventListener('click', function() {
     if (!inLibrary) {

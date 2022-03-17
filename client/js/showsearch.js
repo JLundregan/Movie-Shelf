@@ -112,6 +112,7 @@ function showResults(results) {
     }, function(err, doc) {
       if (doc) {
         inLibrary = true;
+        libButton.classList.add("in-shelf");
       }
     });
 
