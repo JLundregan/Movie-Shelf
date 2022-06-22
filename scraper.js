@@ -34,8 +34,13 @@ function searchMovies(searchTerm) {
         const $title = $element.find('.details .title div a');
         const $description = $element.find('div.overview p');
 
-        //pulled from the part of the title anchor tag that has "/movie/tmdbID"
-        const tmdbID = $title.attr('href').match(/movie\/(.*)/)[1];
+
+        let tmdbID = null;
+        if($title.attr('href').match(/movie\/(.*)/)){
+          //pulled from the part of the title anchor tag that has "/movie/tmdbID"
+          tmdbID = $title.attr('href').match(/movie\/(.*)/)[1];
+        }
+        // const tmdbID = $title.attr('href').match(/movie\/(.*)/)[1];
 
         const movie = {
           image: "https://www.themoviedb.org" + $image.attr('src'),
@@ -177,8 +182,13 @@ function searchShows(searchTerm) {
         const $title = $element.find('.details .title div a');
         const $description = $element.find('div.overview p');
 
-        //pulled from the part of the title anchor tag that has "/movie/tmdbID"
-        const tmdbID = $title.attr('href').match(/tv\/(.*)/)[1];
+
+        let tmdbID = null;
+        if($title.attr('href').match(/tv\/(.*)/)){
+          //pulled from the part of the title anchor tag that has "/movie/tmdbID"
+          tmdbID = $title.attr('href').match(/tv\/(.*)/)[1];
+        }
+        // const tmdbID = $title.attr('href').match(/tv\/(.*)/)[1];
 
         const show = {
           image: "https://www.themoviedb.org" + $image.attr('src'),
